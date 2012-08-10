@@ -9,5 +9,6 @@ function setup() {
     ln "$SRC" "$DST"
 }
 
+setup gitconfig "$HOME/.gitconfig"
 setup vimrc     "$HOME/.vimrc"
 setup xmonad.hs "$HOME/.xmonad/xmonad.hs"
