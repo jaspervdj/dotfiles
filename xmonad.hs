@@ -1,54 +1,65 @@
-{-# LANGUAGE FlexibleContexts, Rank2Types #-}
--- My xmonad configuration file
+--------------------------------------------------------------------------------
 module Main where
 
-import Data.Map (Map)
-import qualified Data.Map as M
-import Data.Monoid (appEndo)
 
-import XMonad
-import XMonad.Actions.CycleWS (nextWS, prevWS, shiftToNext, shiftToPrev)
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, defaultPP, PP (..))
-import XMonad.Hooks.EwmhDesktops (ewmh)
-import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, ToggleStruts (..))
-import XMonad.Hooks.ManageHelpers (doFullFloat, doRectFloat)
-import XMonad.Layout.Circle (Circle (..))
-import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.PerWorkspace (onWorkspace)
-import XMonad.Layout.SimplestFloat (simplestFloat)
-import XMonad.StackSet (RationalRect (..), currentTag)
+--------------------------------------------------------------------------------
+import           Data.Map                    (Map)
+import qualified Data.Map                    as M
+import           Data.Monoid                 (appEndo)
 
+
+--------------------------------------------------------------------------------
+import           XMonad
+import           XMonad.Actions.CycleWS      (nextWS, prevWS, shiftToNext,
+                                              shiftToPrev)
+import           XMonad.Hooks.EwmhDesktops   (ewmh)
+import           XMonad.Hooks.ManageDocks    (ToggleStruts (..), avoidStruts,
+                                              manageDocks)
+import           XMonad.Hooks.ManageHelpers  (doFullFloat, doRectFloat)
+import           XMonad.Layout.Circle        (Circle (..))
+import           XMonad.Layout.NoBorders     (smartBorders)
+import           XMonad.Layout.PerWorkspace  (onWorkspace)
+import           XMonad.Layout.SimplestFloat (simplestFloat)
+import           XMonad.StackSet             (RationalRect (..), currentTag)
+
+
+--------------------------------------------------------------------------------
 main :: IO ()
 main = xmonad $ ewmh $ defaultConfig
-    { terminal           = "gnome-terminal"
-    , modMask            = mod1Mask
+    { terminal           = "$TERMINAL"
+    , modMask            = mod4Mask
     , manageHook         = myManageHook
     , layoutHook         = myLayoutHook
     , workspaces         = ["Play", "Work", "View", "Float"]
     , borderWidth        = 2
-    , normalBorderColor  = "#22222"
+    , normalBorderColor  = "#002b36"
     , focusedBorderColor = "#688cb3"
     , keys               = \c -> myKeys c `M.union` keys defaultConfig c
     }
 
+
+--------------------------------------------------------------------------------
 -- | Layout hook
-myLayoutHook = smartBorders $ avoidStruts
-    $ onWorkspace "Play" (Mirror tiled ||| tiled ||| Circle)
-    $ onWorkspace "Work" (Mirror tiled ||| tiled ||| Full)
-    $ onWorkspace "View" (Mirror tiled ||| tiled ||| Full)
-    $ onWorkspace "Float" simplestFloat
-    $ Full
+myLayoutHook = smartBorders $ avoidStruts $
+    onWorkspace "Play" (Mirror tiled ||| tiled ||| Circle) $
+    onWorkspace "Work" (Mirror tiled ||| tiled ||| Full) $
+    onWorkspace "View" (Mirror tiled ||| tiled ||| Full) $
+    onWorkspace "Float" simplestFloat $ Full
   where
     tiled = Tall nmaster delta ratio
     nmaster = 1
     delta = 3/100
     ratio = 1/2
 
+
+--------------------------------------------------------------------------------
 -- | Manage hook
 myManageHook :: ManageHook
-myManageHook =   manageDocks <+> manageHook defaultConfig
-             <+> (onFloatingWorkSpace --> doFloat)
+myManageHook = manageDocks <+> manageHook defaultConfig <+>
+    (onFloatingWorkSpace --> doFloat)
 
+
+--------------------------------------------------------------------------------
 -- | Check if a window is on a floating space
 onFloatingWorkSpace :: Query Bool
 onFloatingWorkSpace = liftX $
@@ -56,12 +67,14 @@ onFloatingWorkSpace = liftX $
   where
     floating = ["Float"]
 
+
+--------------------------------------------------------------------------------
 -- A list of custom keys
 myKeys :: XConfig Layout -> Map (ButtonMask, KeySym) (X ())
 myKeys (XConfig {modMask = myModMask}) = M.fromList $
-    [ -- browser and file manager with FX
+    [ -- Some programs
       ((myModMask, xK_F1), spawn "firefox")
-    , ((myModMask, xK_F2), spawn "nautilus")
+    , ((myModMask, xK_F2), spawn "thunar")
     , ((myModMask, xK_F3), spawn "exaile")
 
       -- Logout

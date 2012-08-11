@@ -5,6 +5,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'scrooloose/nerdtree'
 Bundle 'mileszs/ack.vim'
+Bundle 'Align'
 filetype plugin indent on
 
 " swp files to ~/.vim/backups
@@ -43,12 +44,6 @@ set numberwidth=4
 " Show matches
 set showmatch
 
-" Some custom shortcuts
-noremap <F5> :w<CR>
-noremap <F6> :w<CR>:make<CR>
-noremap <F3> :!
-noremap <F4> :!git 
-
 " Change buffers without saving.
 set hidden
 
@@ -57,6 +52,7 @@ autocmd FileType haskell call HaskellHook()
 autocmd BufRead,BufNewFile *.lhs call HaskellHook()
 function HaskellHook()
     noremap <C-i> :!ghci -Wall '%'<CR>
+    noremap <C-c> :%!stylish-haskell<CR>
     setlocal makeprg=cabal\ build
 endfunction
 

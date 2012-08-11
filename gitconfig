@@ -3,3 +3,10 @@
 	email = m@jaspervdj.be
 [color]
 	ui = true
+[core]
+	editor = vim
+[merge]
+	tool = vimdiff
+[alias]
+	unstage = reset HEAD --
+	last = !git --no-pager log -1 HEAD
