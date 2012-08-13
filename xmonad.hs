@@ -26,8 +26,8 @@ import           XMonad.StackSet             (RationalRect (..), currentTag)
 --------------------------------------------------------------------------------
 main :: IO ()
 main = xmonad $ ewmh $ defaultConfig
-    { terminal           = "$TERMINAL"
-    , modMask            = mod4Mask
+    { terminal           = "gnome-terminal"
+    , modMask            = mod1Mask
     , manageHook         = myManageHook
     , layoutHook         = myLayoutHook
     , workspaces         = ["Play", "Work", "View", "Float"]
@@ -101,21 +101,6 @@ myKeys (XConfig {modMask = myModMask}) = M.fromList $
     , ((myModMask, xK_Right), nextWS)
     , ((myModMask .|. shiftMask, xK_Left), shiftToPrev >> prevWS)
     , ((myModMask .|. shiftMask, xK_Right), shiftToNext >> nextWS)
-
-      -- XF86AudioLowerVolume
-    , ((0, 0x1008ff11), spawn "amixer set Master 10%-")
-      -- XF86AudioRaiseVolume
-    , ((0, 0x1008ff13), spawn "amixer set Master 10%+")
-      -- XF86AudioMute
-    , ((0, 0x1008ff12), spawn "amixer set Master toggle")
-      -- XF86AudioNext
-    , ((0, 0x1008ff17), spawn "exaile -n")
-      -- XF86AudioPrev
-    , ((0, 0x1008ff16), spawn "exaile -p")
-      -- XF86AudioPlay
-    , ((0, 0x1008ff14), spawn "exaile -t")
-      -- XF86AudioStop
-    , ((0, 0x1008ff15), spawn "exaile -s")
     ]
   where
     -- Function to fullFloat a window
