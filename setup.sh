@@ -3,10 +3,10 @@
 function setup() {
     SRC="$1"
     DST="$2"
-    echo "Installing $1..."
+    echo "Installing $SRC..."
 
     mkdir -p $(dirname "$DST")
-    ln "$SRC" "$DST"
+    ln -sfn "$PWD/$SRC" "$DST"
 }
 
 setup gitconfig "$HOME/.gitconfig"
