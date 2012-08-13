@@ -9,6 +9,7 @@ function setup() {
     ln -sfn "$PWD/$SRC" "$DST"
 }
 
+setup ackrc     "$HOME/.ackrc"
 setup gitconfig "$HOME/.gitconfig"
 setup vimrc     "$HOME/.vimrc"
 setup xmonad.hs "$HOME/.xmonad/xmonad.hs"
