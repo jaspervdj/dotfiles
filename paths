@@ -1,0 +1,7 @@
+#!/bin/bash
+
+function add-path() {
+    export PATH="$1":"$PATH"
+}
+
+add-path "$HOME/.bin"
