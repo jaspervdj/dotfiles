@@ -54,7 +54,7 @@ autocmd BufRead,BufNewFile *.hsc set filetype=haskell
 function HaskellHook()
     noremap <C-i> :!ghci -Wall '%'<CR>
     noremap <C-c> :%!stylish-haskell<CR>
-    setlocal makeprg=cabal\ build
+    setlocal makeprg=cabal-make
 endfunction
 
 " Options for ruby
