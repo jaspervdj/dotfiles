@@ -35,6 +35,7 @@ main = xmonad $ ewmh $ defaultConfig
     , normalBorderColor  = "#002b36"
     , focusedBorderColor = "#688cb3"
     , keys               = \c -> myKeys c `M.union` keys defaultConfig c
+    , focusFollowsMouse  = False
     }
 
 
@@ -56,13 +57,13 @@ myLayoutHook = smartBorders $ avoidStruts $
 -- | Manage hook
 myManageHook :: ManageHook
 myManageHook = manageDocks <+> manageHook defaultConfig <+>
-    (onFloatingWorkSpace --> doFloat)
+    (onFloatingWorkspace --> doFloat)
 
 
 --------------------------------------------------------------------------------
 -- | Check if a window is on a floating space
-onFloatingWorkSpace :: Query Bool
-onFloatingWorkSpace = liftX $
+onFloatingWorkspace :: Query Bool
+onFloatingWorkspace = liftX $
     withWindowSet (return . (`elem` floating) . currentTag)
   where
     floating = ["Float"]
