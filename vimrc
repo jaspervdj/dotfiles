@@ -6,6 +6,7 @@ Bundle 'gmarik/vundle'
 Bundle 'scrooloose/nerdtree'
 Bundle 'mileszs/ack.vim'
 Bundle 'Align'
+Bundle 'bronson/vim-trailing-whitespace'
 filetype plugin indent on
 
 " swp files to ~/.vim/backups
