@@ -10,3 +10,5 @@
 [alias]
 	unstage = reset HEAD --
 	last = !git --no-pager log -1 HEAD
+[push]
+	default = simple

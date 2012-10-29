@@ -5,3 +5,5 @@ function add-path() {
 }
 
 add-path "$HOME/.bin"
+add-path "$HOME/.cabal/bin"
+add-path "$HOME/.rvm/bin"

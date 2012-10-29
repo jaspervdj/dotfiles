@@ -26,7 +26,7 @@ import           XMonad.StackSet             (RationalRect (..), currentTag)
 --------------------------------------------------------------------------------
 main :: IO ()
 main = xmonad $ ewmh $ defaultConfig
-    { terminal           = "$TERMINAL"
+    { terminal           = "urxvt"
     , modMask            = mod4Mask
     , manageHook         = myManageHook
     , layoutHook         = myLayoutHook
