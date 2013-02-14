@@ -9,7 +9,7 @@ function add-path() {
 
 add-path "$HOME/.bin"
 add-path "$HOME/.cabal/bin"
-add-path "$HOME/.rvm/bin"
+add-path "$HOME/.gem/ruby/1.9.1/bin"
 
 ################################################################################
 # Paths for different GHC versions
