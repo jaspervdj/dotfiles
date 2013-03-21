@@ -9,11 +9,12 @@ function setup() {
     ln -sfn "$PWD/$SRC" "$DST"
 }
 
+setup Xdefaults "$HOME/.Xdefaults"
 setup ackrc     "$HOME/.ackrc"
 setup gitconfig "$HOME/.gitconfig"
 setup paths     "$HOME/.paths"
 setup vimrc     "$HOME/.vimrc"
 setup xmonad.hs "$HOME/.xmonad/xmonad.hs"
-setup Xdefaults "$HOME/.Xdefaults"
+setup zshrc     "$HOME/.zshrc"
 
 setup bin/cabal-make "$HOME/.bin/cabal-make"
