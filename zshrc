@@ -1,5 +1,6 @@
-# Set up paths correctly
+# Set up aliases and paths
 source "$HOME/.paths"
+source "$HOME/.aliases"
 
 # Enable command completion
 autoload -U compinit

@@ -11,6 +11,7 @@ function setup() {
 
 setup Xdefaults "$HOME/.Xdefaults"
 setup ackrc     "$HOME/.ackrc"
+setup aliases   "$HOME/.aliases"
 setup gitconfig "$HOME/.gitconfig"
 setup paths     "$HOME/.paths"
 setup vimrc     "$HOME/.vimrc"
