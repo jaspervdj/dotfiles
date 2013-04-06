@@ -67,53 +67,5 @@ function RubyHook()
     noremap <C-i> :!irb -Ilib -r ./%<CR>
 endfunction
 
-" Options for lua
-autocmd FileType lua call LuaHook()
-function LuaHook()
-    setlocal tabstop=2
-    setlocal shiftwidth=2
-    noremap <C-i> :!lua -l $(echo % \| sed 's/\//./' \| sed 's/\.[^\.]*$//')<CR>
-endfunction
-
-" Options for python
-autocmd FileType python call PythonHook()
-function PythonHook()
-    noremap <C-i> :!python2.7 -i %<CR>
-endfunction
-
-" Options for java
-autocmd Filetype java call JavaHook()
-function JavaHook()
-endfunction
-
-" Options for OCaml
-autocmd Filetype ocaml call OCamlHook()
-function OCamlHook()
-    setlocal tabstop=2
-    setlocal shiftwidth=2
-endfunction
-
-" Options for Clojure
-autocmd Filetype clojure call ClojureHook()
-function ClojureHook()
-    setlocal tabstop=2
-    setlocal shiftwidth=2
-endfunction
-
 " Options for JavaScript/json
 au BufRead,BufNewFile *.json set filetype=javascript
-
-" Options for Prolog
-au BufRead,BufNewFile *.pl set filetype=prolog
-autocmd Filetype prolog call PrologHook()
-function PrologHook()
-    noremap <C-i> :!swipl -s '%'<CR>
-endfunction
-
-" Options for Coffee
-au BufRead,BufNewFile *.coffee set filetype=coffee
-autocmd Filetype coffee call CoffeeHook()
-function CoffeeHook()
-    setlocal tabstop=2
-    setlocal shiftwidth=2
-endfunction

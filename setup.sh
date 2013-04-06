@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o nounset -o errexit -o pipefail
 
 function setup() {
     SRC="$1"
