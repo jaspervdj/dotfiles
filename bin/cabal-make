@@ -2,18 +2,18 @@
 set -o nounset -o errexit -o pipefail
 
 # Check if a subcommand is specified, otherwise default to build
-if [ $# -ge 1 ]; then
+if [[ $# -ge 1 ]]; then
     COMMAND=$1
 else
     COMMAND=build
 fi
 
 # If we have a cabal file
-ls *.cabal >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    # Continue by invoking cabal
+if [[ "$(ls -1 | grep '\.cabal$')" != "" ]]; then
     exec cabal $COMMAND
-else
-    # Maybe there is an actual makefile...
+elif [[ "$(ls -1 | grep -i '^makefile$')" != "" ]]; then
     exec make
+else
+    echo "No cabal file nor makefile found"
+    exit 1
 fi
