@@ -76,7 +76,7 @@ myKeys (XConfig {modMask = myModMask}) = M.fromList $
     [ -- Some programs
       ((myModMask, xK_F1), spawn "firefox")
     , ((myModMask, xK_F2), spawn "thunar")
-    , ((myModMask, xK_F3), spawn "exaile")
+    , ((myModMask, xK_F3), spawn "rhythmbox")
 
       -- Logout
     -- , ((myModMask .|. shiftMask, xK_q), spawn "gnome-session-quit")
@@ -110,13 +110,13 @@ myKeys (XConfig {modMask = myModMask}) = M.fromList $
       -- XF86AudioMute
     , ((0, 0x1008ff12), spawn "amixer set Master toggle")
       -- XF86AudioNext
-    , ((0, 0x1008ff17), spawn "exaile -n")
+    , ((0, 0x1008ff17), spawn "rhythmbox-client --next")
       -- XF86AudioPrev
-    , ((0, 0x1008ff16), spawn "exaile -p")
+    , ((0, 0x1008ff16), spawn "rhythmbox-client --previous")
       -- XF86AudioPlay
-    , ((0, 0x1008ff14), spawn "exaile -t")
+    , ((0, 0x1008ff14), spawn "rhythmbox-client --play-pause")
       -- XF86AudioStop
-    , ((0, 0x1008ff15), spawn "exaile -s")
+    , ((0, 0x1008ff15), spawn "rhythmbox-client --stop")
     ]
   where
     -- Function to fullFloat a window
