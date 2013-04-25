@@ -14,3 +14,8 @@ compinit
 
 # Prompt
 export PS1='%F{yellow}%~%f$ '
+
+# Source profile if available
+if [[ -f "$HOME/.profile" ]]; then
+    source "$HOME/.profile"
+fi
