@@ -1,1 +1,2 @@
 alias unlock="ssh-add $HOME/.ssh/id_rsa"
+alias dm='dir-metadata'
