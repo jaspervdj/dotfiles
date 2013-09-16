@@ -1,6 +1,7 @@
-# Set up aliases and paths
+# Set up aliases and paths, different profile files"
 source "$HOME/.paths"
 source "$HOME/.aliases"
+if [[ -f "$HOME/.profile_ec2" ]]; then source "$HOME/.profile_ec2"; fi
 
 # This is necessary when we use urxvt, which is not recognized by e.g. tmux
 export TERM='xterm'
