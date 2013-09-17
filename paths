@@ -10,6 +10,7 @@ function add-path() {
 add-path "$HOME/.bin"
 add-path "$HOME/.cabal/bin"
 add-path "$HOME/.gem/ruby/1.9.1/bin"
+if [[ "$(uname)" == 'Darwin' ]]; then add-path "/Library/Haskell/bin"; fi
 
 ################################################################################
 # Paths for different GHC versions
