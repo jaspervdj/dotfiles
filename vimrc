@@ -8,6 +8,7 @@ Bundle 'mileszs/ack.vim'
 Bundle 'Align'
 Bundle 'bronson/vim-trailing-whitespace'
 Bundle 'renamer.vim'
+Bundle 'leafgarland/typescript-vim'
 filetype plugin indent on
 
 " swp files to ~/.vim/backups
@@ -25,6 +26,10 @@ set expandtab
 set formatprg=par\ -w80
 set formatoptions+=t
 set textwidth=80
+
+" Draw a subtle line at 80 columns
+set colorcolumn=80
+highlight ColorColumn ctermbg=7
 
 " Nerd tree shortcut, two times enter
 " so we don't have to confirm
