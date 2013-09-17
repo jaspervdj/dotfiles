@@ -1,31 +1,12 @@
 #!/bin/bash
 
-################################################################################
-# General paths
-
 function add-path() {
-    export PATH="$1":"$PATH"
+    if [[ -d "$1" ]]; then
+        export PATH="$1":"$PATH"
+    fi
 }
 
 add-path "$HOME/.bin"
 add-path "$HOME/.cabal/bin"
 add-path "$HOME/.gem/ruby/1.9.1/bin"
-if [[ "$(uname)" == 'Darwin' ]]; then add-path "/Library/Haskell/bin"; fi
-
-################################################################################
-# Paths for different GHC versions
-
-function select-ghc() {
-    GHC_BASE='/usr/local/ghc'
-
-    if test $# -eq 1 -a -d "$GHC_BASE/ghc-$1"; then
-        echo "Selecting $1"
-        add-path "$GHC_BASE/ghc-$1/bin:$PATH"
-    else
-        echo "Usage: select-ghc <GHC version>"
-        echo ''
-        echo 'Available:'
-
-        ls -1 "$GHC_BASE" | sed 's/^.*-/- /'
-    fi
-}
+add-path '/Library/Haskell/bin'
