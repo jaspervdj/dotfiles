@@ -10,3 +10,4 @@ add-path '/Library/Haskell/bin'
 add-path "$HOME/.bin"
 add-path "$HOME/.cabal/bin"
 add-path "$HOME/.gem/ruby/1.9.1/bin"
+add-path '/usr/local/bin'  # Makes sure this comes before /usr/bin
