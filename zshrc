@@ -28,3 +28,7 @@ export PS1='%F{yellow}%~%f%F{green}$(ps1-git-branch)%f$ '
 if [[ -f "$HOME/.profile" ]]; then
     source "$HOME/.profile"
 fi
+
+# Mac OS X has a super low default for open files, this is annoying when
+# benchmarking and stuff.
+if [[ "$(uname)" == 'Darwin' ]]; then ulimit -n 12288; fi
