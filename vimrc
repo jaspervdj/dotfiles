@@ -9,6 +9,7 @@ Bundle 'Align'
 Bundle 'bronson/vim-trailing-whitespace'
 Bundle 'renamer.vim'
 Bundle 'leafgarland/typescript-vim'
+Bundle 'kien/ctrlp.vim'
 filetype plugin indent on
 
 " swp files to ~/.vim/backups
@@ -42,7 +43,7 @@ let NERDTreeIgnore=[
 
 " Colorscheme used.
 syntax on
-set background=dark
+set background=light
 
 " Show line numbers
 set number
@@ -53,6 +54,9 @@ set showmatch
 
 " Change buffers without saving.
 set hidden
+
+" Enable mouse
+set mouse=a
 
 " Options for haskell
 autocmd FileType haskell call HaskellHook()
