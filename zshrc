@@ -32,3 +32,6 @@ fi
 # Mac OS X has a super low default for open files, this is annoying when
 # benchmarking and stuff.
 if [[ "$(uname)" == 'Darwin' ]]; then ulimit -n 8192; fi
+
+# Max OS X doesn't set LC_ALL correctly either
+if [[ "$(uname)" == 'Darwin' ]]; then export LC_ALL="en_US.UTF-8"; fi
