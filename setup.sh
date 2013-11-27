@@ -23,7 +23,8 @@ setup xmonad.hs  "$HOME/.xmonad/xmonad.hs"
 setup zshrc      "$HOME/.zshrc"
 
 # Copy binaries
-setup bin/cabal-make "$HOME/.bin/cabal-make"
+setup bin/cabal-make           "$HOME/.bin/cabal-make"
+setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'

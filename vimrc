@@ -30,7 +30,7 @@ set textwidth=80
 
 " Draw a subtle line at 80 columns
 set colorcolumn=80
-highlight ColorColumn ctermbg=7
+highlight ColorColumn ctermbg=6
 
 " Nerd tree shortcut, two times enter
 " so we don't have to confirm
