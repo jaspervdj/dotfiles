@@ -2,9 +2,12 @@
 import subprocess
 
 def get_gmail_password(account):
+    # `decrypt-password` script is found in bin/
     return subprocess.check_output(
-            ['security', 'find-internet-password', '-w',
-                    '-r', 'imap',
-                    '-a', account,
-                    '-s', 'imap.gmail.com'],
-            stderr = subprocess.STDOUT).rstrip('\n')
+            ['decrypt-password', account, 'imap.gmail.com']).rstrip('\n')
+
+def sync_folder(folder):
+    return folder not in [
+        '[Gmail]/All Mail',
+        '[Gmail]/Important',
+        '[Gmail]/Spam']

@@ -22,10 +22,12 @@ setup vimrc         "$HOME/.vimrc"
 setup xmonad.hs     "$HOME/.xmonad/xmonad.hs"
 setup zshrc         "$HOME/.zshrc"
 setup offlineimaprc "$HOME/.offlineimaprc"
+setup msmtprc       "$HOME/.msmtprc"
 
 # Copy binaries
 setup bin/cabal-make           "$HOME/.bin/cabal-make"
 setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
+setup bin/decrypt-password     "$HOME/.bin/decrypt-password"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'

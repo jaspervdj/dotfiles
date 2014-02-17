@@ -27,6 +27,7 @@ remoteuser = jaspervdj@gmail.com
 remotepasseval = get_gmail_password('jaspervdj@gmail.com')
 realdelete = no
 sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+folderfilter = sync_folder
 
 [Repository Erudify-Remote]
 type = Gmail
@@ -34,3 +35,4 @@ remoteuser = jasper.van.der.jeugt@erudify.com
 remotepasseval = get_gmail_password('jasper.van.der.jeugt@erudify.com')
 realdelete = no
 sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+folderfilter = sync_folder
