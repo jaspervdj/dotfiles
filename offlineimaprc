@@ -7,11 +7,15 @@ pythonfile = ~/Documents/Projects/dotfiles/offlineimaprc.py
 localrepository = Personal-Local
 remoterepository = Personal-Remote
 status_backend = sqlite
+autorefresh = 5
+quick = 10
 
 [Account Erudify]
 localrepository = Erudify-Local
 remoterepository = Erudify-Remote
 status_backend = sqlite
+autorefresh = 5
+quick = 10
 
 [Repository Personal-Local]
 type = Maildir
