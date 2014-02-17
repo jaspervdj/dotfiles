@@ -12,17 +12,20 @@ function setup() {
 }
 
 # Copy configuration files
-setup Xdefaults     "$HOME/.Xdefaults"
-setup ackrc         "$HOME/.ackrc"
-setup aliases       "$HOME/.aliases"
-setup gitconfig     "$HOME/.gitconfig"
-setup paths         "$HOME/.paths"
-setup ssh-config    "$HOME/.ssh/config"
-setup vimrc         "$HOME/.vimrc"
-setup xmonad.hs     "$HOME/.xmonad/xmonad.hs"
-setup zshrc         "$HOME/.zshrc"
-setup offlineimaprc "$HOME/.offlineimaprc"
-setup msmtprc       "$HOME/.msmtprc"
+setup Xdefaults              "$HOME/.Xdefaults"
+setup ackrc                  "$HOME/.ackrc"
+setup aliases                "$HOME/.aliases"
+setup gitconfig              "$HOME/.gitconfig"
+setup msmtprc                "$HOME/.msmtprc"
+setup mutt/accounts/erudify  "$HOME/.mutt/accounts/erudify"
+setup mutt/accounts/personal "$HOME/.mutt/accounts/personal"
+setup muttrc                 "$HOME/.muttrc"
+setup offlineimaprc          "$HOME/.offlineimaprc"
+setup paths                  "$HOME/.paths"
+setup ssh-config             "$HOME/.ssh/config"
+setup vimrc                  "$HOME/.vimrc"
+setup xmonad.hs              "$HOME/.xmonad/xmonad.hs"
+setup zshrc                  "$HOME/.zshrc"
 
 # Copy binaries
 setup bin/cabal-make           "$HOME/.bin/cabal-make"

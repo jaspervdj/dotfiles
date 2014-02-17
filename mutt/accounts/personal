@@ -1,0 +1,14 @@
+set from      = "jaspervdj@gmail.com"
+set sendmail  = "msmtp -a Personal"
+set mbox      = "+Personal/[Gmail]/All Mail"
+set postponed = "+Personal/[Gmail]/Drafts"
+
+color status green default
+
+macro index D \
+    "<save-message>+Personal/Trash<enter>" \
+    "move message to the trash"
+
+macro index S \
+    "<save-message>+Personal/Spam<enter>"  \
+    "mark message as spam"

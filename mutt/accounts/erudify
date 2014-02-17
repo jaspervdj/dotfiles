@@ -1,0 +1,14 @@
+set from      = "jasper.van.der.jeugt@erudify.com"
+set sendmail  = "msmtp -a Erudify"
+set mbox      = "+Erudify/[Gmail]/All Mail"
+set postponed = "+Erudify/[Gmail]/Drafts"
+
+color status green default
+
+macro index D \
+    "<save-message>+Erudify/Trash<enter>" \
+    "move message to the trash"
+
+macro index S \
+    "<save-message>+Erudify/Spam<enter>"  \
+    "mark message as spam"
