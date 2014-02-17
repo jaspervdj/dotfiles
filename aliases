@@ -1,2 +1,5 @@
 alias unlock="ssh-add $HOME/.ssh/id_rsa"
 alias dm='dir-metadata'
+
+alias tunnel-eckage='ssh -NL 8001:hackage.erudi.co:80 00.bastion.erudi.co'
+alias tunnel-sssp='ssh -NL 8002:sssp.erudi.co:80 00.bastion.erudi.co'

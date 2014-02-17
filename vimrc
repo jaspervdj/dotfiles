@@ -23,6 +23,9 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
+" Line and column number
+set ruler
+
 " Fold current line to 80 characters
 set formatprg=par\ -w80
 set formatoptions+=t

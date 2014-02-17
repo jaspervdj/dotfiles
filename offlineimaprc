@@ -1,0 +1,36 @@
+[general]
+ui = ttyui
+accounts = Personal,Erudify
+pythonfile = ~/Documents/Projects/dotfiles/offlineimaprc.py
+
+[Account Personal]
+localrepository = Personal-Local
+remoterepository = Personal-Remote
+status_backend = sqlite
+
+[Account Erudify]
+localrepository = Erudify-Local
+remoterepository = Erudify-Remote
+status_backend = sqlite
+
+[Repository Personal-Local]
+type = Maildir
+localfolders = ~/Mail/Personal
+
+[Repository Erudify-Local]
+type = Maildir
+localfolders = ~/Mail/Erudify
+
+[Repository Personal-Remote]
+type = Gmail
+remoteuser = jaspervdj@gmail.com
+remotepasseval = get_gmail_password('jaspervdj@gmail.com')
+realdelete = no
+sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+
+[Repository Erudify-Remote]
+type = Gmail
+remoteuser = jasper.van.der.jeugt@erudify.com
+remotepasseval = get_gmail_password('jasper.van.der.jeugt@erudify.com')
+realdelete = no
+sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
