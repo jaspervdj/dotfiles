@@ -2,6 +2,7 @@
 ui = ttyui
 accounts = Personal,Erudify
 pythonfile = ~/Documents/Projects/dotfiles/offlineimaprc.py
+maxsyncaccounts = 5
 
 [Account Personal]
 localrepository = Personal-Local

@@ -26,9 +26,7 @@ set expandtab
 " Line and column number
 set ruler
 
-" Fold current line to 80 characters
-set formatprg=par\ -w80
-set formatoptions+=t
+" Fold current line to 80 characters (or 72 if in mutt)
 set textwidth=80
 
 " Draw a subtle line at 80 columns
@@ -77,6 +75,13 @@ function RubyHook()
     setlocal tabstop=2
     setlocal shiftwidth=2
     noremap <C-i> :!irb -Ilib -r ./%<CR>
+endfunction
+
+" Options for mails
+autocmd BufRead,BufNewFile mutt-* call MailHook()
+function MailHook()
+    setlocal textwidth=72
+    setlocal colorcolumn=72
 endfunction
 
 " Options for JavaScript/json

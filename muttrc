@@ -51,6 +51,9 @@ folder-hook Erudify/*  source ~/.mutt/accounts/erudify
 macro index <f1> '<change-folder>+Personal/INBOX<enter>'
 macro index <f2> '<change-folder>+Erudify/INBOX<enter>'
 
+# Contacts
+set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
+
 ################################################################################
 # Solarized mutt
 
