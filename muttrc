@@ -7,6 +7,7 @@ unset record
 set realname   = "Jasper Van der Jeugt"
 set mail_check = 0
 set envelope_from
+set send_charset="utf-8"
 
 unset move           # gmail does that
 set delete           # don't ask, just do
