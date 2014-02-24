@@ -5,7 +5,7 @@ set postponed = "+Personal/[Gmail].Drafts"
 
 color status green default
 
-macro index D \
+macro index d \
     "<save-message>+Personal/[Gmail].Trash<enter>" \
     "move message to the trash"
 

@@ -53,6 +53,7 @@ macro index <f2> '<change-folder>+Erudify/INBOX<enter>'
 
 # Contacts
 set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
+bind editor <Tab> complete-query
 
 ################################################################################
 # Solarized mutt
