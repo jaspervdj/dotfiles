@@ -1,4 +1,4 @@
-set from      = "jaspervdj@gmail.com"
+set from      = "m@jaspervdj.be"
 set sendmail  = "msmtp -a Personal"
 set mbox      = "+Personal/[Gmail].All Mail"
 set postponed = "+Personal/[Gmail].Drafts"
