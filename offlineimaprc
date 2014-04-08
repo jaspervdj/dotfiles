@@ -1,6 +1,6 @@
 [general]
 ui = ttyui
-accounts = Personal,Erudify
+accounts = Personal,Better
 pythonfile = ~/Documents/Projects/dotfiles/offlineimaprc.py
 maxsyncaccounts = 5
 
@@ -11,9 +11,9 @@ status_backend = sqlite
 autorefresh = 5
 quick = 10
 
-[Account Erudify]
-localrepository = Erudify-Local
-remoterepository = Erudify-Remote
+[Account Better]
+localrepository = Better-Local
+remoterepository = Better-Remote
 status_backend = sqlite
 autorefresh = 5
 quick = 10
@@ -22,9 +22,9 @@ quick = 10
 type = Maildir
 localfolders = ~/Mail/Personal
 
-[Repository Erudify-Local]
+[Repository Better-Local]
 type = Maildir
-localfolders = ~/Mail/Erudify
+localfolders = ~/Mail/Better
 
 [Repository Personal-Remote]
 type = Gmail
@@ -34,10 +34,10 @@ realdelete = no
 sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
 folderfilter = sync_folder
 
-[Repository Erudify-Remote]
+[Repository Better-Remote]
 type = Gmail
-remoteuser = jasper.van.der.jeugt@erudify.com
-remotepasseval = get_gmail_password('jasper.van.der.jeugt@erudify.com')
+remoteuser = jasper.van.der.jeugt@better.com
+remotepasseval = get_gmail_password('jasper.van.der.jeugt@better.com')
 realdelete = no
 sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
 folderfilter = sync_folder

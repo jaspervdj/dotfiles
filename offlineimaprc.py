@@ -8,6 +8,6 @@ def get_gmail_password(account):
 
 def sync_folder(folder):
     return folder not in [
-        '[Gmail]/All Mail',
+        '[Gmail]/Drafts',
         '[Gmail]/Important',
         '[Gmail]/Spam']

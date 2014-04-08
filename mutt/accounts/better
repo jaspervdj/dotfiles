@@ -1,0 +1,14 @@
+set from      = "jasper.van.der.jeugt@better.com"
+set sendmail  = "msmtp -a Better"
+set mbox      = "+Better/[Gmail].All Mail"
+set postponed = "+Better/[Gmail].Drafts"
+
+color status green default
+
+macro index d \
+    "<save-message>+Better/[Gmail].Trash<enter>" \
+    "move message to the trash"
+
+macro index S \
+    "<save-message>+Better/[Gmail].Spam<enter>"  \
+    "mark message as spam"

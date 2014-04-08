@@ -47,10 +47,10 @@ set spoolfile = "+Personal/INBOX"
 source ~/.mutt/accounts/personal
 
 folder-hook Personal/* source ~/.mutt/accounts/personal
-folder-hook Erudify/*  source ~/.mutt/accounts/erudify
+folder-hook Better/*  source ~/.mutt/accounts/better
 
 macro index <f1> '<change-folder>+Personal/INBOX<enter>'
-macro index <f2> '<change-folder>+Erudify/INBOX<enter>'
+macro index <f2> '<change-folder>+Better/INBOX<enter>'
 
 # Contacts
 set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
