@@ -11,6 +11,15 @@ function setup() {
     ln -sfn "$PWD/$SRC" "$DST"
 }
 
+# Utility: compile and setup a Haskell script
+function setup-hs() {
+    SRC="$1"
+    DST="$2"
+    EXE="$(echo "$SRC" | sed 's/\.[^.]*$//')"
+    ghc --make -O2 -threaded "$SRC"
+    setup "$EXE" "$DST"
+}
+
 # Copy configuration files
 setup Xdefaults              "$HOME/.Xdefaults"
 setup ackrc                  "$HOME/.ackrc"
@@ -31,6 +40,9 @@ setup zshrc                  "$HOME/.zshrc"
 setup bin/cabal-make           "$HOME/.bin/cabal-make"
 setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
 setup bin/decrypt-password     "$HOME/.bin/decrypt-password"
+
+# Setup haskell scripts
+setup-hs bin/raw-check.hs "$HOME/.bin/raw-check"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'
