@@ -16,27 +16,32 @@ import           XMonad.Hooks.EwmhDesktops   (ewmh)
 import           XMonad.Hooks.ManageDocks    (ToggleStruts (..), avoidStruts,
                                               manageDocks)
 import           XMonad.Hooks.ManageHelpers  (doFullFloat, doRectFloat)
+import           XMonad.Hooks.DynamicLog     (xmobar)
 import           XMonad.Layout.Circle        (Circle (..))
 import           XMonad.Layout.NoBorders     (smartBorders)
 import           XMonad.Layout.PerWorkspace  (onWorkspace)
 import           XMonad.Layout.SimplestFloat (simplestFloat)
 import           XMonad.StackSet             (RationalRect (..), currentTag)
+import           XMonad.Prompt               (defaultXPConfig)
+import           XMonad.Prompt.Shell         (shellPrompt)
 
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = xmonad $ ewmh $ defaultConfig
-    { terminal           = "urxvt"
-    , modMask            = mod4Mask
-    , manageHook         = myManageHook
-    , layoutHook         = myLayoutHook
-    , workspaces         = ["Play", "Work", "View", "Float"]
-    , borderWidth        = 2
-    , normalBorderColor  = "#002b36"
-    , focusedBorderColor = "#688cb3"
-    , keys               = \c -> myKeys c `M.union` keys defaultConfig c
-    , focusFollowsMouse  = False
-    }
+main = xmonad =<< xmobar myConfig
+  where
+    myConfig = ewmh $ defaultConfig
+        { terminal           = "urxvt"
+        , modMask            = mod4Mask
+        , manageHook         = myManageHook
+        , layoutHook         = myLayoutHook
+        , workspaces         = ["Play", "Work", "View", "Float"]
+        , borderWidth        = 2
+        , normalBorderColor  = "#002b36"
+        , focusedBorderColor = "#688cb3"
+        , keys               = \c -> myKeys c `M.union` keys defaultConfig c
+        , focusFollowsMouse  = False
+        }
 
 
 --------------------------------------------------------------------------------
@@ -83,7 +88,7 @@ myKeys (XConfig {modMask = myModMask}) = M.fromList $
     , ((myModMask .|. shiftMask, xK_l), spawn "xscreensaver-command --lock")
 
       -- launcher keys
-    , ((myModMask, xK_p), spawn "gmrun")
+    , ((myModMask, xK_p), shellPrompt defaultXPConfig)
 
       -- Toggle struts
     , ((myModMask, xK_a), sendMessage ToggleStruts)

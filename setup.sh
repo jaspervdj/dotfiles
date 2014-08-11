@@ -1,6 +1,12 @@
 #!/bin/bash
 set -o nounset -o errexit -o pipefail
 
+# Virtual home
+VHOME="$HOME"
+if [[ -d /betteros ]]; then
+    VHOME="/betteros/dotfiles/jasper.van.der.jeugt"
+fi
+
 # Utility: setup a single file
 function setup() {
     SRC="$1"
@@ -21,36 +27,36 @@ function setup-hs() {
 }
 
 # Copy configuration files
-setup Xdefaults              "$HOME/.Xdefaults"
-setup ackrc                  "$HOME/.ackrc"
-setup aliases                "$HOME/.aliases"
-setup gitconfig              "$HOME/.gitconfig"
-setup msmtprc                "$HOME/.msmtprc"
-setup mutt/accounts/better   "$HOME/.mutt/accounts/better"
-setup mutt/accounts/personal "$HOME/.mutt/accounts/personal"
-setup muttrc                 "$HOME/.muttrc"
-setup offlineimaprc          "$HOME/.offlineimaprc"
-setup paths                  "$HOME/.paths"
-setup ssh-config             "$HOME/.ssh/config"
-setup vimrc                  "$HOME/.vimrc"
-setup xmonad.hs              "$HOME/.xmonad/xmonad.hs"
-setup zshrc                  "$HOME/.zshrc"
+setup Xdefaults              "$VHOME/.Xdefaults"
+setup ackrc                  "$VHOME/.ackrc"
+setup aliases                "$VHOME/.aliases"
+setup gitconfig              "$VHOME/.gitconfig"
+setup msmtprc                "$VHOME/.msmtprc"
+setup mutt/accounts/better   "$VHOME/.mutt/accounts/better"
+setup mutt/accounts/personal "$VHOME/.mutt/accounts/personal"
+setup muttrc                 "$VHOME/.muttrc"
+setup offlineimaprc          "$VHOME/.offlineimaprc"
+setup paths                  "$VHOME/.paths"
+setup ssh-config             "$VHOME/.ssh/config"
+setup vimrc                  "$VHOME/.vimrc"
+setup xmonad.hs              "$VHOME/.xmonad/xmonad.hs"
+setup zshrc                  "$VHOME/.zshrc"
 
 # Copy binaries
-setup bin/cabal-make           "$HOME/.bin/cabal-make"
-setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
-setup bin/decrypt-password     "$HOME/.bin/decrypt-password"
+setup bin/cabal-make           "$VHOME/.bin/cabal-make"
+setup bin/id3v2-from-filenames "$VHOME/.bin/id3v2-from-filenames"
+setup bin/decrypt-password     "$VHOME/.bin/decrypt-password"
 
 # Setup haskell scripts
-setup-hs bin/raw-check.hs "$HOME/.bin/raw-check"
+setup-hs bin/raw-check.hs "$VHOME/.bin/raw-check"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'
-mkdir -p "$HOME/.vim/backup"
+mkdir -p "$VHOME/.vim/backup"
 
 # Install vundle if necessary
 echo 'Installing vundle...'
-if [[ ! -d "$HOME/.vim/bundle/vundle" ]]; then
-    git clone 'https://github.com/gmarik/vundle.git' "$HOME/.vim/bundle/vundle"
+if [[ ! -d "$VHOME/.vim/bundle/vundle" ]]; then
+    git clone 'https://github.com/gmarik/vundle.git' "$VHOME/.vim/bundle/vundle"
     vim -c BundleInstall -c qa # Not sure if this is a nice way to do things
 fi
