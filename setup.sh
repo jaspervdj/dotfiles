@@ -46,6 +46,7 @@ setup zshrc                  "$VHOME/.zshrc"
 setup bin/cabal-make           "$VHOME/.bin/cabal-make"
 setup bin/id3v2-from-filenames "$VHOME/.bin/id3v2-from-filenames"
 setup bin/decrypt-password     "$VHOME/.bin/decrypt-password"
+setup bin/watermark-photo      "$VHOME/.bin/watermark-photo"
 
 # Setup haskell scripts
 setup-hs bin/raw-check.hs "$VHOME/.bin/raw-check"

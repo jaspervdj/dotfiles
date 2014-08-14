@@ -1,0 +1,70 @@
+#!/bin/bash
+set -o nounset -o errexit -o pipefail
+
+function take-extension() {
+    echo "$1" | sed 's/.*\.//'
+}
+
+function drop-extension() {
+    echo "$1" | sed 's/\.[^.]*$//'
+}
+
+function uppercase() {
+    tr 'a-z' 'A-Z'
+}
+
+function main() {
+    local TITLE="$(echo "$1" | uppercase)"
+    local INPUT_FILE="$2"
+    local OUTPUT_FILE="$(drop-extension "$INPUT_FILE").jpg"
+    local EXV_FILE="$(drop-extension "$INPUT_FILE").exv"
+    local FONT="/System/Library/Fonts/Helvetica.dfont" # Or convert -list font
+    local DATE="$(date '+%B %Y' | uppercase)"
+
+    # Check extension
+    if [[ "$(take-extension "$INPUT_FILE")" != "tif" ]]; then
+        echo "Input file should be a TIF"
+        exit 1
+    fi
+
+    # Dump EXIF to "$INPUT_FILE".exv
+    exiv2 ex "$INPUT_FILE"
+    if [[ ! -f "$EXV_FILE" ]]; then
+        echo "EXIF export failed: $EXV_FILE not found"
+        exit 1
+    fi
+
+    # Convert from TIFF to JPEG, add border and watermark
+    convert                                      \
+        -background black                        \
+        -gravity North                           \
+        -splice  0x20                            \
+        -bordercolor black                       \
+        -border 10                               \
+        -fill '#aaaaaa'                          \
+        -pointsize 20                            \
+        -font "$FONT"                            \
+        -gravity NorthWest                       \
+        -draw "text 10,6 'JASPER VAN DER JEUGT'" \
+        -gravity North                           \
+        -draw "text 10,6 '$TITLE'"               \
+        -gravity NorthEast                       \
+        -draw "text 10,6 '$DATE'"                \
+        -quality 95                              \
+        "$INPUT_FILE"                            \
+        "$OUTPUT_FILE"
+
+    # Import EXIF from "$INPUT_FILE.exv"
+    exiv2 in "$OUTPUT_FILE"
+
+    # Clean up
+    rm "$EXV_FILE"
+}
+
+# Check number of arguments
+if [[ $# != 2 ]]; then
+    echo "Usage: $0 'Your Title' picture.tif"
+    exit 1
+fi
+
+main "$1" "$2"
