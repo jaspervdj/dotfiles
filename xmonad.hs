@@ -88,13 +88,10 @@ myKeys (XConfig {modMask = myModMask}) = M.fromList $
     , ((myModMask .|. shiftMask, xK_l), spawn "xscreensaver-command --lock")
 
       -- launcher keys
-    , ((myModMask, xK_p), shellPrompt defaultXPConfig)
+    , ((myModMask, xK_p), spawn "gmrun")
 
       -- Toggle struts
     , ((myModMask, xK_a), sendMessage ToggleStruts)
-
-      -- Close window
-    , ((myModMask, xK_c), kill)
 
       -- Full float
     , ((myModMask, xK_f), fullFloatFocused)
