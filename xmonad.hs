@@ -99,11 +99,9 @@ myKeys (XConfig {modMask = myModMask}) = M.fromList $
       -- Centered rectangle float
     , ((myModMask, xK_r), rectFloatFocused)
 
-      -- Next & previous workspace
-    , ((myModMask, xK_Left), prevWS)
-    , ((myModMask, xK_Right), nextWS)
-    , ((myModMask .|. shiftMask, xK_Left), shiftToPrev >> prevWS)
-    , ((myModMask .|. shiftMask, xK_Right), shiftToNext >> nextWS)
+      -- Shrik and expand
+    , ((myModMask, xK_Right), sendMessage Expand)
+    , ((myModMask, xK_Left),  sendMessage Shrink)
 
       -- XF86AudioLowerVolume
     , ((0, 0x1008ff11), spawn "amixer set Master 10%-")
