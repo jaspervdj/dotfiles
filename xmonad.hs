@@ -88,7 +88,7 @@ myKeys (XConfig {modMask = myModMask}) = M.fromList $
     , ((myModMask .|. shiftMask, xK_l), spawn "xscreensaver-command --lock")
 
       -- launcher keys
-    , ((myModMask, xK_p), spawn "gmrun")
+    , ((myModMask, xK_p), spawn "dmenu_run")
 
       -- Toggle struts
     , ((myModMask, xK_a), sendMessage ToggleStruts)
