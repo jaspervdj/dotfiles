@@ -21,18 +21,52 @@ function get-exif-date() {
         xargs date -j -f'%Y:%m:%d' "$FORMAT"
 }
 
+function set-exif-title() {
+    local INPUT_FILE="$1"
+    local TITLE="$2"
+    echo $TITLE
+    exiv2 -n UTF-8 -M "set Exif.Photo.UserComment '$TITLE'" "$INPUT_FILE"
+}
+
 function get-exif-title() {
     local INPUT_FILE="$1"
     exiv2 -g 'Exif.Photo.UserComment' -Pt "$INPUT_FILE"
 }
 
-function main() {
+function copy-exif() {
+    local INPUT_FILE="$1"
+    local OUTPUT_FILE="$2"
+    local INPUT_EXV_FILE="$(drop-extension "$INPUT_FILE").exv"
+    local OUTPUT_EXV_FILE="$(drop-extension "$OUTPUT_FILE").exv"
+
+    # Dump EXIF to "$INPUT_FILE".exv
+    exiv2 ex "$INPUT_FILE"
+    if [[ ! -f "$INPUT_EXV_FILE" ]]; then
+        echo "EXIF export failed: $INPUT_EXV_FILE not found"
+        exit 1
+    fi
+
+    # Import EXIF from "$INPUT_FILE.exv"
+    mv "$INPUT_EXV_FILE" "$OUTPUT_EXV_FILE"
+    exiv2 in "$OUTPUT_FILE"
+
+    # Clean up
+    rm "$OUTPUT_EXV_FILE"
+}
+
+function watermark() {
     local INPUT_FILE="$1"
     local OUTPUT_FILE="$(drop-extension "$INPUT_FILE").jpg"
-    local EXV_FILE="$(drop-extension "$INPUT_FILE").exv"
     local FONT="/System/Library/Fonts/Helvetica.dfont" # Or convert -list font
     local TITLE="$(get-exif-title "$INPUT_FILE" | uppercase)"
     local DATE="$(get-exif-date '+%B %Y' "$INPUT_FILE" | uppercase)"
+
+    # Check number of arguments
+    if [[ $# != 1 ]]; then
+        echo "Usage: $0 picture.tif"
+        echo "The user-comment exiv2 field must be set to the title."
+        exit 1
+    fi
 
     # Check title
     if [[ "$TITLE" = "" ]]; then
@@ -48,13 +82,6 @@ function main() {
 
     # Remove XMP packet and preview from input file
     exiv2 -d xt "$INPUT_FILE"
-
-    # Dump EXIF to "$INPUT_FILE".exv
-    exiv2 ex "$INPUT_FILE"
-    if [[ ! -f "$EXV_FILE" ]]; then
-        echo "EXIF export failed: $EXV_FILE not found"
-        exit 1
-    fi
 
     # Convert from TIFF to JPEG, add border and watermark
     convert                                      \
@@ -76,18 +103,71 @@ function main() {
         "$INPUT_FILE"                            \
         "$OUTPUT_FILE"
 
-    # Import EXIF from "$INPUT_FILE.exv"
-    exiv2 in "$OUTPUT_FILE"
-
-    # Clean up
-    rm "$EXV_FILE"
+    # Copy exif
+    copy-exif "$INPUT_FILE" "$OUTPUT_FILE"
 }
 
-# Check number of arguments
-if [[ $# != 1 ]]; then
-    echo "Usage: $0 picture.tif"
-    echo "The user-comment exiv2 field must be set to the title."
+function grayscale() {
+    local INPUT_FILE="$1"
+    local OUTPUT_FILE="$2"
+
+    convert -colorspace Gray "$INPUT_FILE" "$OUTPUT_FILE"
+    copy-exif "$INPUT_FILE" "$OUTPUT_FILE"
+}
+
+function help() {
+    cat - <<HERE
+USAGE
+
+$0 command args
+
+COMMANDS
+
+get-exif-title picture.jpg
+
+    Retrieve the photograph title
+
+set-exif-title picture.jpg 'A title'
+
+    Set the photograph title
+
+watermark picture.tif
+
+    Export a watermarked version of picture.tif to picture.jpg
+
+copy-exif picture1.tif picture2.tif
+
+    Copy all exif metadata from picture1.tif to picture2.tif
+
+grayscale picture1.tif picture2.tif
+
+    Create a copy of picture1.tif in the grayscale color model
+
+HERE
+}
+
+if [[ $# < 1 ]]; then
+    help
     exit 1
 fi
 
-main "$1"
+case "$1" in
+    get-exif-title)
+        get-exif-title "$2"
+        ;;
+    set-exif-title)
+        set-exif-title "$2" "$3"
+        ;;
+    watermark)
+        watermark "$2"
+        ;;
+    copy-exif)
+        copy-exif "$2" "$3"
+        ;;
+    grayscale)
+        grayscale "$2" "$3"
+        ;;
+    *)
+        help
+        exit 1
+esac
