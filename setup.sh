@@ -49,7 +49,8 @@ setup bin/decrypt-password     "$VHOME/.bin/decrypt-password"
 setup bin/phototools           "$VHOME/.bin/phototools"
 
 # Setup haskell scripts
-setup-hs bin/raw-check.hs "$VHOME/.bin/raw-check"
+setup-hs bin/raw-check.hs   "$VHOME/.bin/raw-check"
+setup-hs bin/sum-doubles.hs "$VHOME/.bin/sum-doubles"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'

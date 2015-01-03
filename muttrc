@@ -53,7 +53,7 @@ macro index <f1> '<change-folder>+Personal/INBOX<enter>'
 macro index <f2> '<change-folder>+Better/INBOX<enter>'
 
 # Contacts
-set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
+set query_command = "contacts '%s' && contacts '%s'"
 bind editor <Tab> complete-query
 
 ################################################################################

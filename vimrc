@@ -39,7 +39,9 @@ noremap <C-t> :NERDTreeToggle<CR><CR>
 let NERDTreeIgnore=[
     \ ".*\\.class$",
     \ ".*\\.o$",
-    \ ".*\\.hi$"
+    \ ".*\\.hi$",
+    \ ".*\\.cmi$",
+    \ ".*\\.cmx$",
     \ ]
 
 " Colorscheme used.
