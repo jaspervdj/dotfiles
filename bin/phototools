@@ -111,7 +111,7 @@ function grayscale() {
     local INPUT_FILE="$1"
     local OUTPUT_FILE="$2"
 
-    convert -colorspace Gray "$INPUT_FILE" "$OUTPUT_FILE"
+    convert -colorspace Gray -compress LZW "$INPUT_FILE" "$OUTPUT_FILE"
     copy-exif "$INPUT_FILE" "$OUTPUT_FILE"
 }
 
