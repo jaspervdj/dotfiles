@@ -1,6 +1,6 @@
 function add-path
-    if test -d "$1"
-        set PATH $PATH "$1"
+    if test -d $argv[1]
+        set -x PATH $PATH $argv[1]
     end
 end
 

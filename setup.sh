@@ -24,6 +24,7 @@ function setup-hs() {
 setup Xdefaults              "$HOME/.Xdefaults"
 setup ackrc                  "$HOME/.ackrc"
 setup aliases                "$HOME/.aliases"
+setup config.fish            "$HOME/.config/fish/config.fish"
 setup gitconfig              "$HOME/.gitconfig"
 setup msmtprc                "$HOME/.msmtprc"
 setup mutt/accounts/better   "$HOME/.mutt/accounts/better"
