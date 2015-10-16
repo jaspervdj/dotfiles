@@ -88,3 +88,6 @@ endfunction
 
 " Options for JavaScript/json
 au BufRead,BufNewFile *.json set filetype=javascript
+
+" Options for ludwig
+au BufRead,BufNewFile *.lw set filetype=yaml

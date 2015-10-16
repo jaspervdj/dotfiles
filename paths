@@ -1,10 +1,8 @@
-#!/bin/bash
-
-function add-path() {
-    if [[ -d "$1" ]]; then
-        export PATH="$1":"$PATH"
-    fi
-}
+function add-path
+    if test -d "$1"
+        set PATH $PATH "$1"
+    end
+end
 
 add-path '/usr/local/bin'  # Makes sure this comes before /usr/bin
 add-path '/Library/Haskell/bin'

@@ -1,37 +1,42 @@
-Host genix
-    HostName genix.ugent.be
-    User javdrjeu
 Host zeus
     HostName kelder.zeus.ugent.be
     User jasper
     Port 2222
-Host scouts
-    HostName scoutsheirbrug.be
-    User sn1352
-Host fixnum
-    HostName fixnum.org
-    User jaspervdj
-Host nudded
-    HostName 188.40.247.250
-    User jaspervdj
-    Port 2222
-Host blake
-    HostName blake.ugent.be
-    User jasper
-    Port 2217
-Host sop
-    HostName student-project3.intec.ugent.be
-    User jaspervdj
-    Port 22
-Host tsuru
-    HostName repo.tsurucapital.com
-    User jaspervdj
-    Port 22
-Host urenloop
-    HostName zeus.ugent.be
-    User urenloop
-    Port 2222
+
 Host furfnakel
     HostName 78.47.67.198
     User jaspervdj
     Port 443
+
+Host freddy
+    HostName 78.46.209.156
+    User jaspervdj
+    Port 2222
+
+Host shannon
+    HostName shannon.erudify.ch
+    User git
+    ForwardAgent yes
+    Port 22
+
+Host github.com-personal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa
+
+Host github.com-luminal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_luminal
+
+Host bdellium
+    HostName gossip.bdellium.net
+    User jvdjeugt
+
+Host cosmos
+    HostName cosmos.bdellium.net
+    User deploy
+
+Host pdor
+    HostName portal.pdor.com
+    User jjeugt

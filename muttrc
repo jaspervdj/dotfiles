@@ -47,10 +47,10 @@ set spoolfile = "+Personal/INBOX"
 source ~/.mutt/accounts/personal
 
 folder-hook Personal/* source ~/.mutt/accounts/personal
-folder-hook Better/*  source ~/.mutt/accounts/better
+folder-hook Luminal/*  source ~/.mutt/accounts/luminal
 
 macro index <f1> '<change-folder>+Personal/INBOX<enter>'
-macro index <f2> '<change-folder>+Better/INBOX<enter>'
+macro index <f2> '<change-folder>+Luminal/INBOX<enter>'
 
 # Contacts
 set query_command = "contacts '%s' && contacts '%s'"
