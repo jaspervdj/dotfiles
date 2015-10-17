@@ -1,3 +1,6 @@
 *.hi
 *.o
 *.pyc
+
+bin/raw-check
+bin/sum-doubles

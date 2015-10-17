@@ -12,6 +12,9 @@ Bundle 'leafgarland/typescript-vim'
 Bundle 'kien/ctrlp.vim'
 filetype plugin indent on
 
+" vim does not support fish (yet)
+set shell=/bin/bash
+
 " swp files to ~/.vim/backups
 set directory=~/.vim/backup
 set backupdir=~/.vim/backup

@@ -5,6 +5,7 @@ function add-path
 end
 
 add-path '/usr/local/bin'  # Makes sure this comes before /usr/bin
+add-path '/usr/local/sbin'
 add-path '/Library/Haskell/bin'
 add-path "$HOME/Library/Haskell/bin"
 add-path "$HOME/.bin"

@@ -39,10 +39,11 @@ setup tmux.conf              "$HOME/.tmux.conf"
 setup vimrc                  "$HOME/.vimrc"
 setup xmonad.hs              "$HOME/.xmonad/xmonad.hs"
 
-# Copy binaries
+# Copy "binaries"
 setup bin/cabal-make           "$HOME/.bin/cabal-make"
-setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
 setup bin/decrypt-password     "$HOME/.bin/decrypt-password"
+setup bin/find-holes           "$HOME/.bin/find-holes"
+setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
 setup bin/phototools           "$HOME/.bin/phototools"
 
 # Setup haskell scripts
