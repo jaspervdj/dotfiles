@@ -44,8 +44,7 @@ def take_number(string):
     if not numbers:
         return None
     elif len(numbers) > 1:
-        print(str.format('Warning: multiple numbers in {}', string),
-                file=sys.stderr)
+        print('Warning: multiple numbers in {}'.format(string), file=sys.stderr)
         return None
     elif len(numbers) == 1:
         stripped = re.sub(r'\d+', '', string)
@@ -88,7 +87,7 @@ def comma_sep(ls): return ','.join(map(str, ls))
 
 for base in args.directories:
     if len(args.directories) > 1:
-        print(str.format("{}:", base))
+        print("{}:".format(base))
 
     for path in os.listdir(base):
         number_and_stripped = take_number(path)
@@ -99,7 +98,7 @@ for base in args.directories:
     for k in hole_finder.keys():
         missing = hole_finder.missing(k)
         if missing:
-            print(str.format('Missing for {}: {}', k, comma_sep(missing)))
+            print('Missing for {}: {}'.format(k, comma_sep(missing)))
             all_ok = False
 
     if len(args.directories) > 1:

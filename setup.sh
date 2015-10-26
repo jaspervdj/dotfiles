@@ -47,8 +47,9 @@ setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
 setup bin/phototools           "$HOME/.bin/phototools"
 
 # Setup haskell scripts
-setup-hs bin/raw-check.hs   "$HOME/.bin/raw-check"
-setup-hs bin/sum-doubles.hs "$HOME/.bin/sum-doubles"
+setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
+setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
+setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'
