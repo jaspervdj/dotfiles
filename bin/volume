@@ -1,0 +1,20 @@
+#!/bin/bash
+
+SINK="1"
+
+case "$1" in
+"up")
+    echo "$0: Upping volume!" >&2
+    pactl set-sink-mute "$SINK" false
+    pactl set-sink-volume "$SINK" '+5%'
+    ;;
+"down")
+    echo "$0: Downing volume!" >&2
+    pactl set-sink-mute "$SINK" false
+    pactl set-sink-volume "$SINK" '-5%'
+    ;;
+"toggle")
+    echo "$0: Toggling mute" >&2
+    pactl set-sink-mute "$SINK" toggle
+    ;;
+esac

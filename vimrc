@@ -1,15 +1,16 @@
 " Vundle
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'scrooloose/nerdtree'
-Bundle 'mileszs/ack.vim'
-Bundle 'Align'
-Bundle 'bronson/vim-trailing-whitespace'
-Bundle 'renamer.vim'
-Bundle 'leafgarland/typescript-vim'
-Bundle 'kien/ctrlp.vim'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/vundle'
+Plugin 'scrooloose/nerdtree'
+Plugin 'mileszs/ack.vim'
+Plugin 'Align'
+Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'renamer.vim'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'kien/ctrlp.vim'
+call vundle#end()
 filetype plugin indent on
 
 " vim does not support fish (yet)

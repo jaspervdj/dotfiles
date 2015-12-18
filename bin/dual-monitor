@@ -1,0 +1,16 @@
+#!/bin/bash
+
+WIDTH="1920"
+HEIGHT="1080"
+REFRESH="60"
+OUTPUT="DP1"
+
+MODE_LINE=$(cvt "$WIDTH" "$HEIGHT" "$REFRESH" | sed -n 's/Modeline *//p')
+MODE_NAME=$(echo "$MODE_LINE" | cut -f1 -d' ')
+
+xrandr --newmode $MODE_LINE
+xrandr --addmode "$OUTPUT" "$MODE_NAME"
+xrandr --output "$OUTPUT" --mode "$MODE_NAME"
+
+echo "MODE: $MODE_LINE"
+echo "NAME: $MODE_NAME"

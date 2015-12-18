@@ -1,14 +1,15 @@
-function add-path
-    if test -d $argv[1]
-        set -x PATH $PATH $argv[1]
-    end
-end
+PATHS="/usr/local/bin            \
+       /usr/local/sbin           \
+       /Library/Haskell/bin      \
+       $HOME/Library/Haskell/bin \
+       $HOME/.bin                \
+       $HOME/.cabal/bin          \
+       $HOME/.gem/ruby/1.9.1/bin \
+       $HOME/.local/bin          "
 
-add-path '/usr/local/bin'  # Makes sure this comes before /usr/bin
-add-path '/usr/local/sbin'
-add-path '/Library/Haskell/bin'
-add-path "$HOME/Library/Haskell/bin"
-add-path "$HOME/.bin"
-add-path "$HOME/.cabal/bin"
-add-path "$HOME/.gem/ruby/1.9.1/bin"
-add-path "$HOME/.local/bin"
+for x in $PATHS; do
+  case ":$PATH:" in
+    *":$x:"*) :;; # already there
+    *) export PATH="$x:$PATH";;
+  esac
+done

@@ -1,6 +1,6 @@
 [general]
 ui = ttyui
-accounts = Personal,Luminal
+accounts = Personal
 pythonfile = ~/Documents/Projects/dotfiles/offlineimaprc.py
 maxsyncaccounts = 5
 
@@ -11,33 +11,14 @@ status_backend = sqlite
 autorefresh = 5
 quick = 10
 
-[Account Luminal]
-localrepository = Luminal-Local
-remoterepository = Luminal-Remote
-status_backend = sqlite
-autorefresh = 5
-quick = 10
-
 [Repository Personal-Local]
 type = Maildir
 localfolders = ~/Mail/Personal
-
-[Repository Luminal-Local]
-type = Maildir
-localfolders = ~/Mail/Luminal
 
 [Repository Personal-Remote]
 type = Gmail
 remoteuser = jaspervdj@gmail.com
 remotepasseval = get_gmail_password('jaspervdj@gmail.com')
 realdelete = no
-sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
-folderfilter = sync_folder
-
-[Repository Luminal-Remote]
-type = Gmail
-remoteuser = jasper@luminal.io
-remotepasseval = get_gmail_password('jasper@luminal.io')
-realdelete = no
-sslcacertfile = /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 folderfilter = sync_folder
