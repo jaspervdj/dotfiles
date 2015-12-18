@@ -1,3 +1,5 @@
+feh --bg-fill /usr/share/pixmaps/wallpaper.jpg &
+
 nm-applet &
 cbatticon &
 pypanel &
