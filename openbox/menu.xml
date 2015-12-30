@@ -377,6 +377,24 @@
   </item>
 </menu>
 
+<menu id="exit-menu" label="Exit">
+  <item label="Log out">
+    <action name="Exit">
+      <prompt>yes</prompt>
+    </action>
+  </item>
+  <item label="Shut down">
+    <action name="Execute">
+      <command>sudo shutdown now</command>
+    </action>
+  </item>
+  <item label="Reboot">
+    <action name="Execute">
+      <command>sudo reboot</command>
+    </action>
+  </item>
+</menu>
+
 <menu id="root-menu" label="Openbox 3">
   <separator label="Common" />
   <item label="Terminal">
@@ -402,12 +420,7 @@
   <separator />
   <separator label="System" />
   <menu id="system-menu"/>
-  <separator />
-  <item label="Log Out">
-    <action name="Exit">
-      <prompt>yes</prompt>
-    </action>
-  </item>
+  <menu id="exit-menu" />
 </menu>
 
 </openbox_menu>

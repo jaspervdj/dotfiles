@@ -1,16 +1,45 @@
 #!/bin/bash
 
-WIDTH="1920"
-HEIGHT="1080"
-REFRESH="60"
-OUTPUT="DP1"
+# Settings for main (laptop) display
+MAIN="eDP1"
+MAIN_W="2560"
+MAIN_H="1440"
+MAIN_R="60"
 
-MODE_LINE=$(cvt "$WIDTH" "$HEIGHT" "$REFRESH" | sed -n 's/Modeline *//p')
+# Settings for external (mini-display-port) display. Scale stuff is needed to
+# try and match the DPIs of the screens.
+EXT="DP1"
+EXT_W="2048"
+EXT_H="1152"
+EXT_REFRESH="60"
+EXT_SCALE="2"
+
+# Quick math.
+EXT_W_S="$(perl -e "print "$EXT_SCALE" * "$EXT_W"")"
+EXT_H_S="$(perl -e "print "$EXT_SCALE" * "$EXT_H"")"
+
+# Get a nice modeline.
+MODE_OUT="$(cvt -r "$EXT_W" "$EXT_H" "$EXT_REFRESH")"
+MODE_LINE=$(echo "$MODE_OUT" | sed -n 's/Modeline *//p')
 MODE_NAME=$(echo "$MODE_LINE" | cut -f1 -d' ')
 
-xrandr --newmode $MODE_LINE
-xrandr --addmode "$OUTPUT" "$MODE_NAME"
-xrandr --output "$OUTPUT" --mode "$MODE_NAME"
+# Print info.
+echo "Mode=$MODE_LINE"
 
-echo "MODE: $MODE_LINE"
-echo "NAME: $MODE_NAME"
+# Add mode if it doesn't exist yet.
+if [[ -e $(xrandr | grep "$MODE_NAME") ]]; then
+    echo -n "Adding mode... "
+    xrandr --newmode $MODE_LINE
+    xrandr --addmode "$EXT" "$MODE_NAME"
+    echo "OK"
+else
+    echo "Mode already present, not adding."
+fi
+
+echo -n "Setting mode... "
+xrandr --output "$EXT" \
+    --mode "$MODE_NAME" \
+    --panning "$EXT_W_S"x"$EXT_H_S"+"$MAIN_W"+0 \
+    --right-of "$MAIN"
+xrandr --output "$EXT" --scale "$EXT_SCALE"x"$EXT_SCALE"
+echo "OK"

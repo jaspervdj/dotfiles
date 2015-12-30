@@ -69,6 +69,7 @@ set mouse=a
 autocmd FileType haskell call HaskellHook()
 autocmd BufRead,BufNewFile *.lhs call HaskellHook()
 autocmd BufRead,BufNewFile *.hsc set filetype=haskell
+autocmd BufRead,BufNewFile *.purs set filetype=haskell
 function HaskellHook()
     noremap <C-i> :!ghci -Wall '%'<CR>
     noremap <C-c> :%!stylish-haskell<CR>

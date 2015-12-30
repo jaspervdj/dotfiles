@@ -153,10 +153,10 @@
      Many programs reserve space automatically, but you can use this in other
      cases. -->
   <margins>
-    <top>20</top>
-    <bottom>44</bottom>
-    <left>20</left>
-    <right>20</right>
+    <top>0</top>
+    <bottom>0</bottom>
+    <left>0</left>
+    <right>0</right>
   </margins>
   <dock>
     <position>TopLeft</position>
@@ -178,6 +178,18 @@
   </dock>
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
+    <!-- Fix for when the screen thinks it should be off. -->
+    <keybind key="W-x">
+      <action name="Execute">
+        <command>xset dpms force off</command>
+      </action>
+    </keybind>
+    <!-- Lock screen. -->
+    <keybind key="W-l">
+      <action name="Execute">
+        <command>dm-tool lock</command>
+      </action>
+    </keybind>
     <!-- Open the menu -->
     <keybind key="W-m">
       <action name="ShowMenu">
@@ -239,8 +251,18 @@
         <to>1</to>
       </action>
     </keybind>
+    <keybind key="W-S-1">
+      <action name="SendToDesktop">
+        <to>1</to>
+      </action>
+    </keybind>
     <keybind key="W-2">
       <action name="GoToDesktop">
+        <to>2</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-2">
+      <action name="SendToDesktop">
         <to>2</to>
       </action>
     </keybind>
@@ -249,8 +271,18 @@
         <to>3</to>
       </action>
     </keybind>
+    <keybind key="W-S-3">
+      <action name="SendToDesktop">
+        <to>3</to>
+      </action>
+    </keybind>
     <keybind key="W-4">
       <action name="GoToDesktop">
+        <to>4</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-4">
+      <action name="SendToDesktop">
         <to>4</to>
       </action>
     </keybind>

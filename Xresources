@@ -20,6 +20,14 @@ URxvt.foreground: #cccccc
 ! Disable scrolling
 URxvt.scrollBar: false
 
+! Allow clicking URLs
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.matcher.button: 1
+
+! This allows applications to set the window title.
+URxvt.insecure: true
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! drop in Solarized colorscheme for Xresources/Xdefaults
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
