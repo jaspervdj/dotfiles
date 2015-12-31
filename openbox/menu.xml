@@ -2,8 +2,8 @@
 
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 
-<menu id="apps-accessories-menu" label="Accessories">
-  <item label="Calculator">
+<menu id="apps-accessories-menu" label="accessories">
+  <item label="calculator">
     <action name="Execute">
       <command>gnome-calculator</command>
       <startupnotify>
@@ -11,7 +11,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Character Map">
+  <item label="character map">
     <action name="Execute">
       <command>gnome-character-map</command>
       <startupnotify>
@@ -19,7 +19,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Ark File Archiver">
+  <item label="ark file archiver">
     <action name="Execute">
       <command>ark</command>
       <startupnotify>
@@ -29,8 +29,8 @@
   </item>
 </menu>
 
-<menu id="apps-editors-menu" label="Editors">
-  <item label="GVim">
+<menu id="apps-editors-menu" label="editors">
+  <item label="gvim">
     <action name="Execute">
       <command>gvim</command>
       <startupnotify>
@@ -39,7 +39,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Emacs">
+  <item label="emacs">
     <action name="Execute">
       <command>emacs</command>
       <startupnotify>
@@ -48,7 +48,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="GEdit">
+  <item label="gedit">
     <action name="Execute">
       <command>gedit</command>
       <startupnotify>
@@ -56,7 +56,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Kate">
+  <item label="kate">
     <action name="Execute">
       <command>kate</command>
       <startupnotify>
@@ -64,7 +64,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Kwrite">
+  <item label="kwrite">
     <action name="Execute">
       <command>kwrite</command>
       <startupnotify>
@@ -74,13 +74,13 @@
   </item>
 </menu>
 
-<menu id="apps-term-menu" label="Terminals">
-  <item label="Rxvt Unicode">
+<menu id="apps-term-menu" label="terminals">
+  <item label="urxvt">
     <action name="Execute">
       <command>urxvt</command>
     </action>
   </item>
-  <item label="Gnome Terminal">
+  <item label="gnome-terminal">
     <action name="Execute">
       <command>gnome-terminal</command>
       <startupnotify>
@@ -88,7 +88,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Xfce Terminal">
+  <item label="xfce-terminal">
     <action name="Execute">
       <command>xfce4-terminal</command>
       <startupnotify>
@@ -96,7 +96,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Konsole">
+  <item label="konsole">
     <action name="Execute">
       <command>konsole</command>
       <startupnotify>
@@ -104,13 +104,13 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Xterm">
+  <item label="xterm">
     <action name="Execute"><command>xterm</command></action>
   </item>
 </menu>
 
-<menu id="apps-net-menu" label="Internet">
-  <item label="Firefox">
+<menu id="apps-net-menu" label="internet">
+  <item label="firefox">
     <action name="Execute">
       <command>firefox</command>
       <startupnotify>
@@ -119,7 +119,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Opera">
+  <item label="opera">
     <action name="Execute">
       <command>opera</command>
       <startupnotify>
@@ -128,7 +128,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Konqueror">
+  <item label="konqueror">
     <action name="Execute">
       <command>konqueror</command>
       <startupnotify>
@@ -136,7 +136,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Epiphany">
+  <item label="epiphany">
     <action name="Execute">
       <command>epiphany</command>
       <startupnotify>
@@ -144,7 +144,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Pidgin Instant Messenger">
+  <item label="pidgin">
     <action name="Execute">
       <command>pidgin</command>
       <startupnotify>
@@ -152,7 +152,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Kopete Instant Messenger">
+  <item label="kopete">
     <action name="Execute">
       <command>kopete</command>
       <startupnotify>
@@ -160,7 +160,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="XChat">
+  <item label="xchat">
     <action name="Execute">
       <command>xchat</command>
       <startupnotify>
@@ -170,46 +170,46 @@
   </item>
 </menu>
 
-<menu id="apps-office-menu" label="Office">
-  <item label="OpenOffice Base">
+<menu id="apps-office-menu" label="office">
+  <item label="openoffice base">
     <action name="Execute">
       <command>ooffice -base</command>
     </action>
   </item>
-  <item label="OpenOffice Calc">
+  <item label="openoffice calc">
     <action name="Execute">
       <command>ooffice -calc</command>
     </action>
   </item>
-  <item label="OpenOffice Draw">
+  <item label="openoffice draw">
     <action name="Execute">
       <command>ooffice -draw</command>
     </action>
   </item>
-  <item label="OpenOffice Impress">
+  <item label="openoffice impress">
     <action name="Execute">
       <command>ooffice -impress</command>
     </action>
   </item>
-  <item label="OpenOffice Math">
+  <item label="openoffice math">
     <action name="Execute">
       <command>ooffice -math</command>
     </action>
   </item>
-  <item label="OpenOffice Printer Administration">
+  <item label="openoffice printeradmin">
     <action name="Execute">
       <command>ooffice-printeradmin</command>
     </action>
   </item>
-  <item label="OpenOffice Writer">
+  <item label="openoffice writer">
     <action name="Execute">
       <command>ooffice -writer</command>
     </action>
   </item>
 </menu>
 
-<menu id="apps-multimedia-menu" label="Multimedia">
-  <item label="Amarok">
+<menu id="apps-multimedia-menu" label="multimedia">
+  <item label="amarok">
     <action name="Execute">
       <command>amarok</command>
       <startupnotify>
@@ -217,7 +217,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Rhythmbox">
+  <item label="rhythmbox">
     <action name="Execute">
       <command>rhythmbox</command>
       <startupnotify>
@@ -225,7 +225,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="K3b">
+  <item label="k3b">
     <action name="Execute">
       <command>k3b</command>
       <startupnotify>
@@ -233,7 +233,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="MPlayer">
+  <item label="mplayer">
     <action name="Execute">
       <command>gmplayer</command>
       <startupnotify>
@@ -242,7 +242,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Totem">
+  <item label="totem">
     <action name="Execute">
       <command>totem</command>
       <startupnotify>
@@ -252,8 +252,8 @@
   </item>
 </menu>
 
-<menu id="apps-fileman-menu" label="File Managers">
-  <item label="Nautilus">
+<menu id="apps-fileman-menu" label="file managers">
+  <item label="nautilus">
     <action name="Execute">
       <command>nautilus --no-desktop --browser</command>
       <startupnotify>
@@ -261,7 +261,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Thunar">
+  <item label="thunar">
     <action name="Execute">
       <command>Thunar</command>
       <startupnotify>
@@ -269,35 +269,10 @@
       </startupnotify>
     </action>
   </item>
-  <item label="KDE File Manager">
-    <action name="Execute">
-      <command>kfmclient openURL ~</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="Rox">
-    <action name="Execute">
-      <command>rox</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>ROX-Filer</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="PCMan File Manager">
-    <action name="Execute">
-      <command>pcmanfm</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
 </menu>
 
-<menu id="apps-graphics-menu" label="Graphics">
-  <item label="Gimp">
+<menu id="apps-graphics-menu" label="graphics">
+  <item label="gimp">
     <action name="Execute">
       <command>gimp</command>
       <startupnotify>
@@ -305,7 +280,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Gwenview">
+  <item label="gwenview">
     <action name="Execute">
       <command>gwenview</command>
       <startupnotify>
@@ -313,7 +288,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Dia Diagram Editor">
+  <item label="dia">
     <action name="Execute">
       <command>dia</command>
       <startupnotify>
@@ -321,7 +296,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Inkscape">
+  <item label="inkscape">
     <action name="Execute">
       <command>inkscape</command>
       <startupnotify>
@@ -331,38 +306,51 @@
   </item>
 </menu>
 
-<menu id="system-menu" label="System">
-  <item label="Openbox Configuration Manager">
+<menu id="sound-menu" label="sound">
+  <item label="pavucontrol">
+    <action name="Execute">
+      <command>pavucontrol</command>
+    </action>
+  </item>
+  <item label="paprefs">
+    <action name="Execute">
+      <command>paprefs</command>
+    </action>
+  </item>
+</menu>
+
+<menu id="system-menu" label="system">
+  <item label="obconf">
     <action name="Execute">
       <command>obconf</command>
       <startupnotify><enabled>yes</enabled></startupnotify>
     </action>
   </item>
-  <item label="Seahorse (Gnome Keyring)">
+  <item label="seahorse">
     <action name="Execute">
       <command>seahorse</command>
       <startupnotify><enabled>yes</enabled></startupnotify>
     </action>
   </item>
-  <item label="Gnome Control Center">
+  <item label="gnome control center">
     <action name="Execute">
       <command>gnome-control-center</command>
       <startupnotify><enabled>yes</enabled></startupnotify>
     </action>
   </item>
-  <item label="KDE Control Center">
+  <item label="kcontrol">
     <action name="Execute">
       <command>kcontrol</command>
       <startupnotify><enabled>yes</enabled></startupnotify>
     </action>
   </item>
-  <item label="Xfce Settings">
+  <item label="xfce settings">
     <action name="Execute">
       <command>xfce-setting-show</command>
       <startupnotify><enabled>yes</enabled></startupnotify>
     </action>
   </item>
-  <item label="Manage Cups Printers">
+  <item label="cups">
     <action name="Execute">
       <command>xdg-open http://localhost:631/</command>
       <startupnotify>
@@ -372,43 +360,43 @@
     </action>
   </item>
   <separator />
-  <item label="Reconfigure Openbox">
+  <item label="reconfigure openbox">
     <action name="Reconfigure" />
   </item>
 </menu>
 
-<menu id="exit-menu" label="Exit">
-  <item label="Log out">
+<menu id="exit-menu" label="exit">
+  <item label="logout">
     <action name="Exit">
       <prompt>yes</prompt>
     </action>
   </item>
-  <item label="Shut down">
+  <item label="shutdown">
     <action name="Execute">
       <command>sudo shutdown now</command>
     </action>
   </item>
-  <item label="Reboot">
+  <item label="reboot">
     <action name="Execute">
       <command>sudo reboot</command>
     </action>
   </item>
 </menu>
 
-<menu id="root-menu" label="Openbox 3">
-  <separator label="Common" />
-  <item label="Terminal">
+<menu id="root-menu" label="openbox3">
+  <separator label="common" />
+  <item label="terminal">
     <action name="Execute">
       <command>terminal</command>
     </action>
   </item>
-  <item label="Firefox">
+  <item label="firefox">
     <action name="Execute">
       <command>firefox</command>
     </action>
   </item>
   <separator />
-  <separator label="Applications" />
+  <separator label="applications" />
   <menu id="apps-accessories-menu"/>
   <menu id="apps-editors-menu"/>
   <menu id="apps-graphics-menu"/>
@@ -418,7 +406,8 @@
   <menu id="apps-term-menu"/>
   <menu id="apps-fileman-menu"/>
   <separator />
-  <separator label="System" />
+  <separator label="system" />
+  <menu id="sound-menu"/>
   <menu id="system-menu"/>
   <menu id="exit-menu" />
 </menu>

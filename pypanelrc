@@ -76,7 +76,7 @@ HIDDEN_SIZE     = 2
 # Ex: "-schumacher-clean-medium-r-normal-*-12-*-*-*-*-*-*-*"
 #     "aquafont-8" 
 #------------------------------------------------------------------------------
-FONT            = "xft:Noto Sans:size=10"
+FONT            = "terminus-12"
 
 #------------------------------------------------------------------------------
 # Show All Applications: Show apps from all desktops or just the current
