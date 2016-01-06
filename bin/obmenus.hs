@@ -197,6 +197,8 @@ makeProcessesMenu = do
             , Label $ printf "VSZ: %s"   (humanReadableKiB $ processVsz p)
             , Label $ printf "RSS: %s"   (humanReadableKiB $ processRss p)
             , Label $ printf "TIM: %s"   (processTime p)
+            , Separator
+            , Item "killall" ("killall " ++ processCommand p)
             ]
         | p <- sortBy (comparing processCommand) processes
         ]
@@ -205,7 +207,7 @@ humanReadableKiB :: Int -> String
 humanReadableKiB kib
     | bytes > mega = show (bytes `div` mega) ++ "M"
     | bytes > kilo = show (bytes `div` kilo) ++ "K"
-    | otherwise   = show bytes
+    | otherwise    = show bytes
   where
     bytes = kib * 1024
     kilo  = 1000
