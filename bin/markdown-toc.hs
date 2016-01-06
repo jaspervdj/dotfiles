@@ -52,7 +52,7 @@ makeTocForest maxLevel (P.Pandoc _ blocks0) =
     go forest [] = forest
     go forest (P.Header level (id_, _, _) title : blocks)
         | level <= maxLevel =
-            let inline  = [P.Link title ('#' : id_, "")]
+            let inline  = [P.Link ("", [], []) title ('#' : id_, "")]
                 forest' = addTocNode level inline forest
             in go forest' blocks
         | otherwise = go forest blocks

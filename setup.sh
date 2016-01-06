@@ -52,11 +52,13 @@ setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
 setup bin/phototools           "$HOME/.bin/phototools"
 setup bin/terminal             "$HOME/.bin/terminal"
 setup bin/volume               "$HOME/.bin/volume"
+setup bin/obmenu-brightness    "$HOME/.bin/obmenu-brightness"
 
 # Setup haskell scripts
 setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
 setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
 setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
+setup-hs bin/obmenus.hs      "$HOME/.bin/obmenus"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'

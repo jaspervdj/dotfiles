@@ -119,53 +119,10 @@
       </startupnotify>
     </action>
   </item>
-  <item label="opera">
+  <item label="chromium">
     <action name="Execute">
-      <command>opera</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>Opera</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="konqueror">
-    <action name="Execute">
-      <command>konqueror</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="epiphany">
-    <action name="Execute">
-      <command>epiphany</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="pidgin">
-    <action name="Execute">
-      <command>pidgin</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="kopete">
-    <action name="Execute">
-      <command>kopete</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="xchat">
-    <action name="Execute">
-      <command>xchat</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
+      <command>chromium</command>
+      <startupnotify><enabled>yes</enabled></startupnotify>
     </action>
   </item>
 </menu>
@@ -319,49 +276,15 @@
   </item>
 </menu>
 
-<menu id="system-menu" label="system">
+<menu id="openbox-menu" label="openbox">
   <item label="obconf">
     <action name="Execute">
       <command>obconf</command>
       <startupnotify><enabled>yes</enabled></startupnotify>
     </action>
   </item>
-  <item label="seahorse">
-    <action name="Execute">
-      <command>seahorse</command>
-      <startupnotify><enabled>yes</enabled></startupnotify>
-    </action>
-  </item>
-  <item label="gnome control center">
-    <action name="Execute">
-      <command>gnome-control-center</command>
-      <startupnotify><enabled>yes</enabled></startupnotify>
-    </action>
-  </item>
-  <item label="kcontrol">
-    <action name="Execute">
-      <command>kcontrol</command>
-      <startupnotify><enabled>yes</enabled></startupnotify>
-    </action>
-  </item>
-  <item label="xfce settings">
-    <action name="Execute">
-      <command>xfce-setting-show</command>
-      <startupnotify><enabled>yes</enabled></startupnotify>
-    </action>
-  </item>
-  <item label="cups">
-    <action name="Execute">
-      <command>xdg-open http://localhost:631/</command>
-      <startupnotify>
-        <enabled>no</enabled>
-        <icon>cups</icon>
-      </startupnotify>
-    </action>
-  </item>
-  <separator />
   <item label="reconfigure openbox">
-    <action name="Reconfigure" />
+    <action name="reconfigure" />
   </item>
 </menu>
 
@@ -408,7 +331,12 @@
   <separator />
   <separator label="system" />
   <menu id="sound-menu"/>
-  <menu id="system-menu"/>
+  <menu id="volume-menu" label="volume" execute="obmenus volume" />
+  <menu id="brightness-menu" label="brightness" execute="obmenus brightness" />
+  <menu id="rhythmbox-menu" label="rhythmbox" execute="obmenus rhythmbox" />
+  <menu id="home-menu" label="home" execute="obmenus dir" />
+  <menu id="processes-menu" label="processes" execute="obmenus processes" />
+  <menu id="openbox-menu"/>
   <menu id="exit-menu" />
 </menu>
 

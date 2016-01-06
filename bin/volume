@@ -17,4 +17,15 @@ case "$1" in
     echo "$0: Toggling mute" >&2
     pactl set-sink-mute "$SINK" toggle
     ;;
+"get")
+    pactl list sinks | grep '^[[:space:]]*Volume' |
+        head -n $(( $SINK + 1 )) | tail -n 1 |
+        sed 's/^.* \([0-9][0-9]*\)%.*$/\1/'
+    ;;
+"set")
+    if [[ -n "$2" ]]; then
+        pactl set-sink-volume "$SINK" "$2%"
+    else
+        echo "Usage: $0 set <percent>"
+    fi
 esac
