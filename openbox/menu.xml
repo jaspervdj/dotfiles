@@ -2,131 +2,6 @@
 
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 
-<menu id="apps-accessories-menu" label="accessories">
-  <item label="calculator">
-    <action name="Execute">
-      <command>gnome-calculator</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="character map">
-    <action name="Execute">
-      <command>gnome-character-map</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="ark file archiver">
-    <action name="Execute">
-      <command>ark</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
-<menu id="apps-editors-menu" label="editors">
-  <item label="gvim">
-    <action name="Execute">
-      <command>gvim</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>GVim</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="emacs">
-    <action name="Execute">
-      <command>emacs</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>Emacs</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="gedit">
-    <action name="Execute">
-      <command>gedit</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="kate">
-    <action name="Execute">
-      <command>kate</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="kwrite">
-    <action name="Execute">
-      <command>kwrite</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
-<menu id="apps-term-menu" label="terminals">
-  <item label="urxvt">
-    <action name="Execute">
-      <command>urxvt</command>
-    </action>
-  </item>
-  <item label="gnome-terminal">
-    <action name="Execute">
-      <command>gnome-terminal</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="xfce-terminal">
-    <action name="Execute">
-      <command>xfce4-terminal</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="konsole">
-    <action name="Execute">
-      <command>konsole</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="xterm">
-    <action name="Execute"><command>xterm</command></action>
-  </item>
-</menu>
-
-<menu id="apps-net-menu" label="internet">
-  <item label="firefox">
-    <action name="Execute">
-      <command>firefox</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>Firefox</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="chromium">
-    <action name="Execute">
-      <command>chromium</command>
-      <startupnotify><enabled>yes</enabled></startupnotify>
-    </action>
-  </item>
-</menu>
-
 <menu id="apps-office-menu" label="office">
   <item label="openoffice base">
     <action name="Execute">
@@ -166,6 +41,9 @@
 </menu>
 
 <menu id="apps-multimedia-menu" label="multimedia">
+  <item label="vlc">
+    <action name="Execute"><command>vlc</command></action>
+  </item>
   <item label="amarok">
     <action name="Execute">
       <command>amarok</command>
@@ -209,25 +87,6 @@
   </item>
 </menu>
 
-<menu id="apps-fileman-menu" label="file managers">
-  <item label="nautilus">
-    <action name="Execute">
-      <command>nautilus --no-desktop --browser</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-  <item label="thunar">
-    <action name="Execute">
-      <command>Thunar</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
 <menu id="apps-graphics-menu" label="graphics">
   <item label="gimp">
     <action name="Execute">
@@ -263,31 +122,6 @@
   </item>
 </menu>
 
-<menu id="sound-menu" label="sound">
-  <item label="pavucontrol">
-    <action name="Execute">
-      <command>pavucontrol</command>
-    </action>
-  </item>
-  <item label="paprefs">
-    <action name="Execute">
-      <command>paprefs</command>
-    </action>
-  </item>
-</menu>
-
-<menu id="openbox-menu" label="openbox">
-  <item label="obconf">
-    <action name="Execute">
-      <command>obconf</command>
-      <startupnotify><enabled>yes</enabled></startupnotify>
-    </action>
-  </item>
-  <item label="reconfigure openbox">
-    <action name="reconfigure" />
-  </item>
-</menu>
-
 <menu id="exit-menu" label="exit">
   <item label="logout">
     <action name="Exit">
@@ -318,25 +152,40 @@
       <command>firefox</command>
     </action>
   </item>
-  <separator />
-  <separator label="applications" />
-  <menu id="apps-accessories-menu"/>
-  <menu id="apps-editors-menu"/>
-  <menu id="apps-graphics-menu"/>
-  <menu id="apps-net-menu"/>
-  <menu id="apps-office-menu"/>
-  <menu id="apps-multimedia-menu"/>
-  <menu id="apps-term-menu"/>
-  <menu id="apps-fileman-menu"/>
-  <separator />
-  <separator label="system" />
-  <menu id="sound-menu"/>
-  <menu id="volume-menu" label="volume" execute="obmenus volume" />
-  <menu id="brightness-menu" label="brightness" execute="obmenus brightness" />
   <menu id="rhythmbox-menu" label="rhythmbox" execute="obmenus rhythmbox" />
   <menu id="home-menu" label="home" execute="obmenus dir" />
+  <separator />
+  <separator label="applications" />
+  <menu id="apps-graphics-menu"/>
+  <menu id="apps-net-menu" label="internet">
+    <item label="firefox">
+      <action name="Execute"><command>firefox</command></action>
+    </item>
+    <item label="chromium">
+      <action name="Execute"><command>chromium</command></action>
+    </item>
+    <item label="slack">
+      <action name="Execute"><command>slack</command></action>
+    </item>
+  </menu>
+  <menu id="apps-office-menu"/>
+  <menu id="apps-multimedia-menu"/>
+  <separator />
+  <separator label="system" />
+  <menu id="volume-menu" label="volume" execute="obmenus volume" />
+  <menu id="brightness-menu" label="brightness" execute="obmenus brightness" />
   <menu id="processes-menu" label="processes" execute="obmenus processes" />
-  <menu id="openbox-menu"/>
+  <menu id="openbox-menu" label="openbox">
+    <item label="obconf">
+      <action name="Execute">
+        <command>obconf</command>
+        <startupnotify><enabled>yes</enabled></startupnotify>
+      </action>
+    </item>
+    <item label="reconfigure">
+      <action name="reconfigure" />
+    </item>
+  </menu>
   <menu id="exit-menu" />
 </menu>
 

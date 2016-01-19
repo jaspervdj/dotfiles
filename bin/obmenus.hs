@@ -33,6 +33,14 @@ data MenuElement
     | SubMenu   String String Menu    -- ^ ID, label, submenu
     deriving (Show)
 
+-- | Mostly used to get the width so we can align stuff.
+menuElementLabel :: MenuElement -> String
+menuElementLabel (Item     lbl _)   = lbl
+menuElementLabel Separator          = ""
+menuElementLabel (Label    lbl)     = lbl
+menuElementLabel (PipeMenu _ lbl _) = lbl
+menuElementLabel (SubMenu  _ lbl _) = lbl
+
 --------------------------------------------------------------------------------
 -- XML Rendering
 
@@ -82,13 +90,15 @@ parseRemainder = state $ \str -> (str, "")
 --------------------------------------------------------------------------------
 -- General code for a gauge menu
 
-makeGaugeMenu :: Float -> (Int -> String) -> Menu
-makeGaugeMenu current makeCommand = do
+makeGaugeMenu :: MenuElement -> Float -> (Int -> String) -> Menu
+makeGaugeMenu title current makeCommand = ([title, Separator] ++) $ do
     level <- [0, 10 .. 100 :: Int]
     let indicator = if level == rounded then "o" else " "
-    return $ Item (printf "%s %3d" indicator level) (makeCommand level)
+    return $ Item (printf "%s%s%3d" indicator spaces level) (makeCommand level)
   where
     rounded = round (current / 10) * 10
+    width   = length $ menuElementLabel title
+    spaces  = replicate (max 1 $ width - 1 - 3) ' '
 
 --------------------------------------------------------------------------------
 -- Brightness menu
@@ -96,15 +106,17 @@ makeGaugeMenu current makeCommand = do
 makeBrightnessMenu :: IO Menu
 makeBrightnessMenu = do
     current <- read <$> readProcess "xbacklight" ["-get"] "" :: IO Float
-    return $ makeGaugeMenu current (printf "xbacklight -set %d%%")
+    return $ makeGaugeMenu
+        (Label "brightness") current (printf "xbacklight -set %d%%")
 
 --------------------------------------------------------------------------------
 -- Sound menu
 
 makeVolumeMenu :: IO Menu
 makeVolumeMenu = do
-    current <- read <$> readProcess "volume" ["get"] "" :: IO Float
-    return $ makeGaugeMenu current (printf "volume set %d")
+    current   <- read <$> readProcess "volume" ["get"] "" :: IO Float
+    return $ makeGaugeMenu
+        (Item "pavucontrol" "pavucontrol") current (printf "volume set %d")
 
 --------------------------------------------------------------------------------
 -- Rhythmbox menu

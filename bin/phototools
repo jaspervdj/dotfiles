@@ -16,9 +16,9 @@ function uppercase() {
 function get-exif-date() {
     local FORMAT="$1"
     local INPUT_FILE="$2"
-    exiv2 -g 'Exif.Photo.DateTimeOriginal' -Pv "$INPUT_FILE" |
-        cut -d' ' -f1 |
-        xargs date -j -f'%Y:%m:%d' "$FORMAT"
+    local DATETIME="$(exiv2 -g 'Exif.Photo.DateTimeOriginal' -Pv "$INPUT_FILE")"
+    local DATE="$(echo "$DATETIME" | sed 's/ .*//' | sed 's/:/-/g')"
+    date -d "$DATE" "$FORMAT"
 }
 
 function set-exif-title() {
@@ -47,7 +47,9 @@ function copy-exif() {
     fi
 
     # Import EXIF from "$INPUT_FILE.exv"
-    mv "$INPUT_EXV_FILE" "$OUTPUT_EXV_FILE"
+    if [[ "$INPUT_EXV_FILE" != "$OUTPUT_EXV_FILE" ]]; then
+        mv "$INPUT_EXV_FILE" "$OUTPUT_EXV_FILE"
+    fi
     exiv2 in "$OUTPUT_FILE"
 
     # Clean up
@@ -57,7 +59,7 @@ function copy-exif() {
 function watermark() {
     local INPUT_FILE="$1"
     local OUTPUT_FILE="$(drop-extension "$INPUT_FILE").jpg"
-    local FONT="/System/Library/Fonts/Helvetica.dfont" # Or convert -list font
+    local FONT="Helvetica" # Or convert -list font
     local TITLE="$(get-exif-title "$INPUT_FILE" | uppercase)"
     local DATE="$(get-exif-date '+%B %Y' "$INPUT_FILE" | uppercase)"
 
