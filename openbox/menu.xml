@@ -2,7 +2,7 @@
 
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 
-<menu id="apps-office-menu" label="office">
+<menu id="apps-office-menu" label="Office">
   <item label="openoffice base">
     <action name="Execute">
       <command>ooffice -base</command>
@@ -40,7 +40,7 @@
   </item>
 </menu>
 
-<menu id="apps-multimedia-menu" label="multimedia">
+<menu id="apps-multimedia-menu" label="Multimedia">
   <item label="vlc">
     <action name="Execute"><command>vlc</command></action>
   </item>
@@ -87,7 +87,7 @@
   </item>
 </menu>
 
-<menu id="apps-graphics-menu" label="graphics">
+<menu id="apps-graphics-menu" label="Graphics">
   <item label="gimp">
     <action name="Execute">
       <command>gimp</command>
@@ -156,8 +156,9 @@
   <menu id="home-menu" label="home" execute="obmenus dir" />
   <separator />
   <separator label="applications" />
+  <menu id="client-list-combined-menu" />
   <menu id="apps-graphics-menu"/>
-  <menu id="apps-net-menu" label="internet">
+  <menu id="apps-net-menu" label="Internet">
     <item label="firefox">
       <action name="Execute"><command>firefox</command></action>
     </item>

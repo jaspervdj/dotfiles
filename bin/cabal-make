@@ -8,8 +8,11 @@ else
     COMMAND=build
 fi
 
-# If we have a cabal file
-if [[ "$(ls -1 | grep '\.cabal$')" != "" ]]; then
+if [[ -f 'stack.yaml' ]]; then
+    # If we have a stack file
+    exec stack $COMMAND
+elif [[ "$(ls -1 | grep '\.cabal$')" != "" ]]; then
+    # If we have a cabal file
     exec cabal $COMMAND
 elif [[ "$(ls -1 | grep -i '^makefile$')" != "" ]]; then
     exec make
