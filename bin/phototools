@@ -9,6 +9,10 @@ function drop-extension() {
     echo "$1" | sed 's/\.[^.]*$//'
 }
 
+function escape-single-quotes() {
+    sed "s/'/\\\\'/g"
+}
+
 function uppercase() {
     tr '[:lower:]' '[:upper:]'
 }
@@ -60,7 +64,8 @@ function watermark() {
     local INPUT_FILE="$1"
     local OUTPUT_FILE="$(drop-extension "$INPUT_FILE").jpg"
     local FONT="Helvetica" # Or convert -list font
-    local TITLE="$(get-exif-title "$INPUT_FILE" | uppercase)"
+    local TITLE="$(get-exif-title "$INPUT_FILE" | \
+                    uppercase | escape-single-quotes)"
     local DATE="$(get-exif-date '+%B %Y' "$INPUT_FILE" | uppercase)"
 
     # Check number of arguments
