@@ -11,22 +11,22 @@ VERSION         = 2.4           # Config file version
 #------------------------------------------------------------------------------
 # Colors: Format is hex triplet - 0xrrggbb
 #------------------------------------------------------------------------------
-BG_COLOR        = "0x272c30"    # Panel background and tinting color
-TASK_COLOR      = "0xaaaaaa"    # Normal task name color 
-FOCUSED_COLOR   = "0xcccccc"    # Focused task name color
-SHADED_COLOR    = "0xaaaaaa"    # Shaded task name color 
-MINIMIZED_COLOR = "0xaaaaaa"    # Minimized task name color 
-DESKTOP_COLOR   = "0xcccccc"    # Desktop name color
-CLOCK_COLOR     = "0xcccccc"    # Clock text color
-LINE_COLOR      = "0x272c30"    # Vertical line color
+BG_COLOR        = "0xf5f6f7"    # Panel background and tinting color
+TASK_COLOR      = "0x444444"    # Normal task name color 
+FOCUSED_COLOR   = "0x444444"    # Focused task name color
+SHADED_COLOR    = "0x444444"    # Shaded task name color 
+MINIMIZED_COLOR = "0x444444"    # Minimized task name color 
+DESKTOP_COLOR   = "0x444444"    # Desktop name color
+CLOCK_COLOR     = "0x444444"    # Clock text color
+LINE_COLOR      = "0xf5f6f7"    # Vertical line color
 
 # Text Shadow Colors
-TASK_SHADOW_COLOR      = "0xffffff"
-FOCUSED_SHADOW_COLOR   = "0xffffff"
-SHADED_SHADOW_COLOR    = "0xffffff"
-MINIMIZED_SHADOW_COLOR = "0xffffff" 
-DESKTOP_SHADOW_COLOR   = "0xffffff"
-CLOCK_SHADOW_COLOR     = "0xffffff"
+TASK_SHADOW_COLOR      = "0x444444"
+FOCUSED_SHADOW_COLOR   = "0x444444"
+SHADED_SHADOW_COLOR    = "0x444444"
+MINIMIZED_SHADOW_COLOR = "0x444444"
+DESKTOP_SHADOW_COLOR   = "0x444444"
+CLOCK_SHADOW_COLOR     = "0x444444"
 
 #------------------------------------------------------------------------------
 # Panel Spacing and Location Options: Measured in pixels
@@ -76,7 +76,7 @@ HIDDEN_SIZE     = 2
 # Ex: "-schumacher-clean-medium-r-normal-*-12-*-*-*-*-*-*-*"
 #     "aquafont-8" 
 #------------------------------------------------------------------------------
-FONT            = "terminus-12"
+FONT            = "xft:Futura LT:size=10"
 
 #------------------------------------------------------------------------------
 # Show All Applications: Show apps from all desktops or just the current

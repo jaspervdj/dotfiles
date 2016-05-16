@@ -52,7 +52,8 @@ setup bin/id3v2-from-filenames "$HOME/.bin/id3v2-from-filenames"
 setup bin/phototools           "$HOME/.bin/phototools"
 setup bin/terminal             "$HOME/.bin/terminal"
 setup bin/volume               "$HOME/.bin/volume"
-setup bin/obmenu-brightness    "$HOME/.bin/obmenu-brightness"
+setup bin/rsnapshotter         "$HOME/.bin/rsnapshotter"
+setup bin/wallpaper            "$HOME/.bin/wallpaper"
 
 # Setup haskell scripts
 setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"

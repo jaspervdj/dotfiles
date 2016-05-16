@@ -50,8 +50,10 @@ folder-hook Personal/* source ~/.mutt/accounts/personal
 
 macro index <f1> '<change-folder>+Personal/INBOX<enter>'
 
+macro index <f5> '<pipe-entry>offlineimap -o<enter>'
+
 # Contacts
-set query_command = "contacts '%s' && contacts '%s'"
+set query_command = "goobook query '%s'"
 bind editor <Tab> complete-query
 
 ################################################################################

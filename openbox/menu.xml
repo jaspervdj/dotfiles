@@ -3,40 +3,29 @@
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 
 <menu id="apps-office-menu" label="Office">
+  <item label="evince">
+    <action name="Execute"><command>evince</command></action>
+  </item>
   <item label="openoffice base">
-    <action name="Execute">
-      <command>ooffice -base</command>
-    </action>
+    <action name="Execute"><command>ooffice -base</command></action>
   </item>
   <item label="openoffice calc">
-    <action name="Execute">
-      <command>ooffice -calc</command>
-    </action>
+    <action name="Execute"><command>ooffice -calc</command></action>
   </item>
   <item label="openoffice draw">
-    <action name="Execute">
-      <command>ooffice -draw</command>
-    </action>
+    <action name="Execute"><command>ooffice -draw</command></action>
   </item>
   <item label="openoffice impress">
-    <action name="Execute">
-      <command>ooffice -impress</command>
-    </action>
+    <action name="Execute"><command>ooffice -impress</command></action>
   </item>
   <item label="openoffice math">
-    <action name="Execute">
-      <command>ooffice -math</command>
-    </action>
+    <action name="Execute"><command>ooffice -math</command></action>
   </item>
   <item label="openoffice printeradmin">
-    <action name="Execute">
-      <command>ooffice-printeradmin</command>
-    </action>
+    <action name="Execute"><command>ooffice-printeradmin</command></action>
   </item>
   <item label="openoffice writer">
-    <action name="Execute">
-      <command>ooffice -writer</command>
-    </action>
+    <action name="Execute"><command>ooffice -writer</command></action>
   </item>
 </menu>
 
@@ -130,12 +119,12 @@
   </item>
   <item label="shutdown">
     <action name="Execute">
-      <command>sudo shutdown now</command>
+      <command>gksu shutdown now</command>
     </action>
   </item>
   <item label="reboot">
     <action name="Execute">
-      <command>sudo reboot</command>
+      <command>gksu reboot</command>
     </action>
   </item>
 </menu>
@@ -181,6 +170,11 @@
       <action name="Execute">
         <command>obconf</command>
         <startupnotify><enabled>yes</enabled></startupnotify>
+      </action>
+    </item>
+    <item label="xrdb merge">
+      <action name="Execute">
+        <command>xrdb -merge ~/.Xresources</command>
       </action>
     </item>
     <item label="reconfigure">

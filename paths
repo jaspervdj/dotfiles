@@ -3,6 +3,7 @@ PATHS="/usr/local/bin            \
        /Library/Haskell/bin      \
        $HOME/Library/Haskell/bin \
        $HOME/.bin                \
+       $HOME/.go/bin             \
        $HOME/.cabal/bin          \
        $HOME/.gem/ruby/1.9.1/bin \
        $HOME/.local/bin          \
