@@ -1,75 +1,86 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
+import PIL.ExifTags
+import PIL.Image
 import argparse
 import os
 import random
 import subprocess
+import time
 
-################################################################################
-# Configuration                                                                #
-################################################################################
+for tag, name in PIL.ExifTags.TAGS.items():
+    if name == 'Orientation':
+        EXIF_ORIENTATION_TAG = tag
 
-wallpapers_directory = os.path.expanduser('~') + '/.wallpaper'
-if not os.path.isdir(wallpapers_directory):
-    os.mkdir(wallpapers_directory)
+def is_viable_wallpaper(path):
+    _, ext = os.path.splitext(path)
+    if not ext.lower() in ['.jpg', '.png']:
+        return False
 
-################################################################################
-# Utility functions                                                            #
-################################################################################
+    with PIL.Image.open(path) as image:
+        exif = image._getexif()
+        rotated = False
+        if exif and EXIF_ORIENTATION_TAG in exif:
+            orientation = exif[EXIF_ORIENTATION_TAG]
+            if orientation in [3, 8]:
+                rotated = True
+
+        if rotated:
+            return image.height > image.width
+        else:
+            return image.width > image.height
+
+def gen_wallpapers(wallpapers_file):
+    '''Yield all possible wallpapers.'''
+    if not os.path.isfile(wallpapers_file):
+        return
+
+    def list_wallpapers_for_file(path):
+        if os.path.isdir(path):
+            for entry in os.scandir(path):
+                if entry.is_file() and is_viable_wallpaper(entry.path):
+                    yield entry.path
+                else:
+                    for wall in list_wallpapers_for_file(entry.path):
+                        yield wall
+        elif os.path.isfile(path) and is_viable_wallpaper(path):
+            yield path
+
+    with open(wallpapers_file, 'r') as f:
+        for path in f.readlines():
+            path = os.path.expandvars(path.strip())
+            for wall in list_wallpapers_for_file(path):
+                yield wall
+
+def pick(generator):
+    '''This picks a random element from any generator'''
+    best = None
+    best_score = 0
+    for item in generator:
+        score = random.random()
+        if score > best_score:
+            best = item
+            best_score = score
+    return best
 
 def feh_set_wallpaper(path):
     '''Call feh to set the wallpaper'''
     subprocess.call(['feh', '--bg-fill', path])
 
-def list_wallpapers():
-    '''Returns full paths to all wallpapers'''
-    for basename in os.listdir(wallpapers_directory):
-        yield wallpapers_directory + '/' + basename
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Set random wallpapers')
+    parser.add_argument('-d', '--daemon', action='store_true')
+    args = parser.parse_args()
 
-################################################################################
-# Command handlers                                                             #
-################################################################################
+    wallpapers_file = os.path.expanduser('~/.wallpapers')
 
-def handle_set(args):
-    '''Handler for the set subcommand'''
-    feh_set_wallpaper(args.file)
-
-def handle_random(args):
-    '''Handler for the random subcommand'''
-    wallpapers = list(list_wallpapers())
-    if not wallpapers:
-        raise Exception('No wallpapers in ' + wallpapers_directory)
-    path = random.choice(wallpapers)
-    feh_set_wallpaper(path)
-    print('Wallpaper set to: ' + path)
-
-def handle_add(args):
-    '''Handler for the add subcommand'''
-    source = os.path.abspath(args.file)
-    basename = os.path.basename(source)
-    destination = wallpapers_directory + '/' + basename
-    if os.path.isfile(destination):
-        raise Exception('File already exists: ' + destination)
-    os.symlink(source, destination)
-    print('Added: ' + destination)
-
-################################################################################
-# Argument parsing                                                             #
-################################################################################
-
-parser = argparse.ArgumentParser()
-subparsers = parser.add_subparsers()
-
-parser_set = subparsers.add_parser(name='set')
-parser_set.add_argument('file', metavar='FILE')
-parser_set.set_defaults(handler=handle_set)
-
-parser_random = subparsers.add_parser(name='random')
-parser_random.set_defaults(handler=handle_random)
-
-parser_add = subparsers.add_parser(name='add')
-parser_add.add_argument('file', metavar='FILE')
-parser_add.set_defaults(handler=handle_add)
-
-args = parser.parse_args()
-args.handler(args)
+    if args.daemon:
+        wallpapers_list = list(gen_wallpapers(wallpapers_file))
+        while True:
+            chosen = pick(wallpapers_list)
+            feh_set_wallpaper(chosen)
+            time.sleep(5 * 60)
+    else:
+        wallpapers_gen = gen_wallpapers(wallpapers_file)
+        chosen = pick(wallpapers_gen)
+        feh_set_wallpaper(chosen)

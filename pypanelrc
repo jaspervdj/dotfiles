@@ -35,7 +35,7 @@ P_LOCATION      = 1             # Panel placement: 0 = top, 1 = bottom
 P_WIDTH         = 0             # Panel width: 0 = Use full screen width
 P_START         = 0             # Starting X coordinate of the panel
 P_SPACER        = 6             # Spacing between panel objects
-P_HEIGHT        = 24            # Panel height
+P_HEIGHT        = 30            # Panel height
 
 #------------------------------------------------------------------------------
 # Icon Size Options: Measured in pixels

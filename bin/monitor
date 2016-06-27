@@ -1,0 +1,126 @@
+#!/usr/bin/env python
+
+import subprocess
+import sys
+
+def shell(*args):
+  '''Run a shell command and return the output.'''
+  return subprocess.check_output(map(str, args)).decode('utf-8')
+
+def cvt(width, height, refresh):
+  '''Get a modeline using cvt. Returns a (name, modeline) tuple.'''
+  for line in shell('cvt', '-r', width, height, refresh).splitlines():
+    words = line.split()
+    if words[0] == 'Modeline':
+      mode_name = words[1].strip('"')  # The " stripping is a bit hacky
+      mode_line = ' '.join([mode_name] + words[2 :])
+      return (mode_name, mode_line)
+
+def get_active_monitors():
+  active_monitors = []
+  for line in shell('xrandr').splitlines():
+    words = line.split()
+    if len(words) > 2 and words[1] == 'connected':
+      active_monitors += [words[0]]
+  return active_monitors
+
+ACTIVE_MONITORS = get_active_monitors()
+
+class Configuration(object):
+  def __init__(self, name):
+    self.name = name
+
+  def requirements(self):
+    return []
+
+  def available(self):
+    for r in self.requirements():
+      if r not in ACTIVE_MONITORS:
+        return False
+    return True
+
+  def handler(self):
+    pass
+
+configurations = []
+
+class SingleMonitor(Configuration):
+  def __init__(self, monitor):
+    super(SingleMonitor, self).__init__(monitor + '-only')
+    self.monitor = monitor
+
+  def requirements(self):
+    return [self.monitor]
+
+  def handler(self):
+    for mon in ACTIVE_MONITORS:
+      if self.monitor != mon:
+        shell('xrandr', '--output', mon, '--off')
+    shell('xrandr', '--output', self.monitor, '--auto', '--primary')
+    shell('xrandr', '--output', self.monitor, '--panning', '0x0+0+0',
+            '--scaling', '1x1')
+
+for mon in ACTIVE_MONITORS:
+  configurations += [SingleMonitor(mon)]
+
+class DualMonitor(Configuration):
+  def __init__(self):
+    super(DualMonitor, self).__init__('dual-monitor')
+
+    # Settings for main (laptop) display
+    self.MAIN = 'eDP1'
+    self.MAIN_W = 2560
+    self.MAIN_H = 1440
+    self.MAIN_R = 60
+
+    # Settings for external (mini-display-port) display. Scale stuff is
+    # needed to try and match the DPIs of the screens.
+    self.EXT = 'DP1'
+    self.EXT_W = 2048
+    self.EXT_H = 1152
+    self.EXT_REFRESH = 60
+    self.EXT_SCALE = 1.5
+
+    # Quick math.
+    self.EXT_W_S = int(self.EXT_SCALE * self.EXT_W)
+    self.EXT_H_S = int(self.EXT_SCALE * self.EXT_H)
+
+  def requirements(self):
+    return [self.MAIN, self.EXT]
+
+  def handler(self):
+    mode_name, mode_line = cvt(self.EXT_W, self.EXT_H, self.EXT_REFRESH)
+    print('Mode name = {}'.format(mode_name))
+    print('Mode = {}'.format(mode_line))
+
+    # Add mode if it doesn't exist yet.
+    if mode_name in shell('xrandr'):
+      print('Mode already present, not adding.')
+    else:
+      print('Adding mode...', end='', flush=True)
+      shell('xrandr', '--newmode', *mode_line.split())
+      shell('xrandr', '--addmode', self.EXT, mode_name)
+      print('OK')
+
+    PANNING = '{}x{}+{}+{}'.format(self.EXT_W_S, self.EXT_H_S, self.MAIN_W, 0)
+    print('Panning = {}'.format(PANNING))
+
+    print('Setting mode...', end='', flush=True)
+    shell('xrandr', '--output', self.MAIN, '--auto', '--primary')
+    shell('xrandr', '--output', self.EXT, '--mode', mode_name,
+            '--panning', PANNING, '--right-of', self.MAIN)
+    shell('xrandr', '--output', self.EXT, '--scale',
+            '{}x{}'.format(self.EXT_SCALE, self.EXT_SCALE))
+    print('OK')
+
+configurations += [DualMonitor()]
+
+if len(sys.argv) < 2 or sys.argv[1] == 'list':
+  for config in configurations:
+    if config.available():
+      print(config.name)
+else:
+  mode = sys.argv[1]
+  for config in configurations:
+    if config.name == mode:
+      config.handler()

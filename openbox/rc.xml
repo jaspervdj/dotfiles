@@ -197,51 +197,27 @@
       </action>
     </keybind>
     <!-- Keybindings for desktop switching -->
-    <keybind key="C-A-Left">
+    <keybind key="W-Left">
       <action name="GoToDesktop">
         <to>left</to>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-Right">
+    <keybind key="W-Right">
       <action name="GoToDesktop">
         <to>right</to>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-Up">
-      <action name="GoToDesktop">
-        <to>up</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-A-Down">
-      <action name="GoToDesktop">
-        <to>down</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="S-A-Left">
+    <keybind key="W-S-Left">
       <action name="SendToDesktop">
         <to>left</to>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-Right">
+    <keybind key="W-S-Right">
       <action name="SendToDesktop">
         <to>right</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="S-A-Up">
-      <action name="SendToDesktop">
-        <to>up</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="S-A-Down">
-      <action name="SendToDesktop">
-        <to>down</to>
         <wrap>no</wrap>
       </action>
     </keybind>
@@ -301,6 +277,18 @@
     <keybind key="A-space">
       <action name="ShowMenu">
         <menu>client-menu</menu>
+      </action>
+    </keybind>
+    <keybind key="W-F">
+      <action name="ToggleFullScreen"/>
+    </keybind>
+    <keybind key="W-c">
+      <action name="GrowToFill"/>
+      <action name="ResizeRelative">
+        <left>-24</left>
+        <right>-24</right>
+        <bottom>-24</bottom>
+        <top>-24</top>
       </action>
     </keybind>
     <!-- Keybindings for window switching -->

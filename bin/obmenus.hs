@@ -256,6 +256,17 @@ makeDirectoryMenu dir = do
         | otherwise         = [c]
 
 --------------------------------------------------------------------------------
+-- Monitor menu
+
+makeMonitorMenu :: IO Menu
+makeMonitorMenu = do
+    modes <- readProcess "monitor" [] ""
+    return
+        [ Item mode ("monitor " ++ mode)
+        | mode <- lines modes
+        ]
+
+--------------------------------------------------------------------------------
 -- Main function
 
 main :: IO ()
@@ -268,6 +279,7 @@ main = do
         ["processes"]  -> makeProcessesMenu
         ["dir"]        -> getHomeDirectory >>= makeDirectoryMenu
         ["dir", dir]   -> makeDirectoryMenu dir
+        ["monitor"]    -> makeMonitorMenu
         _              -> do
             hPutStrLn stderr $ "Error: need menu argument"
             exitFailure

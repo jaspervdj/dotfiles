@@ -164,6 +164,7 @@
   <separator label="system" />
   <menu id="volume-menu" label="volume" execute="obmenus volume" />
   <menu id="brightness-menu" label="brightness" execute="obmenus brightness" />
+  <menu id="monitor-menu" label="monitor" execute="obmenus monitor" />
   <menu id="processes-menu" label="processes" execute="obmenus processes" />
   <menu id="openbox-menu" label="openbox">
     <item label="obconf">

@@ -15,7 +15,8 @@ Xft.rgba: rgb
 URxvt.font: xft:PragmataPro:size=10
 
 ! Slightly darker foreground color than Solarized default.
-URxvt.foreground: #aaaaaa
+! URxvt.foreground: #666666
+URxvt.foreground: #cccccc
 
 ! Disable scrolling
 URxvt.scrollBar: false
