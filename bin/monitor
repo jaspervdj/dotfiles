@@ -58,7 +58,7 @@ class SingleMonitor(Configuration):
         shell('xrandr', '--output', mon, '--off')
     shell('xrandr', '--output', self.monitor, '--auto', '--primary')
     shell('xrandr', '--output', self.monitor, '--panning', '0x0+0+0',
-            '--scaling', '1x1')
+            '--scale', '1x1')
 
 for mon in ACTIVE_MONITORS:
   configurations += [SingleMonitor(mon)]
