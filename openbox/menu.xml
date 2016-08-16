@@ -111,24 +111,6 @@
   </item>
 </menu>
 
-<menu id="exit-menu" label="exit">
-  <item label="logout">
-    <action name="Exit">
-      <prompt>yes</prompt>
-    </action>
-  </item>
-  <item label="shutdown">
-    <action name="Execute">
-      <command>gksu shutdown now</command>
-    </action>
-  </item>
-  <item label="reboot">
-    <action name="Execute">
-      <command>gksu reboot</command>
-    </action>
-  </item>
-</menu>
-
 <menu id="root-menu" label="openbox3">
   <separator label="common" />
   <item label="terminal">
@@ -143,7 +125,6 @@
   </item>
   <menu id="rhythmbox-menu" label="rhythmbox" execute="obmenus rhythmbox" />
   <menu id="home-menu" label="home" execute="obmenus dir" />
-  <separator />
   <separator label="applications" />
   <menu id="client-list-combined-menu" />
   <menu id="apps-graphics-menu"/>
@@ -157,10 +138,12 @@
     <item label="slack">
       <action name="Execute"><command>slack</command></action>
     </item>
+    <item label="transmission">
+      <action name="Execute"><command>transmission-gtk</command></action>
+    </item>
   </menu>
   <menu id="apps-office-menu"/>
   <menu id="apps-multimedia-menu"/>
-  <separator />
   <separator label="system" />
   <menu id="volume-menu" label="volume" execute="obmenus volume" />
   <menu id="brightness-menu" label="brightness" execute="obmenus brightness" />
@@ -182,7 +165,28 @@
       <action name="reconfigure" />
     </item>
   </menu>
-  <menu id="exit-menu" />
+  <menu id="exit-menu" label="exit">
+    <item label="lock">
+      <action name="Execute"><command>dm-tool lock</command></action>
+    </item>
+    <item label="logout">
+      <action name="Exit">
+        <prompt>yes</prompt>
+      </action>
+    </item>
+    <item label="shutdown">
+      <action name="Execute">
+        <command>gksu shutdown now</command>
+      </action>
+    </item>
+    <item label="reboot">
+      <action name="Execute">
+        <command>gksu reboot</command>
+      </action>
+    </item>
+  </menu>
+</menu>
+
 </menu>
 
 </openbox_menu>

@@ -14,7 +14,7 @@ function escape-single-quotes() {
 }
 
 function uppercase() {
-    tr '[:lower:]' '[:upper:]'
+    awk '{print toupper($0)}'
 }
 
 function get-exif-date() {
@@ -63,7 +63,7 @@ function copy-exif() {
 function watermark() {
     local INPUT_FILE="$1"
     local OUTPUT_FILE="$(drop-extension "$INPUT_FILE").jpg"
-    local FONT="Helvetica" # Or convert -list font
+    local FONT="DejaVu-Sans" # Or convert -list font
     local TITLE="$(get-exif-title "$INPUT_FILE" | \
                     uppercase | escape-single-quotes)"
     local DATE="$(get-exif-date '+%B %Y' "$INPUT_FILE" | uppercase)"
@@ -101,11 +101,11 @@ function watermark() {
         -pointsize 20                            \
         -font "$FONT"                            \
         -gravity NorthWest                       \
-        -draw "text 10,6 'JASPER VAN DER JEUGT'" \
+        -draw "text 10,4 'JASPER VAN DER JEUGT'" \
         -gravity North                           \
-        -draw "text 10,6 '$TITLE'"               \
+        -draw "text 10,4 '$TITLE'"               \
         -gravity NorthEast                       \
-        -draw "text 10,6 '$DATE'"                \
+        -draw "text 10,4 '$DATE'"                \
         -quality 98                              \
         "$INPUT_FILE"                            \
         "$OUTPUT_FILE"

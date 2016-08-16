@@ -1,6 +1,7 @@
-wallpaper --daemon &
+#!/bin/bash
+(sleep 30; wallpaper --daemon) &
 
 # nm-applet &
 cbatticon &
-pypanel &
+xfce4-panel &
 xcompmgr -c -C &

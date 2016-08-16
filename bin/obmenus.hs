@@ -91,7 +91,7 @@ parseRemainder = state $ \str -> (str, "")
 -- General code for a gauge menu
 
 makeGaugeMenu :: MenuElement -> Float -> (Int -> String) -> Menu
-makeGaugeMenu title current makeCommand = ([title, Separator] ++) $ do
+makeGaugeMenu title current makeCommand = (header ++) $ do
     level <- [0, 10 .. 100 :: Int]
     let indicator = if level == rounded then "o" else " "
     return $ Item (printf "%s%s%3d" indicator spaces level) (makeCommand level)
@@ -99,6 +99,10 @@ makeGaugeMenu title current makeCommand = ([title, Separator] ++) $ do
     rounded = round (current / 10) * 10
     width   = length $ menuElementLabel title
     spaces  = replicate (max 1 $ width - 1 - 3) ' '
+
+    header  = case title of
+        Label _ -> [title]
+        _       -> [title, Separator]
 
 --------------------------------------------------------------------------------
 -- Brightness menu
@@ -261,7 +265,10 @@ makeDirectoryMenu dir = do
 makeMonitorMenu :: IO Menu
 makeMonitorMenu = do
     modes <- readProcess "monitor" [] ""
-    return
+    return $
+        [ Item "colorprof" "colorprof"
+        , Separator
+        ] ++
         [ Item mode ("monitor " ++ mode)
         | mode <- lines modes
         ]

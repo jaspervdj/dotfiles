@@ -97,3 +97,7 @@ au BufRead,BufNewFile *.json set filetype=javascript
 
 " Options for ludwig
 au BufRead,BufNewFile *.lw set filetype=yaml
+
+" Cut/paste lines with xsel
+:map <leader>p o<Esc>:.!xsel -o<Cr>
+:map <leader>c :!xsel -i<Cr>

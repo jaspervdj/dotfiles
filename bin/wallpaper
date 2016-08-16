@@ -53,15 +53,19 @@ def gen_wallpapers(wallpapers_file):
                 yield wall
 
 def pick(generator):
-    '''This picks a random element from any generator'''
-    best = None
-    best_score = 0
-    for item in generator:
-        score = random.random()
-        if score > best_score:
-            best = item
-            best_score = score
-    return best
+    '''This picks a random element from any list or generator'''
+    if isinstance(generator, list):
+        idx = random.randint(0, len(generator) - 1)
+        return generator[idx]
+    else:
+        best = None
+        best_score = 0
+        for item in generator:
+            score = random.random()
+            if score > best_score:
+                best = item
+                best_score = score
+        return best
 
 def feh_set_wallpaper(path):
     '''Call feh to set the wallpaper'''
@@ -70,6 +74,8 @@ def feh_set_wallpaper(path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Set random wallpapers')
     parser.add_argument('-d', '--daemon', action='store_true')
+    parser.add_argument('-i', '--interval', type=int, default=300,
+            help='Time interval in seconds')
     args = parser.parse_args()
 
     wallpapers_file = os.path.expanduser('~/.wallpapers')
@@ -79,7 +85,7 @@ if __name__ == '__main__':
         while True:
             chosen = pick(wallpapers_list)
             feh_set_wallpaper(chosen)
-            time.sleep(5 * 60)
+            time.sleep(args.interval)
     else:
         wallpapers_gen = gen_wallpapers(wallpapers_file)
         chosen = pick(wallpapers_gen)
