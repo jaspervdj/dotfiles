@@ -1,5 +1,6 @@
 {-# LANGUAGE RecordWildCards #-}
 
+import           Control.Applicative ((<$>))
 import           Control.Monad       (forM)
 import           Control.Monad.State (StateT, evalStateT, state)
 import           Control.Monad.Trans (lift)

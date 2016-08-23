@@ -57,7 +57,6 @@ setup bin/wallpaper            "$HOME/.bin/wallpaper"
 setup bin/colorprof            "$HOME/.bin/colorprof"
 
 # Setup haskell scripts
-setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
 setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
 setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
 setup-hs bin/obmenus.hs      "$HOME/.bin/obmenus"

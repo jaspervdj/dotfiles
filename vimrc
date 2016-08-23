@@ -26,7 +26,9 @@ set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set breakindent
+if exists('+breakindent')
+  set breakindent
+endif
 
 " Line and column number
 set ruler
