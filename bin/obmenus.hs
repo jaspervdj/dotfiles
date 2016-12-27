@@ -132,7 +132,6 @@ makeRhythmboxMenu = do
     case isRunningCode of
         ExitFailure _ -> return
             [ Label "not running"
-            , Separator
             , Item "launch" "rhythmbox-client"
             ]
         ExitSuccess   -> do
@@ -142,14 +141,12 @@ makeRhythmboxMenu = do
             return $ case all isSpace title of
                 True  ->
                     [ Label "not playing"
-                    , Separator
                     , Item "launch" "rhythmbox-client"
                     ]
                 False ->
                     [ Label title
                     , Label artist
                     , Label time
-                    , Separator
                     , Item "launch" "rhythmbox-client"
                     , Item "next" "rhythmbox-client --next"
                     , Item "previous" "rhythmbox-client --previous"

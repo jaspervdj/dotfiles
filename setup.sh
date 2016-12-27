@@ -55,6 +55,7 @@ setup bin/volume               "$HOME/.bin/volume"
 setup bin/rsnapshotter         "$HOME/.bin/rsnapshotter"
 setup bin/wallpaper            "$HOME/.bin/wallpaper"
 setup bin/colorprof            "$HOME/.bin/colorprof"
+setup bin/unicode              "$HOME/.bin/unicode"
 
 # Setup haskell scripts
 setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"

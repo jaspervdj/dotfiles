@@ -4,4 +4,4 @@
 # nm-applet &
 cbatticon &
 xfce4-panel &
-xcompmgr -c -C &
+compton -c -C --daemon

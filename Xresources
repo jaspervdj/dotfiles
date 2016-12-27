@@ -3,8 +3,9 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ! High DPI settings
-# Xft.dpi: 180
-Xft.dpi: 120
+Xft.dpi: 180
+# Xft.dpi: 120
+# Xft.dpi: 96
 Xft.autohint: 0
 Xft.lcdfilter:  lcddefault
 Xft.hintstyle:  hintfull
@@ -14,9 +15,10 @@ Xft.rgba: rgb
 
 ! Font settings
 URxvt.font: xft:PragmataPro:size=10
+# URxvt.font: xft:PragmataPro:size=14
 
 ! Slightly darker foreground color than Solarized default.
-! URxvt.foreground: #666666
+# URxvt.foreground: #666666
 URxvt.foreground: #cccccc
 
 ! Disable scrolling
