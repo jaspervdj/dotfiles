@@ -56,6 +56,7 @@ setup bin/rsnapshotter         "$HOME/.bin/rsnapshotter"
 setup bin/wallpaper            "$HOME/.bin/wallpaper"
 setup bin/colorprof            "$HOME/.bin/colorprof"
 setup bin/unicode              "$HOME/.bin/unicode"
+setup bin/tmux-resize-auto     "$HOME/.bin/tmux-resize-auto"
 
 # Setup haskell scripts
 setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"

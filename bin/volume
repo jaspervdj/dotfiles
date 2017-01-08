@@ -1,31 +1,83 @@
-#!/bin/bash
+#!/usr/bin/python
 
-SINK="1"
+import subprocess
+import re
+import sys
 
-case "$1" in
-"up")
-    echo "$0: Upping volume!" >&2
-    pactl set-sink-mute "$SINK" false
-    pactl set-sink-volume "$SINK" '+5%'
-    ;;
-"down")
-    echo "$0: Downing volume!" >&2
-    pactl set-sink-mute "$SINK" false
-    pactl set-sink-volume "$SINK" '-5%'
-    ;;
-"toggle")
-    echo "$0: Toggling mute" >&2
-    pactl set-sink-mute "$SINK" toggle
-    ;;
-"get")
-    pactl list sinks | grep '^[[:space:]]*Volume' |
-        head -n $(( $SINK + 1 )) | tail -n 1 |
-        sed 's/^.* \([0-9][0-9]*\)%.*$/\1/'
-    ;;
-"set")
-    if [[ -n "$2" ]]; then
-        pactl set-sink-volume "$SINK" "$2%"
-    else
-        echo "Usage: $0 set <percent>"
-    fi
-esac
+class Sink:
+  def __init__(self, num):
+    self.num = num
+    self.state = None
+    self.volume = None
+
+  def __str__(self):
+    return 'Sink #{}, {}, volume={}'.format(
+        self.num, self.state, self.volume)
+
+def pactl_get_all_sinks():
+  sinks_list = []
+  active_sink = None
+  pactl = subprocess.run(['pactl', 'list', 'sinks'], stdout=subprocess.PIPE)
+  output = pactl.stdout.decode('utf-8')
+  for line in output.splitlines():
+
+    sink = re.match(r'Sink #([0-9]*)', line)
+    if sink:
+      sinks_list += [Sink(sink.group(1))]
+
+    state = re.match(r'\s*State: (.*)', line)
+    if state:
+      active_sink.state = state.group(1)
+
+    volume = re.match(r'\s*Volume: .*\s([0-9]+)%', line)
+    if volume:
+      active_sink.volume = volume.group(1)
+
+    if len(sinks_list) > 0:
+      active_sink = sinks_list[len(sinks_list) - 1]
+
+  sinks = dict()
+  for sink in sinks_list:
+    sinks[sink.num] = sink
+
+  return sinks
+
+def find_active_sink(sinks):
+  active_sink = None
+
+  # Check if a sink is in the 'RUNNING' state.
+  for _, sink in sinks.items():
+    if sink.state in ['RUNNING']:
+      active_sink = sink
+
+  # Otherwise use a default one (1)
+  if not active_sink:
+    active_sink = sinks[1]
+
+  return active_sink
+
+if __name__ == '__main__':
+  if len(sys.argv) < 2:
+    print('Usage: {} up/down/get/toggle'.format(sys.argv[0]))
+    sys.exit(1)
+
+  sinks = pactl_get_all_sinks()
+  sink = find_active_sink(sinks)
+
+  cmd = sys.argv[1]
+  if cmd == 'up':
+    subprocess.run(['pactl', 'set-sink-mute', sink.num, 'false'])
+    subprocess.run(['pactl', 'set-sink-volume', sink.num, '+5%'])
+  elif cmd == 'down':
+    subprocess.run(['pactl', 'set-sink-mute', sink.num, 'false'])
+    subprocess.run(['pactl', 'set-sink-volume', sink.num, '-5%'])
+  elif cmd == 'toggle':
+    subprocess.run(['pactl', 'set-sink-mute', sink.num, 'toggle'])
+  elif cmd == 'get':
+    print(sink.volume)
+  elif cmd == 'set':
+    if len(sys.argv) < 3:
+      print('Missing volume parameter')
+      sys.exit(1)
+    vol = sys.argv[2]
+    subprocess.run(['pactl', 'set-sink-volume', sink.num, '{}%'.format(vol)])

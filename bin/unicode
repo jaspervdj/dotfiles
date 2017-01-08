@@ -19,7 +19,7 @@ def format_unicode_charmap(charmap):
   screen = ''
   hits = 0
   for (code, name) in charmap:
-    screen += chr(int(code, 16)) + ' ' + name + '\n'
+    screen += chr(int(code, 16)) + ' U+' + code + ' ' + name.upper() + '\n'
     hits += 1
   return screen
 

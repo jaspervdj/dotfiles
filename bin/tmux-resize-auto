@@ -1,0 +1,12 @@
+#!/bin/bash
+
+COLUMNS=$(tput cols)
+OPTIMAL=80
+
+if [[ $COLUMNS -eq $OPTIMAL ]]; then
+    true
+elif [[ $COLUMNS -gt $OPTIMAL ]]; then
+    tmux resize-pane -R $(echo "$COLUMNS - $OPTIMAL" | bc)
+else
+    tmux resize-pane -L $(echo "$OPTIMAL - $COLUMNS" | bc)
+fi
