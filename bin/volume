@@ -8,14 +8,16 @@ class Sink:
   def __init__(self, num):
     self.num = num
     self.state = None
+    self.description = None
     self.volume = None
+    self.mute = None
 
   def __str__(self):
-    return 'Sink #{}, {}, volume={}'.format(
-        self.num, self.state, self.volume)
+    return 'Sink #{}, {}, {}, volume={}, mute={}'.format(
+        self.num, self.description, self.state, self.volume, self.mute)
 
 def pactl_get_all_sinks():
-  sinks_list = []
+  sinks = []
   active_sink = None
   pactl = subprocess.run(['pactl', 'list', 'sinks'], stdout=subprocess.PIPE)
   output = pactl.stdout.decode('utf-8')
@@ -23,7 +25,12 @@ def pactl_get_all_sinks():
 
     sink = re.match(r'Sink #([0-9]*)', line)
     if sink:
-      sinks_list += [Sink(sink.group(1))]
+      num = int(sink.group(1))
+      sinks += [Sink(num)]
+
+    description = re.match(r'\s*Description: (.*)', line)
+    if description:
+      active_sink.description = description.group(1)
 
     state = re.match(r'\s*State: (.*)', line)
     if state:
@@ -33,12 +40,12 @@ def pactl_get_all_sinks():
     if volume:
       active_sink.volume = volume.group(1)
 
-    if len(sinks_list) > 0:
-      active_sink = sinks_list[len(sinks_list) - 1]
+    mute = re.match(r'\s*Mute: (.*)', line)
+    if mute:
+      active_sink.mute = mute.group(1)
 
-  sinks = dict()
-  for sink in sinks_list:
-    sinks[sink.num] = sink
+    if len(sinks) > 0:
+      active_sink = sinks[len(sinks) - 1]
 
   return sinks
 
@@ -46,13 +53,13 @@ def find_active_sink(sinks):
   active_sink = None
 
   # Check if a sink is in the 'RUNNING' state.
-  for _, sink in sinks.items():
+  for sink in sinks:
     if sink.state in ['RUNNING']:
       active_sink = sink
 
   # Otherwise use a default one (1)
-  if not active_sink:
-    active_sink = sinks[1]
+  if not active_sink and len(sinks) > 0:
+    active_sink = sinks[len(sinks) - 1]
 
   return active_sink
 
@@ -63,16 +70,20 @@ if __name__ == '__main__':
 
   sinks = pactl_get_all_sinks()
   sink = find_active_sink(sinks)
+  active = str(sink.num)
+
+  for s in sinks:
+    print(s, file=sys.stderr)
 
   cmd = sys.argv[1]
   if cmd == 'up':
-    subprocess.run(['pactl', 'set-sink-mute', sink.num, 'false'])
-    subprocess.run(['pactl', 'set-sink-volume', sink.num, '+5%'])
+    subprocess.run(['pactl', 'set-sink-mute', active, 'false'])
+    subprocess.run(['pactl', 'set-sink-volume', active, '+5%'])
   elif cmd == 'down':
-    subprocess.run(['pactl', 'set-sink-mute', sink.num, 'false'])
-    subprocess.run(['pactl', 'set-sink-volume', sink.num, '-5%'])
+    subprocess.run(['pactl', 'set-sink-mute', active, 'false'])
+    subprocess.run(['pactl', 'set-sink-volume', active, '-5%'])
   elif cmd == 'toggle':
-    subprocess.run(['pactl', 'set-sink-mute', sink.num, 'toggle'])
+    subprocess.run(['pactl', 'set-sink-mute', active, 'toggle'])
   elif cmd == 'get':
     print(sink.volume)
   elif cmd == 'set':
@@ -80,4 +91,4 @@ if __name__ == '__main__':
       print('Missing volume parameter')
       sys.exit(1)
     vol = sys.argv[2]
-    subprocess.run(['pactl', 'set-sink-volume', sink.num, '{}%'.format(vol)])
+    subprocess.run(['pactl', 'set-sink-volume', active, '{}%'.format(vol)])

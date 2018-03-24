@@ -110,8 +110,23 @@ function watermark() {
         "$INPUT_FILE"                            \
         "$OUTPUT_FILE"
 
-    # Copy exif
-    copy-exif "$INPUT_FILE" "$OUTPUT_FILE"
+    # We can copy the exif data if we want.
+    # copy-exif "$INPUT_FILE" "$OUTPUT_FILE"
+}
+
+function import() {
+    local SRC_DIR="$1"
+    local DST_DIR="$2"
+
+    for SRC in $(find "$SRC_DIR" -iname '*.raf' -o -iname '*.dng'); do
+        local DATE="$(get-exif-date '+%Y-%m-%d' "$SRC")"
+        local YEAR="$(echo "$DATE" | sed 's/-.*$//')"
+        local BASENAME="$(basename "$SRC")"
+        local DST="$DST_DIR/$YEAR/$DATE/$BASENAME"
+        mkdir -p "$(dirname "$DST")"
+        echo "$SRC -> $DST"
+        rsync -v --checksum --partial "$SRC" "$DST"
+    done
 }
 
 function grayscale() {
@@ -165,6 +180,9 @@ case "$1" in
     set-exif-title)
         set-exif-title "$2" "$3"
         ;;
+    get-exif-date)
+        get-exif-date "$2" "$3"
+        ;;
     watermark)
         watermark "$2"
         ;;
@@ -173,6 +191,9 @@ case "$1" in
         ;;
     grayscale)
         grayscale "$2" "$3"
+        ;;
+    import)
+        import "$2" "$3"
         ;;
     *)
         help

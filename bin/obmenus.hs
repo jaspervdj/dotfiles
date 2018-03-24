@@ -148,6 +148,7 @@ makeRhythmboxMenu = do
                     , Label artist
                     , Label time
                     , Item "launch" "rhythmbox-client"
+                    , Item "play-pause" "rhythmbox-client --play-pause"
                     , Item "next" "rhythmbox-client --next"
                     , Item "previous" "rhythmbox-client --previous"
                     ]

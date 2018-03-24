@@ -2,6 +2,7 @@ set mbox_type = Maildir
 set sendmail  = /usr/bin/msmtp
 set folder    = ~/Mail
 unset record
+set edit_headers=yes
 
 # main options
 set realname   = "Jasper Van der Jeugt"

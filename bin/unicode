@@ -3,16 +3,19 @@
 import subprocess
 import sys
 
+def normalize(string):
+  return string.replace(' ', '').lower()
+
 def unicode_charmap(needle = ''):
   DATABASE = '/usr/share/unicode-character-database/UnicodeData.txt'
-  needle = needle.lower()
+  needle = normalize(needle)
   with open(DATABASE, 'rb') as db:
     for line in db:
       [code, name, _] = line.decode('utf-8').split(';', 2)
       name = name.lower()
       if name.startswith('<'):
         pass
-      elif needle in name:
+      elif needle in normalize(name):
         yield (code, name)
 
 def format_unicode_charmap(charmap):
@@ -26,7 +29,11 @@ def format_unicode_charmap(charmap):
 def print_or_pager(string):
   rows = len(string.splitlines())
   isatty = sys.stdout.isatty()
-  max_rows, _ = subprocess.check_output(['stty', 'size']).split()
+
+  try:
+    max_rows, _ = subprocess.check_output(['stty', 'size']).split()
+  except:
+    isatty = False
 
   if isatty and rows + 2 >= int(max_rows):
     less = subprocess.Popen(['less'], stdin=subprocess.PIPE)
@@ -36,10 +43,16 @@ def print_or_pager(string):
 
   sys.stdout.flush()
 
+HARDCODED = {
+  'shrug': '¯\_(ツ)_/¯'
+}
+
 if __name__ == "__main__":
   if len(sys.argv) < 2:
     print('Usage: {} needle'.format(sys.argv[0]))
     sys.exit(1)
+  if len(sys.argv) == 2 and sys.argv[1] in HARDCODED:
+    print(HARDCODED[sys.argv[1]])
   else:
     needle = ' '.join(sys.argv[1 :])
     charmap = list(unicode_charmap(needle))

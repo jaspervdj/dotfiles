@@ -176,12 +176,12 @@
     </item>
     <item label="shutdown">
       <action name="Execute">
-        <command>gksu shutdown now</command>
+        <command>systemctl poweroff</command>
       </action>
     </item>
     <item label="reboot">
       <action name="Execute">
-        <command>gksu reboot</command>
+        <command>systemctl reboot</command>
       </action>
     </item>
   </menu>

@@ -4,4 +4,7 @@
 # nm-applet &
 cbatticon &
 xfce4-panel &
-compton -c -C --daemon
+# compton -c -C --daemon
+
+# Disable sleep mode
+xset s off -dpms

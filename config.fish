@@ -2,7 +2,7 @@
 
 set -x EDITOR "vim"
 set -x GOPATH "$HOME/.go"
-set -x NMON "lmnD"
+set -x NMON "lmnDt"
 
 function cdt
     cd $argv

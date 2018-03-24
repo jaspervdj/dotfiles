@@ -47,10 +47,21 @@ def gen_wallpapers(wallpapers_file):
             yield path
 
     with open(wallpapers_file, 'r') as f:
-        for path in f.readlines():
-            path = os.path.expandvars(path.strip())
-            for wall in list_wallpapers_for_file(path):
-                yield wall
+        for line in f.readlines():
+            path = parse_wallpaper_line(line)
+            if path:
+                for wall in list_wallpapers_for_file(path):
+                    yield wall
+
+def parse_wallpaper_line(string):
+    comment = string.find('#')
+    if comment >= 0:
+        string = string[: comment]
+    string = string.strip()
+    if string:
+        return os.path.expandvars(string)
+    else:
+        return None
 
 def pick(generator):
     '''This picks a random element from any list or generator'''

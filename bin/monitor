@@ -46,7 +46,7 @@ configurations = []
 
 class SingleMonitor(Configuration):
   def __init__(self, monitor):
-    super(SingleMonitor, self).__init__(monitor + '-only')
+    super(SingleMonitor, self).__init__(monitor.lower() + '-only')
     self.monitor = monitor
 
   def requirements(self):

@@ -7,7 +7,6 @@ maxsyncaccounts = 5
 [Account Personal]
 localrepository = Personal-Local
 remoterepository = Personal-Remote
-status_backend = sqlite
 autorefresh = 5
 quick = 10
 
