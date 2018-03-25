@@ -2,11 +2,11 @@
 set -o nounset -o errexit -o pipefail
 
 function take-extension() {
-    echo "${1//.*\./}"
+    echo "${1//*./}"
 }
 
 function drop-extension() {
-    echo "${1//\.[^.]*$/}"
+    echo "${1//.*/}"
 }
 
 function escape-single-quotes() {
@@ -185,34 +185,38 @@ grayscale picture1.tif picture2.tif
 HERE
 }
 
-if [[ $# -lt 1 ]]; then
-    help
-    exit 1
-fi
-
-case "$1" in
-    get-exif-title)
-        get-exif-title "$2"
-        ;;
-    set-exif-title)
-        set-exif-title "$2" "$3"
-        ;;
-    get-exif-date)
-        get-exif-date "$2" "$3"
-        ;;
-    watermark)
-        watermark "$2"
-        ;;
-    copy-exif)
-        copy-exif "$2" "$3"
-        ;;
-    grayscale)
-        grayscale "$2" "$3"
-        ;;
-    import)
-        import "$2" "$3"
-        ;;
-    *)
+function main() {
+    if [[ $# -lt 1 ]]; then
         help
         exit 1
-esac
+    fi
+
+    case "$1" in
+        get-exif-title)
+            get-exif-title "$2"
+            ;;
+        set-exif-title)
+            set-exif-title "$2" "$3"
+            ;;
+        get-exif-date)
+            get-exif-date "$2" "$3"
+            ;;
+        watermark)
+            watermark "$2"
+            ;;
+        copy-exif)
+            copy-exif "$2" "$3"
+            ;;
+        grayscale)
+            grayscale "$2" "$3"
+            ;;
+        import)
+            import "$2" "$3"
+            ;;
+        *)
+            help
+            exit 1
+    esac
+}
+
+main "$@"
