@@ -2,11 +2,11 @@
 set -o nounset -o errexit -o pipefail
 
 function take-extension() {
-    echo "$1" | sed 's/.*\.//'
+    echo "${1//.*\./}"
 }
 
 function drop-extension() {
-    echo "$1" | sed 's/\.[^.]*$//'
+    echo "${1//\.[^.]*$/}"
 }
 
 function escape-single-quotes() {
@@ -20,15 +20,17 @@ function uppercase() {
 function get-exif-date() {
     local FORMAT="$1"
     local INPUT_FILE="$2"
-    local DATETIME="$(exiv2 -g 'Exif.Photo.DateTimeOriginal' -Pv "$INPUT_FILE")"
-    local DATE="$(echo "$DATETIME" | sed 's/ .*//' | sed 's/:/-/g')"
+    local DATETIME
+    local DATE
+    DATETIME="$(exiv2 -g 'Exif.Photo.DateTimeOriginal' -Pv "$INPUT_FILE")"
+    DATE="$(echo "$DATETIME" | sed 's/ .*//' | sed 's/:/-/g')"
     date -d "$DATE" "$FORMAT"
 }
 
 function set-exif-title() {
     local INPUT_FILE="$1"
     local TITLE="$2"
-    echo $TITLE
+    echo "$TITLE"
     exiv2 -n UTF-8 -M "set Exif.Photo.UserComment '$TITLE'" "$INPUT_FILE"
 }
 
@@ -40,8 +42,11 @@ function get-exif-title() {
 function copy-exif() {
     local INPUT_FILE="$1"
     local OUTPUT_FILE="$2"
-    local INPUT_EXV_FILE="$(drop-extension "$INPUT_FILE").exv"
-    local OUTPUT_EXV_FILE="$(drop-extension "$OUTPUT_FILE").exv"
+    local INPUT_EXV_FILE
+    local OUTPUT_EXV_FILE
+
+    INPUT_EXV_FILE="$(drop-extension "$INPUT_FILE").exv"
+    OUTPUT_EXV_FILE="$(drop-extension "$OUTPUT_FILE").exv"
 
     # Dump EXIF to "$INPUT_FILE".exv
     exiv2 ex "$INPUT_FILE"
@@ -62,11 +67,16 @@ function copy-exif() {
 
 function watermark() {
     local INPUT_FILE="$1"
-    local OUTPUT_FILE="$(drop-extension "$INPUT_FILE").jpg"
-    local FONT="DejaVu-Sans" # Or convert -list font
-    local TITLE="$(get-exif-title "$INPUT_FILE" | \
+    local OUTPUT_FILE
+    local FONT
+    local TITLE
+    local DATE
+
+    OUTPUT_FILE="$(drop-extension "$INPUT_FILE").jpg"
+    FONT="DejaVu-Sans" # Or convert -list font
+    TITLE="$(get-exif-title "$INPUT_FILE" | \
                     uppercase | escape-single-quotes)"
-    local DATE="$(get-exif-date '+%B %Y' "$INPUT_FILE" | uppercase)"
+    DATE="$(get-exif-date '+%B %Y' "$INPUT_FILE" | uppercase)"
 
     # Check number of arguments
     if [[ $# != 1 ]]; then
@@ -118,15 +128,22 @@ function import() {
     local SRC_DIR="$1"
     local DST_DIR="$2"
 
-    for SRC in $(find "$SRC_DIR" -iname '*.raf' -o -iname '*.dng'); do
-        local DATE="$(get-exif-date '+%Y-%m-%d' "$SRC")"
-        local YEAR="$(echo "$DATE" | sed 's/-.*$//')"
-        local BASENAME="$(basename "$SRC")"
-        local DST="$DST_DIR/$YEAR/$DATE/$BASENAME"
+    while IFS= read -r -d '' SRC
+    do
+        local BASENAME
+        local DATE
+        local YEAR
+        local DST
+
+        DATE="$(get-exif-date '+%Y-%m-%d' "$SRC")"
+        local YEAR="${DATE//-.*/}"
+        BASENAME="$(basename "$SRC")"
+        DST="$DST_DIR/$YEAR/$DATE/$BASENAME"
+
         mkdir -p "$(dirname "$DST")"
         echo "$SRC -> $DST"
         rsync -v --checksum --partial "$SRC" "$DST"
-    done
+    done < <(find "$SRC_DIR" \( -iname '*.raf' -o -iname '*.dng' \) -print0)
 }
 
 function grayscale() {
@@ -168,7 +185,7 @@ grayscale picture1.tif picture2.tif
 HERE
 }
 
-if [[ $# < 1 ]]; then
+if [[ $# -lt 1 ]]; then
     help
     exit 1
 fi
