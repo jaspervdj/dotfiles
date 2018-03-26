@@ -20,49 +20,21 @@ function uppercase() {
 function get-exif-date() {
     local FORMAT="$1"
     local INPUT_FILE="$2"
-    local DATETIME
     local DATE
-    DATETIME="$(exiv2 -g 'Exif.Photo.DateTimeOriginal' -Pv "$INPUT_FILE")"
-    DATE="$(echo "$DATETIME" | sed 's/ .*//' | sed 's/:/-/g')"
-    date -d "$DATE" "$FORMAT"
+    DATE="$(exiftool -p '${DateCreated}' "$INPUT_FILE")"
+    date -d "${DATE//:/-}" "$FORMAT"
 }
 
 function set-exif-title() {
     local INPUT_FILE="$1"
     local TITLE="$2"
     echo "$TITLE"
-    exiv2 -n UTF-8 -M "set Exif.Photo.UserComment '$TITLE'" "$INPUT_FILE"
+    exiftool "-UserComment=$TITLE" "$INPUT_FILE"
 }
 
 function get-exif-title() {
     local INPUT_FILE="$1"
-    exiv2 -g 'Exif.Photo.UserComment' -Pt "$INPUT_FILE"
-}
-
-function copy-exif() {
-    local INPUT_FILE="$1"
-    local OUTPUT_FILE="$2"
-    local INPUT_EXV_FILE
-    local OUTPUT_EXV_FILE
-
-    INPUT_EXV_FILE="$(drop-extension "$INPUT_FILE").exv"
-    OUTPUT_EXV_FILE="$(drop-extension "$OUTPUT_FILE").exv"
-
-    # Dump EXIF to "$INPUT_FILE".exv
-    exiv2 ex "$INPUT_FILE"
-    if [[ ! -f "$INPUT_EXV_FILE" ]]; then
-        echo "EXIF export failed: $INPUT_EXV_FILE not found"
-        exit 1
-    fi
-
-    # Import EXIF from "$INPUT_FILE.exv"
-    if [[ "$INPUT_EXV_FILE" != "$OUTPUT_EXV_FILE" ]]; then
-        mv "$INPUT_EXV_FILE" "$OUTPUT_EXV_FILE"
-    fi
-    exiv2 in "$OUTPUT_FILE"
-
-    # Clean up
-    rm "$OUTPUT_EXV_FILE"
+    exiftool -p '${UserComment}' "$INPUT_FILE"
 }
 
 function watermark() {
@@ -81,7 +53,7 @@ function watermark() {
     # Check number of arguments
     if [[ $# != 1 ]]; then
         echo "Usage: $0 picture.tif"
-        echo "The user-comment exiv2 field must be set to the title."
+        echo "The UserComment EXIF field must be set to the title."
         exit 1
     fi
 
@@ -96,9 +68,6 @@ function watermark() {
         echo "Input file should be a TIF"
         exit 1
     fi
-
-    # Remove XMP packet and preview from input file
-    exiv2 -d xt "$INPUT_FILE"
 
     # Convert from TIFF to JPEG, add border and watermark
     convert                                      \
@@ -120,8 +89,9 @@ function watermark() {
         "$INPUT_FILE"                            \
         "$OUTPUT_FILE"
 
-    # We can copy the exif data if we want.
-    # copy-exif "$INPUT_FILE" "$OUTPUT_FILE"
+    # Copy a select number of tags over to the new file.
+    exiftool -all= "$OUTPUT_FILE"
+    exiftool -TagsFromFile "$INPUT_FILE" -icc_profile "$OUTPUT_FILE"
 }
 
 function import() {
@@ -146,14 +116,6 @@ function import() {
     done < <(find "$SRC_DIR" \( -iname '*.raf' -o -iname '*.dng' \) -print0)
 }
 
-function grayscale() {
-    local INPUT_FILE="$1"
-    local OUTPUT_FILE="$2"
-
-    convert -colorspace Gray -compress LZW "$INPUT_FILE" "$OUTPUT_FILE"
-    copy-exif "$INPUT_FILE" "$OUTPUT_FILE"
-}
-
 function help() {
     cat - <<HERE
 USAGE
@@ -173,10 +135,6 @@ set-exif-title picture.jpg 'A title'
 watermark picture.tif
 
     Export a watermarked version of picture.tif to picture.jpg
-
-copy-exif picture1.tif picture2.tif
-
-    Copy all exif metadata from picture1.tif to picture2.tif
 
 grayscale picture1.tif picture2.tif
 
@@ -203,12 +161,6 @@ function main() {
             ;;
         watermark)
             watermark "$2"
-            ;;
-        copy-exif)
-            copy-exif "$2" "$3"
-            ;;
-        grayscale)
-            grayscale "$2" "$3"
             ;;
         import)
             import "$2" "$3"
