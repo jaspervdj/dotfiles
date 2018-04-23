@@ -24,11 +24,12 @@ URxvt.buffered: false
 
 URxvt.font: xft:Iosevka:size=10
 # URxvt.font: xft:Iosevka:size=14
+# URxvt.font: xft:Iosevka:size=16
 # URxvt.font: xft:Iosevka:size=24
 
 ! Slightly darker/lighter foreground color than Solarized default.
-URxvt.foreground: #666666
-# URxvt.foreground: #cccccc
+# URxvt.foreground: #666666
+URxvt.foreground: #cccccc
 
 ! Disable scrolling
 URxvt.scrollBar: false
@@ -59,25 +60,25 @@ URxvt.insecure: true
 
 ! Dark
 
-! #define S_base03        #002b36
-! #define S_base02        #073642
-! #define S_base01        #586e75
-! #define S_base00        #657b83
-! #define S_base0         #839496
-! #define S_base1         #93a1a1
-! #define S_base2         #eee8d5
-! #define S_base3         #fdf6e3
+#define S_base03        #002b36
+#define S_base02        #073642
+#define S_base01        #586e75
+#define S_base00        #657b83
+#define S_base0         #839496
+#define S_base1         #93a1a1
+#define S_base2         #eee8d5
+#define S_base3         #fdf6e3
 
 ! Light
 
-#define S_base03        #fdf6e3
-#define S_base02        #eee8d5
-#define S_base01        #93a1a1
-#define S_base00        #839496
-#define S_base0         #657b83
-#define S_base1         #586e75
-#define S_base2         #073642
-#define S_base3         #002b36
+! #define S_base03        #fdf6e3
+! #define S_base02        #eee8d5
+! #define S_base01        #93a1a1
+! #define S_base00        #839496
+! #define S_base0         #657b83
+! #define S_base1         #586e75
+! #define S_base2         #073642
+! #define S_base3         #002b36
 
 ! To only apply colors to your terminal, for example, prefix
 ! the color assignment statement with its name. Example:

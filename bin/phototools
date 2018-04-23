@@ -106,7 +106,7 @@ function import() {
         local DST
 
         DATE="$(get-exif-date '+%Y-%m-%d' "$SRC")"
-        local YEAR="${DATE//-.*/}"
+        local YEAR="${DATE//-*/}"
         BASENAME="$(basename "$SRC")"
         DST="$DST_DIR/$YEAR/$DATE/$BASENAME"
 
