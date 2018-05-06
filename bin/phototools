@@ -21,8 +21,8 @@ function get-exif-date() {
     local FORMAT="$1"
     local INPUT_FILE="$2"
     local DATE
-    DATE="$(exiftool -p '${DateCreated}' "$INPUT_FILE")"
-    date -d "${DATE//:/-}" "$FORMAT"
+    DATE="$(exiftool -p '${CreateDate}' "$INPUT_FILE" | sed 's/:/-/g;s/ .*//')"
+    date -d "$DATE" "$FORMAT"
 }
 
 function set-exif-title() {
