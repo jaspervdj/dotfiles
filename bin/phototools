@@ -21,7 +21,7 @@ function get-exif-date() {
     local FORMAT="$1"
     local INPUT_FILE="$2"
     local DATE
-    DATE="$(exiftool -p '${CreateDate}' "$INPUT_FILE" | sed 's/:/-/g;s/ .*//')"
+    DATE="$(exiftool -p "\${CreateDate}" "$INPUT_FILE" | sed 's/:/-/g;s/ .*//')"
     date -d "$DATE" "$FORMAT"
 }
 
@@ -34,7 +34,7 @@ function set-exif-title() {
 
 function get-exif-title() {
     local INPUT_FILE="$1"
-    exiftool -p '${UserComment}' "$INPUT_FILE"
+    exiftool -p "\${UserComment}" "$INPUT_FILE"
 }
 
 function watermark() {
@@ -92,6 +92,22 @@ function watermark() {
     # Copy a select number of tags over to the new file.
     exiftool -all= "$OUTPUT_FILE"
     exiftool -TagsFromFile "$INPUT_FILE" -icc_profile "$OUTPUT_FILE"
+}
+
+function insta() {
+    local INPUT_FILE="$1"
+    local OUTPUT_FILE
+
+    OUTPUT_FILE="$(drop-extension "$INPUT_FILE")-Insta.jpg"
+    convert                         \
+        -resize 1080x1080           \
+        -background white           \
+        -gravity center             \
+        -extent 1080x1080           \
+        "$INPUT_FILE"               \
+        "$OUTPUT_FILE"
+
+    echo "Wrote $OUTPUT_FILE" 1>&2
 }
 
 function import() {
@@ -161,6 +177,9 @@ function main() {
             ;;
         watermark)
             watermark "$2"
+            ;;
+        insta)
+            insta "$2"
             ;;
         import)
             import "$2" "$3"
