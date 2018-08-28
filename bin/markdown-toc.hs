@@ -45,11 +45,15 @@ markdownToc opts = do
         Just "-"  -> T.getContents
         Just path -> T.readFile path
         Nothing   -> T.getContents
-    pandoc <- P.runIOorExplode $ P.readMarkdown P.def input
+    pandoc <- P.runIOorExplode $ P.readMarkdown readerSettings input
     let forest = makeTocForest (oLevel opts) pandoc
         toc    = renderTocForest (oOrdered opts) forest
     output <- P.runIOorExplode $ P.writeMarkdown P.def $ P.Pandoc mempty [toc]
     T.putStr output
+  where
+    readerSettings = P.def
+        { P.readerExtensions = P.pandocExtensions
+        }
 
 makeTocForest :: Int -> P.Pandoc -> Forest [P.Inline]
 makeTocForest maxLevel (P.Pandoc _ blocks0) =
