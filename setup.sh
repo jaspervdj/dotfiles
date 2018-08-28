@@ -16,7 +16,7 @@ function setup-hs() {
     SRC="$1"
     DST="$2"
     EXE="$(echo "$SRC" | sed 's/\.[^.]*$//')"
-    ghc --make -O2 -threaded "$SRC"
+    stack exec ghc -- --make -O2 -threaded "$SRC"
     setup "$EXE" "$DST"
 }
 
@@ -62,6 +62,7 @@ setup bin/tmux-resize-auto     "$HOME/.bin/tmux-resize-auto"
 setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
 setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
 setup-hs bin/obmenus.hs      "$HOME/.bin/obmenus"
+setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'

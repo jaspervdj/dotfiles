@@ -1,6 +1,8 @@
 import           Control.Applicative (optional)
 import           Data.Maybe          (fromMaybe)
 import           Data.Monoid         ((<>))
+import qualified Data.Text           as T
+import qualified Data.Text.IO        as T
 import           Data.Tree           (Forest, Tree (..))
 import qualified Options.Applicative as OA
 import           System.Environment  (getArgs, getProgName)
@@ -8,8 +10,9 @@ import           System.Exit         (exitFailure)
 import qualified Text.Pandoc         as P
 
 data Opts = Opts
-    { oLevel :: !Int
-    , oFile  :: !(Maybe FilePath)
+    { oLevel   :: !Int
+    , oOrdered :: !Bool
+    , oFile    :: !(Maybe FilePath)
     } deriving (Show)
 
 parseOpts :: OA.Parser Opts
@@ -19,6 +22,9 @@ parseOpts = Opts
             OA.short 'l' <>
             OA.value 3 <>
             OA.help "deepest header level")
+    <*> OA.switch (
+            OA.long "ol" <>
+            OA.help "use an ordered list")
     <*> optional (OA.strArgument (
             OA.metavar "FILE" <>
             OA.help "markdown file to process"))
@@ -36,13 +42,14 @@ main = do
 markdownToc :: Opts -> IO ()
 markdownToc opts = do
     input <- case oFile opts of
-        Just "-"  -> getContents
-        Just path -> readFile path
-        Nothing   -> getContents
-    pandoc <- either (fail . show) return $ P.readMarkdown P.def input
+        Just "-"  -> T.getContents
+        Just path -> T.readFile path
+        Nothing   -> T.getContents
+    pandoc <- P.runIOorExplode $ P.readMarkdown P.def input
     let forest = makeTocForest (oLevel opts) pandoc
-        toc    = renderTocForest forest
-    putStr $ P.writeMarkdown P.def $ P.Pandoc mempty [toc]
+        toc    = renderTocForest (oOrdered opts) forest
+    output <- P.runIOorExplode $ P.writeMarkdown P.def $ P.Pandoc mempty [toc]
+    T.putStr output
 
 makeTocForest :: Int -> P.Pandoc -> Forest [P.Inline]
 makeTocForest maxLevel (P.Pandoc _ blocks0) =
@@ -69,12 +76,16 @@ addTocNode n x forest =
     withLast _ []       = []
     withLast f (x : xs) = x : withLast f xs
 
-renderTocForest :: Forest [P.Inline] -> P.Block
-renderTocForest = P.BulletList . map renderTree
+renderTocForest :: Bool -> Forest [P.Inline] -> P.Block
+renderTocForest ordered = list . map renderTree
   where
     renderTree :: Tree [P.Inline] -> [P.Block]
     renderTree (Node title [])       = [P.Plain title]
     renderTree (Node title children) =
         [ P.Plain title
-        , P.BulletList $ map renderTree children
+        , list $ map renderTree children
         ]
+
+    list
+        | ordered   = P.OrderedList (0, P.DefaultStyle, P.DefaultDelim)
+        | otherwise = P.BulletList

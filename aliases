@@ -2,6 +2,7 @@ alias unlock="ssh-add $HOME/.ssh/id_rsa"
 alias dm='dir-metadata'
 alias http-serve-directory='python -m SimpleHTTPServer'
 alias today='date +%Y-%m-%d'
+alias git-current-branch='git rev-parse --abbrev-ref HEAD'
 
 alias tunnel-eckage='ssh -NL 8001:hackage.erudi.co:80 00.bastion.erudi.co'
 alias tunnel-sssp='ssh -NL 8002:sssp.erudi.co:80 00.bastion.erudi.co'
