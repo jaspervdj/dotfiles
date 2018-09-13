@@ -347,6 +347,7 @@
     </keybind>
     <!-- "Tiling" -->
     <keybind key="W-bracketleft">
+      <action name="Unmaximize"/>
       <action name="MoveResizeTo">
         <x>0</x>
         <y>0</y>
@@ -355,6 +356,7 @@
       </action>
     </keybind>
     <keybind key="W-bracketright">
+      <action name="Unmaximize"/>
       <action name="MoveResizeTo">
         <x>-0</x>
         <y>0</y>
