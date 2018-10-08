@@ -1,8 +1,16 @@
-set mbox_type = Maildir
-set sendmail  = /usr/bin/msmtp
-set folder    = ~/Mail
-unset record
-set edit_headers=yes
+set imap_user = "jaspervdj@gmail.com"
+set folder    = "imaps://imap.gmail.com"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+
+set smtp_url  = "smtps://jaspervdj@smtp.gmail.com"
+set record = ""
+
+source "gpg -d ~/.mutt/passwords.gpg |"
+
+# Speed
+set header_cache     = "~/.mutt/cache/headers"
+set message_cachedir = "~/.mutt/cache/bodies"
 
 # main options
 set realname   = "Jasper Van der Jeugt"
@@ -40,22 +48,6 @@ set forward_quote
 ignore *                               # first, ignore all headers
 unignore from: to: cc: date: subject:  # then, show only these
 hdr_order from: to: cc: date: subject: # and in this order
-
-
-# Account switching
-set spoolfile = "+Personal/INBOX"
-
-source ~/.mutt/accounts/personal
-
-folder-hook Personal/* source ~/.mutt/accounts/personal
-
-macro index <f1> '<change-folder>+Personal/INBOX<enter>'
-
-macro index <f5> '<pipe-entry>offlineimap -o<enter>'
-
-# Contacts
-set query_command = "goobook query '%s'"
-bind editor <Tab> complete-query
 
 ################################################################################
 # Solarized mutt
