@@ -40,3 +40,7 @@ Host cosmos
 Host pdor
     HostName portal.pdor.com
     User jjeugt
+
+Host aur.archlinux.org
+    IdentityFile ~/.ssh/aur
+    User aur
