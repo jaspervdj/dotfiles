@@ -6,6 +6,7 @@ import argparse
 import os
 import random
 import subprocess
+import sys
 import time
 
 for tag, name in PIL.ExifTags.TAGS.items():
@@ -82,6 +83,26 @@ def feh_set_wallpaper(path):
     '''Call feh to set the wallpaper'''
     subprocess.call(['feh', '--bg-fill', path])
 
+def xfce4_set_wallpaper(path):
+    '''Set the wallpaper in XFCE4'''
+    print('Setting wallpaper to: {}'.format(path), file=sys.stderr)
+    subprocess.call([
+        'xfconf-query',
+        '--channel', 'xfce4-desktop',
+        '--property', '/backdrop/screen0/monitor0/workspace0/last-image',
+        '--set', path
+    ])
+
+def set_wallpaper(path):
+    desktop = None
+    if 'XDG_SESSION_DESKTOP' in os.environ:
+        desktop = os.environ['XDG_SESSION_DESKTOP']
+
+    if desktop == 'xfce':
+        xfce4_set_wallpaper(path)
+    else:
+        feh_set_wallpaper(path)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Set random wallpapers')
     parser.add_argument('-d', '--daemon', action='store_true')
@@ -95,9 +116,9 @@ if __name__ == '__main__':
         wallpapers_list = list(gen_wallpapers(wallpapers_file))
         while True:
             chosen = pick(wallpapers_list)
-            feh_set_wallpaper(chosen)
+            set_wallpaper(chosen)
             time.sleep(args.interval)
     else:
         wallpapers_gen = gen_wallpapers(wallpapers_file)
         chosen = pick(wallpapers_gen)
-        feh_set_wallpaper(chosen)
+        set_wallpaper(chosen)
