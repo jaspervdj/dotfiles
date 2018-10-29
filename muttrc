@@ -4,7 +4,9 @@ set spoolfile = "+INBOX"
 set postponed = "+[Gmail]/Drafts"
 
 set smtp_url  = "smtps://jaspervdj@smtp.gmail.com"
+set from = "m@jaspervdj.be"
 set record = ""
+set edit_headers = yes
 
 source "gpg -d ~/.mutt/passwords.gpg |"
 
