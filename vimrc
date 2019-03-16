@@ -79,6 +79,12 @@ function HaskellHook()
     setlocal makeprg=cabal-make
 endfunction
 
+" Options for go
+autocmd FileType go call GoHook()
+function GoHook()
+    noremap <C-c> :%!gofmt<CR>
+endfunction
+
 " Options for ruby
 autocmd FileType ruby call RubyHook()
 function RubyHook()

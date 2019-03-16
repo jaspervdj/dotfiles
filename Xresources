@@ -27,10 +27,6 @@ URxvt.font: xft:Iosevka:size=10
 ! URxvt.font: xft:Iosevka:size=16
 ! URxvt.font: xft:Iosevka:size=24
 
-! Slightly darker/lighter foreground color than Solarized default.
-! URxvt.foreground: #666666
-URxvt.foreground: #cccccc
-
 ! Disable scrolling
 URxvt.scrollBar: false
 
@@ -45,6 +41,10 @@ URxvt.insecure: true
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! drop in Solarized colorscheme for Xresources/Xdefaults
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! Slightly darker/lighter foreground color than Solarized default.
+! URxvt.foreground: #666666
+URxvt.foreground: #cccccc
 
 ! Dark
 
@@ -99,3 +99,45 @@ URxvt.insecure: true
 ! *color13: #6c71c4
 ! *color14: #586e75
 ! *color15: #002b36
+
+! High contrast white, for presentations mostly
+! *background:  #ffffff
+! *foreground:  #000000
+! *cursorColor: #5f87af
+! *color0:      #000000
+! *color8:      #000000
+! *color1:      #af0000
+! *color9:      #af0000
+! *color2:      #008700
+! *color10:     #008700
+! *color3:      #af5f00
+! *color11:     #af5f00
+! *color4:      #005faf
+! *color12:     #005faf
+! *color5:      #870087
+! *color13:     #870087
+! *color6:      #008787
+! *color14:     #008787
+! *color7:      #ffffff
+! *color15: #ffffff
+
+! Tomorrow Night, from <https://github.com/chriskempson/tomorrow-theme/>
+! *foreground:   #c5c8c6
+! *background:   #1d1f21
+! *cursorColor:  #aeafad
+! *color0:       #000000
+! *color1:       #912226
+! *color2:       #778900
+! *color3:       #ae7b00
+! *color4:       #1d2594
+! *color5:       #682a9b
+! *color6:       #2b6651
+! *color7:       #929593
+! *color8:       #666666
+! *color9:       #cc6666
+! *color10:      #b5bd68
+! *color11:      #f0c674
+! *color12:      #81a2be
+! *color13:      #b294bb
+! *color14:      #8abeb7
+! *color15:      #ecebec
