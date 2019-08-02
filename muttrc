@@ -57,6 +57,11 @@ macro index <f5> '<pipe-entry>offlineimap -o<enter>'
 set query_command = "goobook query '%s'"
 bind editor <Tab> complete-query
 
+# Viewing HTML
+auto_view text/html                                   # view html automatically
+alternative_order text/plain text/enriched text/html  # save html for last
+
+
 ################################################################################
 # Solarized mutt
 
