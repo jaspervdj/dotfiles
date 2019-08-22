@@ -34,7 +34,19 @@ function set-exif-title() {
 
 function get-exif-title() {
     local INPUT_FILE="$1"
-    exiftool -p "\${UserComment}" "$INPUT_FILE"
+    local TITLE=""
+    if [[ -z "$TITLE" ]]; then
+        TITLE="$(exiftool -m -p '${UserComment}' "$INPUT_FILE")"
+    fi
+    if [[ -z "$TITLE" ]]; then
+        TITLE="$(exiftool -m -p '${HeadLine}' "$INPUT_FILE")"
+    fi
+    if [[ -z "$TITLE" ]]; then
+        echo "$INPUT_FILE has no title" 1>&2
+        exit 1
+    else
+        echo "$TITLE"
+    fi
 }
 
 function watermark() {
