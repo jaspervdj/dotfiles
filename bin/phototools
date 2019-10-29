@@ -136,7 +136,8 @@ function import() {
         DATE="$(get-exif-date '+%Y-%m-%d' "$SRC")"
         local YEAR="${DATE//-*/}"
         BASENAME="$(basename "$SRC")"
-        DST="$DST_DIR/$YEAR/$DATE/$BASENAME"
+        # DST="$DST_DIR/$YEAR/$DATE/$BASENAME"
+        DST="$DST_DIR/Capture/"
 
         mkdir -p "$(dirname "$DST")"
         echo "$SRC -> $DST"

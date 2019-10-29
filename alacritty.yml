@@ -1,0 +1,80 @@
+font:
+  size: 11
+  normal:
+    family: Iosevka
+    style: Regular
+  bold:
+    family: Iosevka
+    style: Bold
+  italic:
+    family: Iosevka
+    style: Italic
+
+schemes:
+  # Colors (Solarized Dark)
+  solarized_dark: &solarized_dark
+    # Default colors
+    primary:
+      background: '0x002b36' # base03
+      # foreground: '0x839496' # base0
+      foreground: '0xcccccc'  # Slightly lighter
+    # Cursor colors
+    cursor:
+      text:   '0x002b36' # base03
+      cursor: '0x839496' # base0
+    # Normal colors
+    normal:
+      black:   '0x073642' # base02
+      red:     '0xdc322f' # red
+      green:   '0x859900' # green
+      yellow:  '0xb58900' # yellow
+      blue:    '0x268bd2' # blue
+      magenta: '0xd33682' # magenta
+      cyan:    '0x2aa198' # cyan
+      white:   '0xeee8d5' # base2
+    # Bright colors
+    bright:
+      black:   '0x002b36' # base03
+      red:     '0xcb4b16' # orange
+      green:   '0x586e75' # base01
+      yellow:  '0x657b83' # base00
+      blue:    '0x839496' # base0
+      magenta: '0x6c71c4' # violet
+      cyan:    '0x93a1a1' # base1
+      white:   '0xfdf6e3' # base3
+# Colors (Solarized Light)
+  solarized_light: &solarized_light
+    # Default colors
+    primary:
+      background: '0xfdf6e3' # base3
+      # foreground: '0x657b83' # base00
+      foreground: '0x666666'  # Slightly darker
+
+    # Cursor colors
+    cursor:
+      text:   '0xfdf6e3' # base3
+      cursor: '0x657b83' # base00
+
+    # Normal colors
+    normal:
+      black:   '0x073642' # base02
+      red:     '0xdc322f' # red
+      green:   '0x859900' # green
+      yellow:  '0xb58900' # yellow
+      blue:    '0x268bd2' # blue
+      magenta: '0xd33682' # magenta
+      cyan:    '0x2aa198' # cyan
+      white:   '0xeee8d5' # base2
+
+    # Bright colors
+    bright:
+      black:   '0x002b36' # base03
+      red:     '0xcb4b16' # orange
+      green:   '0x586e75' # base01
+      yellow:  '0x657b83' # base00
+      blue:    '0x839496' # base0
+      magenta: '0x6c71c4' # violet
+      cyan:    '0x93a1a1' # base1
+      white:   '0xfdf6e3' # base3
+
+colors: *solarized_dark
