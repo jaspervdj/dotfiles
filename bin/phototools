@@ -81,8 +81,12 @@ function watermark() {
         exit 1
     fi
 
-    # Convert from TIFF to JPEG, add border and watermark
+    # Convert from TIFF to JPEG, add border and watermark.
+    #
+    #  -  `"$INPUT_FILE"[0]` selects the first image in the TIFF; this seems to
+    #     usually be the main image and [1] seems to be some kind of thumbnail.
     convert                                      \
+        -flatten                                 \
         -background black                        \
         -gravity North                           \
         -splice  0x20                            \
@@ -98,7 +102,7 @@ function watermark() {
         -gravity NorthEast                       \
         -draw "text 10,4 '$DATE'"                \
         -quality 98                              \
-        "$INPUT_FILE"                            \
+        "$INPUT_FILE"[0]                         \
         "$OUTPUT_FILE"
 
     # Copy a select number of tags over to the new file.
@@ -116,7 +120,7 @@ function insta() {
         -background white           \
         -gravity center             \
         -extent 1080x1080           \
-        "$INPUT_FILE"               \
+        "$INPUT_FILE"[0]            \
         "$OUTPUT_FILE"
 
     echo "Wrote $OUTPUT_FILE" 1>&2
