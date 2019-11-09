@@ -51,6 +51,14 @@ ignore *                               # first, ignore all headers
 unignore from: to: cc: date: subject:  # then, show only these
 hdr_order from: to: cc: date: subject: # and in this order
 
+# Contacts
+set query_command = "goobook query '%s'"
+bind editor <Tab> complete-query
+
+# Viewing HTML
+auto_view text/html                                   # view html automatically
+alternative_order text/plain text/enriched text/html  # save html for last
+
 ################################################################################
 # Solarized mutt
 

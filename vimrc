@@ -106,3 +106,7 @@ au BufRead,BufNewFile *.json set filetype=javascript
 " Cut/paste lines with xsel
 :map <leader>p o<Esc>:.!xsel -o<Cr>
 :map <leader>c :!xsel -i<Cr>
+
+" grep using git
+set grepprg=git\ grep\ --line-number\ --column
+set grepformat^=%f:%l:%c:%m
