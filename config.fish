@@ -1,9 +1,5 @@
 . "$HOME/.aliases"
 
-set -x EDITOR "vim"
-set -x GOPATH "$HOME/.go"
-set -x NMON "lmnDt"
-
 function cdt
     cd $argv
     if [ (pwd) = "$HOME" ]
