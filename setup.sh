@@ -24,7 +24,7 @@ function setup-hs() {
 setup Xresources             "$HOME/.Xresources"
 setup ackrc                  "$HOME/.ackrc"
 setup aliases                "$HOME/.aliases"
-setup bashrc                 "$HOME/.bashrc"
+setup profile                "$HOME/.profile"
 setup config.fish            "$HOME/.config/fish/config.fish"
 setup gitconfig              "$HOME/.gitconfig"
 setup mailcap                "$HOME/.mailcap"
@@ -60,12 +60,13 @@ setup bin/wallpaper            "$HOME/.bin/wallpaper"
 setup bin/colorprof            "$HOME/.bin/colorprof"
 setup bin/unicode              "$HOME/.bin/unicode"
 setup bin/tmux-resize-auto     "$HOME/.bin/tmux-resize-auto"
+setup bin/disable-screensaver  "$HOME/.bin/disable-screensaver"
 
 # Setup haskell scripts
-setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
-setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
-setup-hs bin/obmenus.hs      "$HOME/.bin/obmenus"
-setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
+# setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
+# setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
+# setup-hs bin/obmenus.hs      "$HOME/.bin/obmenus"
+# setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
 
 # Create backup dir for vim
 echo 'Creating vim backup dir...'
