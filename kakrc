@@ -3,9 +3,12 @@ set global indentwidth 4
 map global insert <tab> '<a-;><gt>'
 map global insert <s-tab> '<a-;><lt>'
 
+# Line numbers
+add-highlighter global/ number-lines
+
 # Wrapping and reformatting
 set global autowrap_column 80
-add-highlighter global/ column 80 default,blue
+add-highlighter global/ column %opt{autowrap_column} default,blue
 map global normal = '|par -w $kak_opt_autowrap_column<ret>'
 
 # Highlight trailing whitespace
@@ -20,3 +23,8 @@ hook global WinCreate .*\.rego %{ set buffer filetype ruby }
 
 # PureScript
 hook global WinCreate .*\.purs %{ set buffer filetype haskell }
+
+# Email
+hook global WinSetOption filetype=mail %{
+  set window autowrap_column 72
+}
