@@ -1,7 +1,6 @@
 # Indentation
+set global tabstop 4
 set global indentwidth 4
-map global insert <tab> '<a-;><gt>'
-map global insert <s-tab> '<a-;><lt>'
 
 # Line numbers
 add-highlighter global/ number-lines
@@ -9,7 +8,7 @@ add-highlighter global/ number-lines
 # Wrapping and reformatting
 set global autowrap_column 80
 add-highlighter global/ column %opt{autowrap_column} default,blue
-map global normal = '|par -w $kak_opt_autowrap_column<ret>'
+map global normal = '|fmt -w $kak_opt_autowrap_column<ret>'
 
 # Highlight trailing whitespace
 add-highlighter global/ regex '\h+$' 0:default,red
