@@ -62,6 +62,7 @@ setup bin/colorprof            "$HOME/.bin/colorprof"
 setup bin/unicode              "$HOME/.bin/unicode"
 setup bin/tmux-resize-auto     "$HOME/.bin/tmux-resize-auto"
 setup bin/disable-screensaver  "$HOME/.bin/disable-screensaver"
+setup bin/minidlna.sh          "$HOME/.bin/minidlna.sh"
 
 # Setup haskell scripts
 # setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
