@@ -6,4 +6,4 @@ if [[ $# -gt 0 ]]; then
     cd "$1" || return
 fi
 
-exec urxvt -e tmux
+exec alacritty -e tmux
