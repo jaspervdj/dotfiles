@@ -45,7 +45,7 @@ setup ssh-config             "$HOME/.ssh/config"
 setup tmux.conf              "$HOME/.tmux.conf"
 setup vimrc                  "$HOME/.vimrc"
 setup xmonad.hs              "$HOME/.xmonad/xmonad.hs"
-setup alacritty.yml          "$HOME/.alacritty.yml"
+setup alacritty.yml          "$HOME/.config/alacritty/alacritty.yml"
 
 # Copy "binaries"
 setup bin/cabal-make           "$HOME/.bin/cabal-make"
