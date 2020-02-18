@@ -27,3 +27,6 @@ hook global WinCreate .*\.purs %{ set buffer filetype haskell }
 hook global WinSetOption filetype=mail %{
   set window autowrap_column 72
 }
+
+# Grepping
+set global grepcmd 'rgrep'

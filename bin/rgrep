@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -o nounset -o errexit -o pipefail
+
+if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; then
+    exec git grep --line-number --column $@
+else
+    exec grep -RHn $@
+fi
