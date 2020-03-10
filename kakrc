@@ -8,7 +8,7 @@ add-highlighter global/ number-lines
 # Wrapping and reformatting
 set global autowrap_column 80
 add-highlighter global/ column %opt{autowrap_column} default,blue
-map global normal = '|fmt -w $kak_opt_autowrap_column<ret>'
+map global normal = '|par ${kak_opt_autowrap_column}q g1<ret>'
 
 # Highlight trailing whitespace
 add-highlighter global/ regex '\h+$' 0:default,red
