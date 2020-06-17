@@ -64,6 +64,7 @@ setup bin/tmux-resize-auto     "$HOME/.bin/tmux-resize-auto"
 setup bin/disable-screensaver  "$HOME/.bin/disable-screensaver"
 setup bin/minidlna.sh          "$HOME/.bin/minidlna.sh"
 setup bin/rgrep                "$HOME/.bin/rgrep"
+setup bin/todo                 "$HOME/.bin/todo"
 
 # Setup haskell scripts
 # setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
