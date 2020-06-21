@@ -11,3 +11,4 @@ if [[ "$rc" != 0 && "$rc" != 1 ]]; then exit "$rc"; fi
 mv "$TMPFILE" "$FILE1"
 2>&1 echo "Removing $FILE2..."
 rm "$FILE2"
+rm "$TMPFILE"
