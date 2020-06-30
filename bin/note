@@ -13,7 +13,11 @@ function todo {
 }
 
 function new_note {
-    edit "$NOTES_DIRECTORY/$TODAY-$1.txt"
+    note="$NOTES_DIRECTORY/$TODAY-$1.txt"
+    if [[ ! -f "$note" ]]; then
+        echo "# $1" >"$note"
+    fi
+    edit "$note"
 }
 
 case "$1" in
