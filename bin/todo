@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -o nounset -o errexit -o pipefail
-
-NOTES_DIRECTORY="$HOME/Dropbox/Notes"
-LATEST_TODO="$(ls "$NOTES_DIRECTORY"/*-todo.txt | tail -n1)"
-exec "$EDITOR" "$LATEST_TODO"

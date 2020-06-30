@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -o nounset -o errexit -o pipefail
+
+NOTES_DIRECTORY="$HOME/Dropbox/Notes"
+TODAY="$(date +%Y-%m-%d)"
+
+function edit() {
+    exec "$EDITOR" "$1"
+}
+
+function todo {
+    edit "$(find "$NOTES_DIRECTORY" -name '*-todo.txt' | tail -n1)"
+}
+
+function new_note {
+    edit "$NOTES_DIRECTORY/$TODAY-$1.txt"
+}
+
+case "$1" in
+    "todo")
+        todo
+        ;;
+    *)
+        new_note "$1"
+        ;;
+esac

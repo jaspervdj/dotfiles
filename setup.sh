@@ -65,7 +65,7 @@ setup bin/disable-screensaver  "$HOME/.bin/disable-screensaver"
 setup bin/mergy                "$HOME/.bin/mergy"
 setup bin/minidlna.sh          "$HOME/.bin/minidlna.sh"
 setup bin/rgrep                "$HOME/.bin/rgrep"
-setup bin/todo                 "$HOME/.bin/todo"
+setup bin/note                 "$HOME/.bin/note"
 
 # Setup haskell scripts
 # setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
