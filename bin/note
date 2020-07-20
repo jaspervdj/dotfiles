@@ -9,15 +9,21 @@ function edit() {
 }
 
 function todo {
-    edit "$(find "$NOTES_DIRECTORY" -name '*-todo.txt' | tail -n1)"
+    edit "$(find "$NOTES_DIRECTORY" -name '*-todo.txt' | sort | tail -n1)"
 }
 
 function new_note {
-    note="$NOTES_DIRECTORY/$TODAY-$1.txt"
-    if [[ ! -f "$note" ]]; then
-        echo "# $1" >"$note"
+    note="$NOTES_DIRECTORY/$1.txt"
+    dated_note="$NOTES_DIRECTORY/$TODAY-$1.txt"
+
+    if [[ -f "$note" ]]; then
+        edit "$note"
+    else
+        if [[ ! -f "$dated_note" ]]; then
+            echo "# $1" >"$dated_note"
+        fi
+        edit "$dated_note"
     fi
-    edit "$note"
 }
 
 case "$1" in
