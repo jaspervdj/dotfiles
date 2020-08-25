@@ -17,7 +17,8 @@ mouse:
       args: []
       modifiers: None
 
-dynamic_title: true
+window:
+  dynamic_title: true
 
 schemes:
   # Colors (Solarized Dark)
