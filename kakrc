@@ -25,8 +25,14 @@ hook global WinCreate .*\.purs %{ set buffer filetype haskell }
 
 # Email
 hook global WinSetOption filetype=mail %{
-  set window autowrap_column 72
+  set window autowrap_column 70
 }
 
 # Grepping
 set global grepcmd 'rgrep'
+
+# kak-lsp
+eval %sh{kak-lsp --kakoune -s $kak_session}
+# set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+lsp-enable
+lsp-auto-hover-enable

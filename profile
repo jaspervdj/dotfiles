@@ -28,3 +28,9 @@ export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
 
 unset MANPATH  # delete if you already modified MANPATH elsewhere in your configuration
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+################################################################################
+# ghcup
+################################################################################
+
+source "$HOME/.ghcup/env"

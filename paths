@@ -5,10 +5,9 @@ PATHS="/usr/local/bin            \
        $HOME/.bin                \
        $HOME/.go/bin             \
        $HOME/.cabal/bin          \
-       $HOME/.gem/ruby/2.5.0/bin \
+       $HOME/.gem/ruby/2.7.0/bin \
        $HOME/.local/bin          \
-       $HOME/.npm-packages/bin   \
-       $HOME/.ghcup/bin          "
+       $HOME/.npm-packages/bin   "
 
 for x in $PATHS; do
   case ":$PATH:" in
