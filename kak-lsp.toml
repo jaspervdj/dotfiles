@@ -9,3 +9,9 @@ filetypes = ["go"]
 roots = ["Gopkg.toml", "go.mod", ".git", ".hg"]
 command = "gopls"
 args = ["serve"]
+
+[language.python]
+filetypes = ["python"]
+roots = [".git", ".hg"]
+command = "pyls"
+args = []
