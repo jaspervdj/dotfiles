@@ -44,3 +44,7 @@ Host pdor
 Host aur.archlinux.org
     IdentityFile ~/.ssh/aur
     User aur
+
+Host www.haskell.org
+    HostName www-combo-origin.haskell.org
+    User www
