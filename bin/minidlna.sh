@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -o nounset -o errexit -o pipefail
 
 # Create temporary locations for the configuration and data directories.

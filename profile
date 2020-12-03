@@ -6,6 +6,7 @@ export VISUAL="kak"
 export EDITOR="$VISUAL"
 export GOPATH="$HOME/.go"
 export NMON="lmnDt"
+export PATH="$HOME/.bin:$PATH"
 
 ################################################################################
 # Other configurations
@@ -33,4 +34,4 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # ghcup
 ################################################################################
 
-source "$HOME/.ghcup/env"
+# source "$HOME/.ghcup/env"
