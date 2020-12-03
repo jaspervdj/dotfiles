@@ -41,7 +41,6 @@ setup paths                  "$HOME/.paths"
 setup pypanelrc              "$HOME/.pypanelrc"
 setup ssh-config             "$HOME/.ssh/config"
 setup tmux.conf              "$HOME/.tmux.conf"
-setup vimrc                  "$HOME/.vimrc"
 setup xmonad.hs              "$HOME/.xmonad/xmonad.hs"
 setup alacritty.yml          "$HOME/.config/alacritty/alacritty.yml"
 
@@ -74,10 +73,3 @@ setup bin/note                 "$HOME/.bin/note"
 # Create backup dir for vim
 echo 'Creating vim backup dir...'
 mkdir -p "$HOME/.vim/backup"
-
-# Install vundle if necessary
-echo 'Installing vundle...'
-if [[ ! -d "$HOME/.vim/bundle/Vundle.vim" ]]; then
-    git clone 'https://github.com/VundleVim/Vundle.vim.git' "$HOME/.vim/bundle/Vundle.vim"
-    vim -c VundleInstall -c qa # Not sure if this is a nice way to do things
-fi
