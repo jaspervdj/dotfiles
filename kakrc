@@ -24,6 +24,7 @@ hook global WinCreate .*\.rego %{ set buffer filetype ruby }
 hook global WinCreate .*\.purs %{ set buffer filetype haskell }
 
 # Email
+hook global WinCreate /tmp/mutt-.* %{ set buffer filetype mail }
 hook global WinSetOption filetype=mail %{
   set window autowrap_column 70
 }
