@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env nix-shell
+#!nix-shell -i python3 -p python3 python38Packages.pillow
 
 import PIL.ExifTags
 import PIL.Image
@@ -7,8 +8,11 @@ import os
 import random
 import re
 import subprocess
+import pathlib
 import sys
 import time
+import sqlite3
+from typing import Iterable
 
 for tag, name in PIL.ExifTags.TAGS.items():
     if name == 'Orientation':
@@ -32,57 +36,21 @@ def is_viable_wallpaper(path):
         else:
             return image.width > image.height
 
-def gen_wallpapers(wallpapers_file):
-    '''Yield all possible wallpapers.'''
-    if not os.path.isfile(wallpapers_file):
-        return
-
-    def list_wallpapers_for_file(path):
-        if os.path.isdir(path):
-            for entry in os.scandir(path):
-                if entry.is_file() and is_viable_wallpaper(entry.path):
-                    yield entry.path
-                else:
-                    for wall in list_wallpapers_for_file(entry.path):
-                        yield wall
-        elif os.path.isfile(path) and is_viable_wallpaper(path):
-            yield path
-
-    with open(wallpapers_file, 'r') as f:
-        for line in f.readlines():
-            path = parse_wallpaper_line(line)
-            if path:
-                for wall in list_wallpapers_for_file(path):
-                    yield wall
-
-def parse_wallpaper_line(string):
-    comment = string.find('#')
-    if comment >= 0:
-        string = string[: comment]
-    string = string.strip()
-    if string:
-        return os.path.expandvars(string)
-    else:
-        return None
-
-def pick(generator):
-    '''This picks a random element from any list or generator'''
-    if isinstance(generator, list):
-        idx = random.randint(0, len(generator) - 1)
-        return generator[idx]
-    else:
-        best = None
-        best_score = 0
-        for item in generator:
-            score = random.random()
-            if score > best_score:
-                best = item
-                best_score = score
-        return best
+def find_viable_wallpapers(dir: str) -> Iterable[str]:
+    for entry in os.scandir(dir):
+        if entry.is_file() and is_viable_wallpaper(entry.path):
+            yield entry.name
 
 def feh_set_wallpaper(path):
     '''Call feh to set the wallpaper'''
     subprocess.call(['feh', '--bg-fill', path])
+
+def gnome_set_wallpaper(path):
+    uri = pathlib.Path(path).as_uri()
+    subprocess.call([
+        'gsettings', 'set', 'org.gnome.desktop.background',
+        'picture-uri', uri
+    ])
 
 def xfce4_set_wallpaper(path):
     '''Set the wallpaper in XFCE4'''
@@ -110,25 +78,48 @@ def set_wallpaper(path):
 
     if desktop == 'xfce':
         xfce4_set_wallpaper(path)
+    elif desktop == 'gnome':
+        gnome_set_wallpaper(path)
     else:
         feh_set_wallpaper(path)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Set random wallpapers')
-    parser.add_argument('-d', '--daemon', action='store_true')
     parser.add_argument('-i', '--interval', type=int, default=300,
             help='Time interval in seconds')
+    parser.add_argument('directories', metavar='DIR', type=str, nargs='*',
+            help='Directories to add to the database.')
     args = parser.parse_args()
 
     wallpapers_file = os.path.expanduser('~/.wallpapers')
+    wallpapers_path = os.path.expanduser('~/.wallpapers.db')
 
-    if args.daemon:
-        wallpapers_list = list(gen_wallpapers(wallpapers_file))
-        while True:
-            chosen = pick(wallpapers_list)
-            set_wallpaper(chosen)
-            time.sleep(args.interval)
+    conn = sqlite3.connect(wallpapers_path)
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS wallpapers (
+            dir TEXT NOT NULL,
+            name TEXT NOT NULL,
+            PRIMARY KEY (dir, name)
+        )
+    ''')
+    conn.commit()
+
+    if len(args.directories) > 0:
+        for dir in args.directories:
+            dir = os.path.realpath(dir)
+            c.execute('DELETE FROM wallpapers WHERE dir = ?', [dir])
+            values = [(dir, name) for name in find_viable_wallpapers(dir)]
+            c.executemany(
+                'INSERT INTO wallpapers (dir, name) VALUES (?, ?)',
+                values)
+            print(f'Inserted {len(values)} wallpapers', file=sys.stderr)
+            conn.commit()
     else:
-        wallpapers_gen = gen_wallpapers(wallpapers_file)
-        chosen = pick(wallpapers_gen)
-        set_wallpaper(chosen)
+        while True:
+            randoms = c.execute(
+                'SELECT dir, name FROM wallpapers ORDER BY RANDOM() LIMIT 1')
+            for dir, name in randoms:
+                print(f'Setting wallpaper to {dir}/{name}...', file=sys.stderr)
+                set_wallpaper(os.path.join(dir, name))
+                time.sleep(args.interval)
