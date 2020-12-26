@@ -15,6 +15,9 @@ Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
 
+
+XTerm*faceName: xft:Iosevka:size=11
+
 URxvt.buffered: false
 
 ! Font settings

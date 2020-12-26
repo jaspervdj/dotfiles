@@ -113,7 +113,7 @@ if __name__ == '__main__':
             c.executemany(
                 'INSERT INTO wallpapers (dir, name) VALUES (?, ?)',
                 values)
-            print(f'Inserted {len(values)} wallpapers', file=sys.stderr)
+            print(f'{dir}: Inserted {len(values)} wallpapers', file=sys.stderr)
             conn.commit()
     else:
         while True:

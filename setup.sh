@@ -69,7 +69,3 @@ setup bin/note                 "$HOME/.bin/note"
 # setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
 # setup-hs bin/obmenus.hs      "$HOME/.bin/obmenus"
 # setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
-
-# Create backup dir for vim
-echo 'Creating vim backup dir...'
-mkdir -p "$HOME/.vim/backup"
