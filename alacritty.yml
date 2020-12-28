@@ -10,6 +10,14 @@ font:
     family: Iosevka
     style: Italic
 
+shell:
+  # Launch fish through a `bash --login` shell to get all our variables set up.
+  program: 'bash'
+  args:
+  - '--login'
+  - '-c'
+  - 'fish'
+
 mouse:
   url:
     launcher:
@@ -86,3 +94,8 @@ schemes:
       white:   '0xfdf6e3' # base3
 
 colors: *solarized_dark
+
+key_bindings:
+- key: N
+  mods: Control
+  action: SpawnNewInstance
