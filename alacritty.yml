@@ -96,6 +96,6 @@ schemes:
 colors: *solarized_dark
 
 key_bindings:
-- key: N
+- key: K
   mods: Control
   action: SpawnNewInstance
