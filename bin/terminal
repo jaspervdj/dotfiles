@@ -4,4 +4,4 @@ if [[ $# -gt 0 ]]; then
     cd "$1" || return
 fi
 
-exec alacritty -e tmux
+exec alacritty -e fish
