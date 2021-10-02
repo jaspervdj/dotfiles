@@ -87,6 +87,7 @@ function watermark() {
     #     usually be the main image and [1] seems to be some kind of thumbnail.
     convert                                      \
         -flatten                                 \
+        -resize 1600x1600                        \
         -background black                        \
         -gravity North                           \
         -splice  0x20                            \
