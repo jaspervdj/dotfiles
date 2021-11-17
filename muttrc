@@ -4,6 +4,9 @@ set spoolfile = "+INBOX"
 set postponed = "+[Gmail]/Drafts"
 
 set smtp_url  = "smtps://jaspervdj@smtp.gmail.com"
+set ssl_force_tls = yes
+set ssl_starttls = yes
+set smtp_authenticators="login"
 set from = "m@jaspervdj.be"
 set record = ""
 set edit_headers = yes
