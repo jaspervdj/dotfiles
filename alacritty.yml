@@ -214,4 +214,4 @@ schemes:
         magenta: '0xbb9af7'
         cyan:    '0x0db9d7'
 
-colors: *tokyo_night
+colors: *gruvbox_dark
