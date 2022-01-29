@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i python3 -p python3 python38Packages.pillow
+#!nix-shell -i python3 -p "python3.withPackages (pkgs: with pkgs; [ pillow ])"
 
 import PIL.ExifTags
 import PIL.Image
