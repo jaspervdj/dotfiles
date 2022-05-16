@@ -142,7 +142,8 @@ function import() {
         local YEAR="${DATE//-*/}"
         BASENAME="$(basename "$SRC")"
         # DST="$DST_DIR/$YEAR/$DATE/$BASENAME"
-        DST="$DST_DIR/Capture/"
+        # DST="$DST_DIR/Capture/"
+        DST="$DST_DIR/"
 
         mkdir -p "$(dirname "$DST")"
         echo "$SRC -> $DST"
