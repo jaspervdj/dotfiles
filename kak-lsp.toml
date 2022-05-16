@@ -13,5 +13,5 @@ args = ["serve"]
 [language.python]
 filetypes = ["python"]
 roots = [".git", ".hg"]
-command = "pyls"
+command = "pylsp"
 args = []
