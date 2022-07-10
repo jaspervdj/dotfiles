@@ -11,15 +11,6 @@ function setup() {
     ln -sfn "$PWD/$SRC" "$DST"
 }
 
-# Utility: compile and setup a Haskell script
-function setup-hs() {
-    SRC="$1"
-    DST="$2"
-    EXE="$(echo "$SRC" | sed 's/\.[^.]*$//')"
-    stack exec ghc -- --make -O2 -threaded "$SRC"
-    setup "$EXE" "$DST"
-}
-
 # Copy configuration files
 setup Xresources             "$HOME/.Xresources"
 setup ackrc                  "$HOME/.ackrc"
@@ -63,9 +54,3 @@ setup bin/mergy                "$HOME/.bin/mergy"
 setup bin/minidlna.sh          "$HOME/.bin/minidlna.sh"
 setup bin/rgrep                "$HOME/.bin/rgrep"
 setup bin/note                 "$HOME/.bin/note"
-
-# Setup haskell scripts
-# setup-hs bin/raw-check.hs    "$HOME/.bin/raw-check"
-# setup-hs bin/sum-doubles.hs  "$HOME/.bin/sum-doubles"
-# setup-hs bin/obmenus.hs      "$HOME/.bin/obmenus"
-# setup-hs bin/markdown-toc.hs "$HOME/.bin/markdown-toc"
