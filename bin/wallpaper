@@ -14,13 +14,15 @@ import time
 import sqlite3
 from typing import Iterable
 
+
 for tag, name in PIL.ExifTags.TAGS.items():
-    if name == 'Orientation':
+    if name == "Orientation":
         EXIF_ORIENTATION_TAG = tag
+
 
 def is_viable_wallpaper(path):
     _, ext = os.path.splitext(path)
-    if not ext.lower() in ['.jpg', '.png']:
+    if not ext.lower() in [".jpg", ".png"]:
         return False
 
     with PIL.Image.open(path) as image:
@@ -36,90 +38,142 @@ def is_viable_wallpaper(path):
         else:
             return image.width > image.height
 
+
 def find_viable_wallpapers(dir: str) -> Iterable[str]:
     for entry in os.scandir(dir):
         if entry.is_file() and is_viable_wallpaper(entry.path):
-            yield entry.name
+            yield os.path.join(dir, entry.name)
+
 
 def feh_set_wallpaper(path):
-    '''Call feh to set the wallpaper'''
-    subprocess.call(['feh', '--bg-fill', path])
+    """Call feh to set the wallpaper"""
+    subprocess.call(["feh", "--bg-fill", path])
+
 
 def gnome_set_wallpaper(path):
     uri = pathlib.Path(path).as_uri()
-    subprocess.call([
-        'gsettings', 'set', 'org.gnome.desktop.background',
-        'picture-uri', uri
-    ])
+    subprocess.call(
+        ["gsettings", "set", "org.gnome.desktop.background", "picture-uri", uri]
+    )
+
 
 def xfce4_set_wallpaper(path):
-    '''Set the wallpaper in XFCE4'''
-    print('Setting wallpaper to: {}'.format(path), file=sys.stderr)
+    """Set the wallpaper in XFCE4"""
+    print("Setting wallpaper to: {}".format(path), file=sys.stderr)
 
     # Just set it for all lines that match this regex.
-    r = re.compile('^/backdrop/screen0/.*/workspace0/last-image$')
+    r = re.compile("^/backdrop/screen0/.*/workspace0/last-image$")
     p = subprocess.run(
-        ['xfconf-query', '--channel', 'xfce4-desktop', '--list'],
-        capture_output=True
+        ["xfconf-query", "--channel", "xfce4-desktop", "--list"], capture_output=True
     )
     for line in p.stdout.decode().splitlines():
         if r.match(line):
-            subprocess.run([
-                'xfconf-query',
-                '--channel', 'xfce4-desktop',
-                '--property', line,
-                '--set', path
-            ])
+            subprocess.run(
+                [
+                    "xfconf-query",
+                    "--channel",
+                    "xfce4-desktop",
+                    "--property",
+                    line,
+                    "--set",
+                    path,
+                ]
+            )
+
 
 def set_wallpaper(path):
     desktop = None
-    if 'XDG_SESSION_DESKTOP' in os.environ:
-        desktop = os.environ['XDG_SESSION_DESKTOP']
+    if "XDG_SESSION_DESKTOP" in os.environ:
+        desktop = os.environ["XDG_SESSION_DESKTOP"]
 
-    if desktop == 'xfce':
+    if desktop == "xfce":
         xfce4_set_wallpaper(path)
-    elif desktop == 'gnome':
+    elif desktop == "gnome":
         gnome_set_wallpaper(path)
     else:
         feh_set_wallpaper(path)
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Set random wallpapers')
-    parser.add_argument('-i', '--interval', type=int, default=300,
-            help='Time interval in seconds')
-    parser.add_argument('directories', metavar='DIR', type=str, nargs='*',
-            help='Directories to add to the database.')
+
+def main():
+    parser = argparse.ArgumentParser(description="Set random wallpapers")
+    parser.add_argument(
+        "-i", "--interval", type=int, default=300, help="Time interval in seconds"
+    )
+    parser.add_argument(
+        "-r",
+        "--refresh",
+        type=bool,
+        default=False,
+        const=True,
+        nargs="?",
+        help="Rescan directories",
+    )
+    parser.add_argument(
+        "-c",
+        "--current",
+        type=bool,
+        default=False,
+        const=True,
+        nargs="?",
+        help="Print current wallpaper and exit",
+    )
+    parser.add_argument(
+        "directories",
+        metavar="DIR",
+        type=str,
+        nargs="*",
+        help="Directories to add to the database",
+    )
     args = parser.parse_args()
 
-    wallpapers_file = os.path.expanduser('~/.wallpapers')
-    wallpapers_path = os.path.expanduser('~/.wallpapers.db')
-
-    conn = sqlite3.connect(wallpapers_path)
+    conn = sqlite3.connect(os.path.expanduser("~/.wallpapers.db"))
     c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS wallpapers (
-            dir TEXT NOT NULL,
-            name TEXT NOT NULL,
-            PRIMARY KEY (dir, name)
-        )
-    ''')
+    c.execute("CREATE TABLE IF NOT EXISTS directories (path TEXT NOT NULL PRIMARY KEY)")
+    c.execute("CREATE TABLE IF NOT EXISTS wallpapers (path TEXT NOT NULL PRIMARY KEY)")
+    c.execute("CREATE TABLE IF NOT EXISTS current_wallpaper (path TEXT NOT NULL)")
     conn.commit()
+
+    if args.current:
+        current = c.execute("SELECT path FROM current_wallpaper LIMIT 1").fetchone()
+        if current is None:
+            raise Exception("no wallpaper set")
+        else:
+            (path,) = current
+            print(path)
+            return
 
     if len(args.directories) > 0:
         for dir in args.directories:
             dir = os.path.realpath(dir)
-            c.execute('DELETE FROM wallpapers WHERE dir = ?', [dir])
-            values = [(dir, name) for name in find_viable_wallpapers(dir)]
-            c.executemany(
-                'INSERT INTO wallpapers (dir, name) VALUES (?, ?)',
-                values)
-            print(f'{dir}: Inserted {len(values)} wallpapers', file=sys.stderr)
+            c.execute("INSERT INTO directories (path) VALUES (?)", (dir,))
             conn.commit()
-    else:
+
+    if args.refresh:
+        c.execute("DELETE FROM wallpapers")
+        conn.commit()
+        for (dir,) in c.execute("SELECT path FROM directories").fetchall():
+            values = [(path,) for path in find_viable_wallpapers(dir)]
+            c.executemany("INSERT INTO wallpapers (path) VALUES (?)", values)
+            conn.commit()
+            print(f"{dir}: Inserted {len(values)} wallpapers", file=sys.stderr)
+            return
+
+    if len(args.directories) == 0:
         while True:
-            randoms = c.execute(
-                'SELECT dir, name FROM wallpapers ORDER BY RANDOM() LIMIT 1')
-            for dir, name in randoms:
-                print(f'Setting wallpaper to {dir}/{name}...', file=sys.stderr)
-                set_wallpaper(os.path.join(dir, name))
+            random = c.execute(
+                "SELECT path FROM wallpapers ORDER BY RANDOM() LIMIT 1"
+            ).fetchone()
+            if random is None:
+                raise Exception("no wallpapers present")
+            else:
+                (path,) = random
+                print(f"Setting wallpaper to {path}...", file=sys.stderr)
+                set_wallpaper(path)
+                c.execute("DELETE FROM current_wallpaper")
+                c.execute("INSERT INTO current_wallpaper (path) VALUES (?)", (path,))
+                conn.commit()
                 time.sleep(args.interval)
+
+
+if __name__ == "__main__":
+    main()
