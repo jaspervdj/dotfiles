@@ -1,8 +1,8 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -i python3 -p "python3.withPackages (pkgs: with pkgs; [ pillow ])"
 
-import PIL.ExifTags
-import PIL.Image
+import PIL.ExifTags  # type: ignore
+import PIL.Image  # type: ignore
 import argparse
 import os
 import random
@@ -12,7 +12,7 @@ import pathlib
 import sys
 import time
 import sqlite3
-from typing import Iterable
+from typing import Iterable, Tuple
 
 
 for tag, name in PIL.ExifTags.TAGS.items():
@@ -20,7 +20,7 @@ for tag, name in PIL.ExifTags.TAGS.items():
         EXIF_ORIENTATION_TAG = tag
 
 
-def is_viable_wallpaper(path):
+def is_viable_wallpaper(path: str) -> bool:
     _, ext = os.path.splitext(path)
     if not ext.lower() in [".jpg", ".png"]:
         return False
@@ -45,19 +45,19 @@ def find_viable_wallpapers(dir: str) -> Iterable[str]:
             yield os.path.join(dir, entry.name)
 
 
-def feh_set_wallpaper(path):
+def feh_set_wallpaper(path: str) -> None:
     """Call feh to set the wallpaper"""
     subprocess.call(["feh", "--bg-fill", path])
 
 
-def gnome_set_wallpaper(path):
+def gnome_set_wallpaper(path: str) -> None:
     uri = pathlib.Path(path).as_uri()
     subprocess.call(
         ["gsettings", "set", "org.gnome.desktop.background", "picture-uri", uri]
     )
 
 
-def xfce4_set_wallpaper(path):
+def xfce4_set_wallpaper(path: str) -> None:
     """Set the wallpaper in XFCE4"""
     print("Setting wallpaper to: {}".format(path), file=sys.stderr)
 
@@ -81,7 +81,7 @@ def xfce4_set_wallpaper(path):
             )
 
 
-def set_wallpaper(path):
+def set_wallpaper(path: str) -> None:
     desktop = None
     if "XDG_SESSION_DESKTOP" in os.environ:
         desktop = os.environ["XDG_SESSION_DESKTOP"]
@@ -94,7 +94,60 @@ def set_wallpaper(path):
         feh_set_wallpaper(path)
 
 
-def main():
+class Database:
+    def __init__(self, path):
+        self._conn = sqlite3.connect(path)
+        c = self._conn.cursor()
+        c.execute(
+            "CREATE TABLE IF NOT EXISTS directories (path TEXT NOT NULL PRIMARY KEY)"
+        )
+        c.execute(
+            "CREATE TABLE IF NOT EXISTS wallpapers (path TEXT NOT NULL PRIMARY KEY)"
+        )
+        c.execute("CREATE TABLE IF NOT EXISTS current_wallpaper (path TEXT NOT NULL)")
+        self._conn.commit()
+
+    def add_directory(self, dir: str) -> None:
+        c = self._conn.cursor()
+        dir = os.path.realpath(dir)
+        c.execute("INSERT INTO directories (path) VALUES (?)", (dir,))
+        self._conn.commit()
+
+    def current(self) -> str:
+        c = self._conn.cursor()
+        current = c.execute("SELECT path FROM current_wallpaper LIMIT 1").fetchone()
+        if current is None:
+            raise Exception("no wallpaper set")
+        else:
+            (path,) = current
+            return path
+
+    def random_current(self) -> str:
+        c = self._conn.cursor()
+        random = c.execute(
+            "SELECT path FROM wallpapers ORDER BY RANDOM() LIMIT 1"
+        ).fetchone()
+        if random is None:
+            raise Exception("no wallpapers present")
+        else:
+            (path,) = random
+            c.execute("DELETE FROM current_wallpaper")
+            c.execute("INSERT INTO current_wallpaper (path) VALUES (?)", (path,))
+            self._conn.commit()
+            return path
+
+    def refresh(self) -> Iterable[Tuple[str, int]]:
+        c = self._conn.cursor()
+        c.execute("DELETE FROM wallpapers")
+        self._conn.commit()
+        for (dir,) in c.execute("SELECT path FROM directories").fetchall():
+            values = [(path,) for path in find_viable_wallpapers(dir)]
+            c.executemany("INSERT INTO wallpapers (path) VALUES (?)", values)
+            self._conn.commit()
+            yield dir, len(values)
+
+
+def main() -> None:
     parser = argparse.ArgumentParser(description="Set random wallpapers")
     parser.add_argument(
         "-i", "--interval", type=int, default=300, help="Time interval in seconds"
@@ -126,53 +179,30 @@ def main():
     )
     args = parser.parse_args()
 
-    conn = sqlite3.connect(os.path.expanduser("~/.wallpapers.db"))
-    c = conn.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS directories (path TEXT NOT NULL PRIMARY KEY)")
-    c.execute("CREATE TABLE IF NOT EXISTS wallpapers (path TEXT NOT NULL PRIMARY KEY)")
-    c.execute("CREATE TABLE IF NOT EXISTS current_wallpaper (path TEXT NOT NULL)")
-    conn.commit()
+    db = Database(os.path.expanduser("~/.wallpapers.db"))
 
     if args.current:
-        current = c.execute("SELECT path FROM current_wallpaper LIMIT 1").fetchone()
-        if current is None:
-            raise Exception("no wallpaper set")
-        else:
-            (path,) = current
-            print(path)
-            return
+        print(db.current())
+        return
 
     if len(args.directories) > 0:
         for dir in args.directories:
-            dir = os.path.realpath(dir)
-            c.execute("INSERT INTO directories (path) VALUES (?)", (dir,))
-            conn.commit()
+            db.add_directory(dir)
 
     if args.refresh:
-        c.execute("DELETE FROM wallpapers")
-        conn.commit()
-        for (dir,) in c.execute("SELECT path FROM directories").fetchall():
-            values = [(path,) for path in find_viable_wallpapers(dir)]
-            c.executemany("INSERT INTO wallpapers (path) VALUES (?)", values)
-            conn.commit()
-            print(f"{dir}: Inserted {len(values)} wallpapers", file=sys.stderr)
-            return
+        total = 0
+        for dir, num in db.refresh():
+            print(f"{dir}: Inserted {num} wallpapers", file=sys.stderr)
+            total += num
+        print(f"Inserted {total} wallpapers in total", file=sys.stderr)
+        return
 
     if len(args.directories) == 0:
         while True:
-            random = c.execute(
-                "SELECT path FROM wallpapers ORDER BY RANDOM() LIMIT 1"
-            ).fetchone()
-            if random is None:
-                raise Exception("no wallpapers present")
-            else:
-                (path,) = random
-                print(f"Setting wallpaper to {path}...", file=sys.stderr)
-                set_wallpaper(path)
-                c.execute("DELETE FROM current_wallpaper")
-                c.execute("INSERT INTO current_wallpaper (path) VALUES (?)", (path,))
-                conn.commit()
-                time.sleep(args.interval)
+            path = db.random_current()
+            print(f"Setting wallpaper to {path}...", file=sys.stderr)
+            set_wallpaper(path)
+            time.sleep(args.interval)
 
 
 if __name__ == "__main__":
