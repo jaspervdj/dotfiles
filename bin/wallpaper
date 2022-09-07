@@ -42,7 +42,7 @@ def is_viable_wallpaper(path: str) -> bool:
 def find_viable_wallpapers(dir: str) -> Iterable[str]:
     for entry in os.scandir(dir):
         if entry.is_file() and is_viable_wallpaper(entry.path):
-            yield os.path.join(dir, entry.name)
+            yield entry.name
 
 
 def feh_set_wallpaper(path: str) -> None:
@@ -98,13 +98,25 @@ class Database:
     def __init__(self, path):
         self._conn = sqlite3.connect(path)
         c = self._conn.cursor()
+        c.execute("PRAGMA foreign_keys = ON")
         c.execute(
             "CREATE TABLE IF NOT EXISTS directories (path TEXT NOT NULL PRIMARY KEY)"
         )
         c.execute(
-            "CREATE TABLE IF NOT EXISTS wallpapers (path TEXT NOT NULL PRIMARY KEY)"
+            """CREATE TABLE IF NOT EXISTS wallpapers (
+                directory TEXT NOT NULL,
+                name TEXT NOT NULL,
+                PRIMARY KEY(directory, name),
+                FOREIGN KEY(directory) REFERENCES directories(path)
+            )"""
         )
-        c.execute("CREATE TABLE IF NOT EXISTS current_wallpaper (path TEXT NOT NULL)")
+        c.execute(
+            """CREATE TABLE IF NOT EXISTS current_wallpaper (
+                directory TEXT NOT NULL,
+                name TEXT NOT NULL,
+                FOREIGN KEY(directory) REFERENCES directories(path)
+            )"""
+        )
         self._conn.commit()
 
     def add_directory(self, dir: str) -> None:
@@ -115,34 +127,41 @@ class Database:
 
     def current(self) -> str:
         c = self._conn.cursor()
-        current = c.execute("SELECT path FROM current_wallpaper LIMIT 1").fetchone()
+        current = c.execute(
+            "SELECT directory, name FROM current_wallpaper LIMIT 1"
+        ).fetchone()
         if current is None:
             raise Exception("no wallpaper set")
         else:
-            (path,) = current
-            return path
+            (dir, name) = current
+            return os.path.join(dir, name)
 
     def random_current(self) -> str:
         c = self._conn.cursor()
         random = c.execute(
-            "SELECT path FROM wallpapers ORDER BY RANDOM() LIMIT 1"
+            "SELECT directory, name FROM wallpapers ORDER BY RANDOM() LIMIT 1"
         ).fetchone()
         if random is None:
             raise Exception("no wallpapers present")
         else:
-            (path,) = random
+            (dir, name) = random
             c.execute("DELETE FROM current_wallpaper")
-            c.execute("INSERT INTO current_wallpaper (path) VALUES (?)", (path,))
+            c.execute(
+                "INSERT INTO current_wallpaper (directory, name) VALUES (?, ?)",
+                (dir, name),
+            )
             self._conn.commit()
-            return path
+            return os.path.join(dir, name)
 
     def refresh(self) -> Iterable[Tuple[str, int]]:
         c = self._conn.cursor()
         c.execute("DELETE FROM wallpapers")
         self._conn.commit()
         for (dir,) in c.execute("SELECT path FROM directories").fetchall():
-            values = [(path,) for path in find_viable_wallpapers(dir)]
-            c.executemany("INSERT INTO wallpapers (path) VALUES (?)", values)
+            values = [(dir, name) for name in find_viable_wallpapers(dir)]
+            c.executemany(
+                "INSERT INTO wallpapers (directory, name) VALUES (?, ?)", values
+            )
             self._conn.commit()
             yield dir, len(values)
 
