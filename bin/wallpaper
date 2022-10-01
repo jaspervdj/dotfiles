@@ -119,11 +119,22 @@ class Database:
         )
         self._conn.commit()
 
-    def add_directory(self, dir: str) -> None:
-        c = self._conn.cursor()
+    def add_directory(self, dir: str) -> int:
         dir = os.path.realpath(dir)
-        c.execute("INSERT INTO directories (path) VALUES (?)", (dir,))
+        c = self._conn.cursor()
+        c.execute("DELETE FROM wallpapers WHERE directory = ?", (dir,))
+        c.execute("DELETE FROM current_wallpaper WHERE directory = ?", (dir,))
+        c.execute("DELETE FROM directories WHERE path = ?", (dir,))
         self._conn.commit()
+        names = list(find_viable_wallpapers(dir))
+        if names:
+            c.execute("INSERT INTO directories (path) VALUES (?)", (dir,))
+            c.executemany(
+                "INSERT INTO wallpapers (directory, name) VALUES (?, ?)",
+                [(dir, name) for name in names],
+            )
+            self._conn.commit()
+        return len(names)
 
     def current(self) -> str:
         c = self._conn.cursor()
@@ -155,15 +166,9 @@ class Database:
 
     def refresh(self) -> Iterable[Tuple[str, int]]:
         c = self._conn.cursor()
-        c.execute("DELETE FROM wallpapers")
-        self._conn.commit()
         for (dir,) in c.execute("SELECT path FROM directories").fetchall():
-            values = [(dir, name) for name in find_viable_wallpapers(dir)]
-            c.executemany(
-                "INSERT INTO wallpapers (directory, name) VALUES (?, ?)", values
-            )
-            self._conn.commit()
-            yield dir, len(values)
+            num_added = self.add_directory(dir)
+            yield dir, num_added
 
 
 def main() -> None:
