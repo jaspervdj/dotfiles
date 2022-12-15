@@ -211,7 +211,8 @@ def main() -> None:
 
     if len(args.directories) > 0:
         for dir in args.directories:
-            db.add_directory(dir)
+            num = db.add_directory(dir)
+            print(f"{dir}: Inserted {num} wallpapers", file=sys.stderr)
 
     if args.refresh:
         total = 0
