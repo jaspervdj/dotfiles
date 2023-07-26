@@ -1,0 +1,7 @@
+[user]
+	name = Jasper Van der Jeugt
+	email = jasper.vanderjeugt@snyk.io
+[core]
+	sshCommand = ssh -i ~/.ssh/id_ed25519_snyk
+[url "git@github.com:"]
+	insteadOf = https://github.com/

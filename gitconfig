@@ -10,3 +10,7 @@
 	default = simple
 [pull]
 	ff = only
+[gpg]
+	program = gpg2
+[includeIf "hasconfig:remote.*.url:git@github.com:snyk/**"]
+	path = .gitconfig-snyk
