@@ -1,0 +1,5 @@
+[user]
+	name = Jasper Van der Jeugt
+	email = jasper@fugue.co
+[core]
+	sshCommand = ssh -i ~/.ssh/id_rsa_luminal
