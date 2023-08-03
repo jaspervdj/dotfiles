@@ -16,5 +16,3 @@
 	path = .gitconfig-snyk
 [includeIf "hasconfig:remote.*.url:git@github.com:LuminalHQ/**"]
 	path = .gitconfig-fugue
-[url "git@github.com:"]
-	insteadOf = https://github.com/
