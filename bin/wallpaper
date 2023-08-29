@@ -19,6 +19,7 @@ for tag, name in PIL.ExifTags.TAGS.items():
     if name == "Orientation":
         EXIF_ORIENTATION_TAG = tag
 
+EXIF_ORIENTATION_ROTATED = [6, 8]
 
 def is_viable_wallpaper(path: str) -> bool:
     _, ext = os.path.splitext(path)
@@ -30,7 +31,7 @@ def is_viable_wallpaper(path: str) -> bool:
         rotated = False
         if exif and EXIF_ORIENTATION_TAG in exif:
             orientation = exif[EXIF_ORIENTATION_TAG]
-            if orientation in [3, 8]:
+            if orientation in EXIF_ORIENTATION_ROTATED:
                 rotated = True
 
         if rotated:
