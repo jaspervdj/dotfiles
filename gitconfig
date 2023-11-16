@@ -18,5 +18,7 @@
 	path = .gitconfig-snyk
 [includeIf "hasconfig:remote.*.url:git@github.com:enso-security/**"]
 	path = .gitconfig-snyk
+[includeIf "hasconfig:remote.*.url:git@github.com:snyk-terraform-assets/**"]
+	path = .gitconfig-snyk
 [includeIf "hasconfig:remote.*.url:git@github.com:LuminalHQ/**"]
 	path = .gitconfig-fugue
