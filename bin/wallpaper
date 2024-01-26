@@ -118,6 +118,10 @@ class Database:
                 FOREIGN KEY(directory) REFERENCES directories(path)
             )"""
         )
+        c.execute(
+            """CREATE INDEX IF NOT EXISTS idx_wallpapers_directory
+            ON wallpapers(directory)"""
+        )
         self._conn.commit()
 
     def add_directory(self, dir: str) -> int:
