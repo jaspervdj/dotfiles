@@ -15,3 +15,9 @@ filetypes = ["python"]
 roots = [".git", ".hg"]
 command = "pylsp"
 args = []
+
+[language.typescript]
+filetypes = ["typescript"]
+roots = ["package.json", ".git"]
+command = "typescript-language-server"
+args = ["--stdio"]
