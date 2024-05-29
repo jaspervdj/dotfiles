@@ -10,9 +10,11 @@ function fish_prompt
 end
 
 function envsource
-  for line in (grep -v '^#')
-    set item (string split -m 1 '=' $line)
-    set -gx $item[1] $item[2]
-    echo "$item[1]=$item[2]" >&2
+  while read line
+    if not string match -qr '^#|^$' "$line"
+      set item (string split -m 1 '=' $line)
+      set -x $item[1] $item[2]
+      echo "set -x $item[1]=$item[2]"
+    end
   end
 end
