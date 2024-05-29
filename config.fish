@@ -13,8 +13,8 @@ function envsource
   while read line
     if not string match -qr '^#|^$' "$line"
       set item (string split -m 1 '=' $line)
-      set -x $item[1] $item[2]
-      echo "set -x $item[1]=$item[2]"
+      set -gx $item[1] $item[2]
+      echo "set -gx $item[1]=$item[2]"
     end
   end
 end
