@@ -2,6 +2,16 @@
 set global tabstop 4
 set global indentwidth 4
 
+# Split window
+define-command -docstring "vsplit [<commands>]: split tmux vertically" \
+vsplit -params .. -command-completion %{
+    tmux-terminal-horizontal kak -c %val{session} -e "%arg{@}"
+}
+define-command -docstring "hsplit [<commands>]: split tmux horizontally" \
+hsplit -params .. -command-completion %{
+    tmux-terminal-vertical kak -c %val{session} -e "%arg{@}"
+}
+
 # Line numbers
 add-highlighter global/ number-lines
 
