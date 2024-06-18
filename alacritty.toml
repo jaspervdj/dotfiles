@@ -1,0 +1,32 @@
+import = ["~/.config/alacritty/current_theme.toml"]
+
+[font]
+size = 12
+
+[font.bold]
+family = "Iosevka"
+style = "Bold"
+
+[font.italic]
+family = "Iosevka"
+style = "Italic"
+
+[font.normal]
+family = "Iosevka"
+style = "Regular"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "K"
+mods = "Control"
+
+# [mouse.hints.launcher]
+# modifiers = "None"
+# program = "xdg-open"
+
+[shell]
+args = ["--login", "-c", "fish"]
+program = "bash"
+
+[window]
+dynamic_title = true
