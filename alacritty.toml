@@ -1,3 +1,4 @@
+[general]
 import = ["~/.config/alacritty/current_theme.toml"]
 
 [font]
@@ -24,7 +25,7 @@ mods = "Control"
 # modifiers = "None"
 # program = "xdg-open"
 
-[shell]
+[terminal.shell]
 args = ["--login", "-c", "fish"]
 program = "bash"
 
