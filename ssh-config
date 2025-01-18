@@ -48,3 +48,9 @@ Host aur.archlinux.org
 Host www.haskell.org
     HostName www-combo-origin.haskell.org
     User www
+
+Host anmitsu
+    HostName 188.245.234.149
+    ForwardAgent yes
+    User jasper
+    Port 2222
