@@ -22,3 +22,8 @@
 	path = .gitconfig-snyk
 [includeIf "hasconfig:remote.*.url:git@github.com:LuminalHQ/**"]
 	path = .gitconfig-fugue
+[includeIf "hasconfig:remote.*.url:git@github.com:fugue/**"]
+	path = .gitconfig-fugue
+[rerere]
+	enabled = true
+	autoupdate = true
