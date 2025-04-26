@@ -11,6 +11,9 @@ end
 
 function envsource
   while read line
+    if string match -q 'export *' -- $line
+      set line (string sub --start (math (string length 'export ') + 1) -- $line)
+    end
     if not string match -qr '^#|^$' "$line"
       set item (string split -m 1 '=' $line)
       set -gx $item[1] $item[2]
