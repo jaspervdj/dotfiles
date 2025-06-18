@@ -8,11 +8,6 @@ Host furfnakel
     User jaspervdj
     Port 443
 
-Host freddy
-    HostName 78.46.209.156
-    User jaspervdj
-    Port 2222
-
 Host shannon
     HostName shannon.erudify.ch
     User git
