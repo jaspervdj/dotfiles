@@ -169,6 +169,11 @@ class Database:
             self._conn.commit()
             return os.path.join(dir, name)
 
+    def all(self) -> Iterable[str]:
+        c = self._conn.cursor()
+        for (dir, name) in c.execute("SELECT directory, name FROM wallpapers"):
+            yield os.path.join(dir, name)
+
     def refresh(self) -> Iterable[Tuple[str, int]]:
         c = self._conn.cursor()
         for (dir,) in c.execute("SELECT path FROM directories").fetchall():
@@ -200,6 +205,14 @@ def main() -> None:
         help="Print current wallpaper and exit",
     )
     parser.add_argument(
+        "--check",
+        type=bool,
+        default=False,
+        const=True,
+        nargs="?",
+        help="Verify local files",
+    )
+    parser.add_argument(
         "directories",
         metavar="DIR",
         type=str,
@@ -212,7 +225,7 @@ def main() -> None:
 
     if args.current:
         print(db.current())
-        return
+        return 0
 
     if len(args.directories) > 0:
         for dir in args.directories:
@@ -225,7 +238,15 @@ def main() -> None:
             print(f"{dir}: Inserted {num} wallpapers", file=sys.stderr)
             total += num
         print(f"Inserted {total} wallpapers in total", file=sys.stderr)
-        return
+        return 0
+
+    if args.check:
+        failures = 0
+        for path in db.all():
+            if not os.path.isfile(path):
+                failures += 1
+                print(f"{path}: not a file")
+        return 1 if failures else 0
 
     if len(args.directories) == 0:
         while True:
@@ -234,6 +255,8 @@ def main() -> None:
             set_wallpaper(path)
             time.sleep(args.interval)
 
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
