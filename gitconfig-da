@@ -1,0 +1,9 @@
+[user]
+	name = Jasper Van der Jeugt
+	email = jasper.vanderjeugt@digitalasset.com
+[core]
+	sshCommand = ssh -i ~/.ssh/id_ed25519_da
+[user]
+	signingkey = 627BC359F733F214DF41878F511BC182F8ACE664
+[commit]
+	gpgsign = true

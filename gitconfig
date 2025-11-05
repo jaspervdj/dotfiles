@@ -12,18 +12,8 @@
 	ff = only
 [gpg]
 	program = gpg2
-[includeIf "hasconfig:remote.*.url:git@github.com:snyk/**"]
-	path = .gitconfig-snyk
-[includeIf "hasconfig:remote.*.url:git@github.com:jaspervdj-snyk/**"]
-	path = .gitconfig-snyk
-[includeIf "hasconfig:remote.*.url:git@github.com:enso-security/**"]
-	path = .gitconfig-snyk
-[includeIf "hasconfig:remote.*.url:git@github.com:snyk-terraform-assets/**"]
-	path = .gitconfig-snyk
-[includeIf "hasconfig:remote.*.url:git@github.com:LuminalHQ/**"]
-	path = .gitconfig-fugue
-[includeIf "hasconfig:remote.*.url:git@github.com:fugue/**"]
-	path = .gitconfig-fugue
+[includeIf "hasconfig:remote.*.url:git@github.com:jaspervdj-da/**"]
+	path = .gitconfig-da
 [rerere]
 	enabled = true
 	autoupdate = true
