@@ -12,4 +12,6 @@ export NMON="lmnDt"
 ################################################################################
 
 source "$HOME/.aliases"
-export PATH="$HOME/.local/bin:$HOME/.go/bin:$PATH"
+export PATH="$HOME/.go/bin:$PATH"
+export PATH="$HOME/.dpm/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
