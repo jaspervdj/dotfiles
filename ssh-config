@@ -49,3 +49,9 @@ Host anmitsu
     ForwardAgent yes
     User jasper
     Port 2222
+    IdentityFile ~/.ssh/id_ed25519
+
+Host jaspervdj.be
+    User jasper
+    Port 2222
+    IdentityFile ~/.ssh/id_ed25519
