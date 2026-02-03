@@ -7,3 +7,13 @@
 	signingkey = 627BC359F733F214DF41878F511BC182F8ACE664
 [commit]
 	gpgsign = true
+[url "git://github.com/ghc/packages-"]
+	insteadOf = git://github.com/ghc/packages/
+[url "http://github.com/ghc/packages-"]
+	insteadOf = http://github.com/ghc/packages/
+[url "https://github.com/ghc/packages-"]
+	insteadOf = https://github.com/ghc/packages/
+[url "ssh://git\\@github.com/ghc/packages-"]
+	insteadOf = ssh://git@github.com/ghc/packages/
+[url "git\\@github.com:/ghc/packages-"]
+	insteadOf = git@github.com:/ghc/packages/
