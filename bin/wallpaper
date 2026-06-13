@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i python3 -p "python3.withPackages (pkgs: with pkgs; [ pillow ])"
+#!nix-shell -i python3 -p "python3.withPackages (pkgs: with pkgs; [ pillow ])" -p ffmpeg
 
 import PIL.ExifTags  # type: ignore
 import PIL.Image  # type: ignore
@@ -12,7 +12,8 @@ import pathlib
 import sys
 import time
 import sqlite3
-from typing import Iterable, Tuple
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from typing import Iterable, Optional, Tuple
 
 
 for tag, name in PIL.ExifTags.TAGS.items():
@@ -181,7 +182,70 @@ class Database:
             yield dir, num_added
 
 
-def main() -> None:
+def make_streamer(db: Database) -> type[BaseHTTPRequestHandler]:
+    cached_jpeg: Optional[bytes] = None
+    cached_path: Optional[str] = None
+
+    def get_jpeg() -> bytes:
+        nonlocal cached_jpeg, cached_path
+        path = db.current()
+        if path == cached_path and cached_jpeg is not None:
+            return cached_jpeg
+        else:
+            target_w = 1920
+            target_h = 1080
+
+            vf = [
+                f"scale={target_w}:{target_h}:force_original_aspect_ratio=increase",
+                f"crop={target_w}:{target_h}"
+            ]
+
+            cached_jpeg = subprocess.run(
+                [
+                    "ffmpeg",
+                    "-loglevel", "error",
+                    "-i", path,
+                    "-vf", ",".join(vf),
+                    "-frames:v", "1",
+                    "-f", "image2pipe",
+                    "-vcodec", "mjpeg",
+                    "-"
+                ],
+                stdout=subprocess.PIPE,
+                check=True,
+            ).stdout
+            cached_path = path
+
+            return cached_jpeg
+
+    class Streamer(BaseHTTPRequestHandler):
+        def do_GET(self) -> None:
+            if self.path != "/stream":
+                self.send_response(404)
+                self.end_headers()
+                return
+
+            self.send_response(200)
+            self.send_header("Content-Type", "multipart/x-mixed-replace; boundary=frame")
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+
+            try:
+                while True:
+                    jpeg = get_jpeg()
+                    self.wfile.write(b"--frame\r\n")
+                    self.wfile.write(b"Content-Type: image/jpeg\r\n")
+                    self.wfile.write(f"Content-Length: {len(jpeg)}\r\n\r\n".encode())
+                    self.wfile.write(jpeg)
+                    self.wfile.write(b"\r\n")
+                    time.sleep(1)  # 1 FPS
+
+            except (BrokenPipeError, ConnectionResetError):
+                pass
+
+    return Streamer
+
+def main() -> int:
     parser = argparse.ArgumentParser(description="Set random wallpapers")
     parser.add_argument(
         "-i", "--interval", type=int, default=300, help="Time interval in seconds"
@@ -211,6 +275,14 @@ def main() -> None:
         const=True,
         nargs="?",
         help="Verify local files",
+    )
+    parser.add_argument(
+        "--stream",
+        type=bool,
+        default=False,
+        const=True,
+        nargs="?",
+        help="Start MJPEG server",
     )
     parser.add_argument(
         "directories",
@@ -247,6 +319,10 @@ def main() -> None:
                 failures += 1
                 print(f"{path}: not a file")
         return 1 if failures else 0
+
+    if args.stream:
+        server = HTTPServer(("0.0.0.0", 8080), make_streamer(db))
+        server.serve_forever()
 
     if len(args.directories) == 0:
         while True:
