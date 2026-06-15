@@ -12,9 +12,10 @@ import pathlib
 import sys
 import time
 import sqlite3
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Iterable, Optional, Tuple
 
+DATABASE_PATH = os.path.expanduser("~/.wallpapers.db")
 
 for tag, name in PIL.ExifTags.TAGS.items():
     if name == "Orientation":
@@ -181,69 +182,78 @@ class Database:
             num_added = self.add_directory(dir)
             yield dir, num_added
 
+    def close(self) -> None:
+        self._conn.close()
 
-def make_streamer(db: Database) -> type[BaseHTTPRequestHandler]:
-    cached_jpeg: Optional[bytes] = None
-    cached_path: Optional[str] = None
 
-    def get_jpeg() -> bytes:
-        nonlocal cached_jpeg, cached_path
-        path = db.current()
-        if path == cached_path and cached_jpeg is not None:
-            return cached_jpeg
-        else:
-            target_w = 1920
-            target_h = 1080
+class Streamer(BaseHTTPRequestHandler):
+    def do_GET(self) -> None:
+        cached_jpeg: Optional[bytes] = None
+        cached_path: Optional[str] = None
 
-            vf = [
-                f"scale={target_w}:{target_h}:force_original_aspect_ratio=increase",
-                f"crop={target_w}:{target_h}"
-            ]
-
-            cached_jpeg = subprocess.run(
-                [
-                    "ffmpeg",
-                    "-loglevel", "error",
-                    "-i", path,
-                    "-vf", ",".join(vf),
-                    "-frames:v", "1",
-                    "-f", "image2pipe",
-                    "-vcodec", "mjpeg",
-                    "-"
-                ],
-                stdout=subprocess.PIPE,
-                check=True,
-            ).stdout
-            cached_path = path
-
-            return cached_jpeg
-
-    class Streamer(BaseHTTPRequestHandler):
-        def do_GET(self) -> None:
-            if self.path != "/stream":
-                self.send_response(404)
-                self.end_headers()
-                return
-
-            self.send_response(200)
-            self.send_header("Content-Type", "multipart/x-mixed-replace; boundary=frame")
-            self.send_header("Cache-Control", "no-cache")
-            self.end_headers()
-
+        def get_new_jpeg() -> Optional[bytes]:
+            nonlocal cached_jpeg, cached_path
+            # SQLite objects cannot be shared in between threads, so create a
+            # new one.
+            db = Database(DATABASE_PATH)
             try:
-                while True:
-                    jpeg = get_jpeg()
+                path = db.current()
+            finally:
+                db.close()
+            if path == cached_path and cached_jpeg is not None:
+                return None
+            else:
+                target_w = 1920
+                target_h = 1080
+
+                vf = [
+                    f"scale={target_w}:{target_h}:force_original_aspect_ratio=increase",
+                    f"crop={target_w}:{target_h}"
+                ]
+
+                cached_jpeg = subprocess.run(
+                    [
+                        "ffmpeg",
+                        "-loglevel", "error",
+                        "-i", path,
+                        "-vf", ",".join(vf),
+                        "-frames:v", "1",
+                        "-f", "image2pipe",
+                        "-vcodec", "mjpeg",
+                        "-"
+                    ],
+                    stdout=subprocess.PIPE,
+                    check=True,
+                ).stdout
+                cached_path = path
+
+                return cached_jpeg
+
+        if self.path != "/stream":
+            self.send_response(404)
+            self.end_headers()
+            return
+
+        self.send_response(200)
+        self.send_header("Content-Type", "multipart/x-mixed-replace; boundary=frame")
+        self.send_header("Cache-Control", "no-cache")
+        self.end_headers()
+
+        try:
+            while True:
+                jpeg = get_new_jpeg()
+                if jpeg is not None:
                     self.wfile.write(b"--frame\r\n")
                     self.wfile.write(b"Content-Type: image/jpeg\r\n")
                     self.wfile.write(f"Content-Length: {len(jpeg)}\r\n\r\n".encode())
                     self.wfile.write(jpeg)
                     self.wfile.write(b"\r\n")
+                    self.wfile.flush()
+                else:
                     time.sleep(1)  # 1 FPS
 
-            except (BrokenPipeError, ConnectionResetError):
-                pass
-
-    return Streamer
+        except (BrokenPipeError, ConnectionResetError):
+            pass
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Set random wallpapers")
@@ -293,7 +303,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    db = Database(os.path.expanduser("~/.wallpapers.db"))
+    db = Database(DATABASE_PATH)
 
     if args.current:
         print(db.current())
@@ -321,7 +331,7 @@ def main() -> int:
         return 1 if failures else 0
 
     if args.stream:
-        server = HTTPServer(("0.0.0.0", 8080), make_streamer(db))
+        server = ThreadingHTTPServer(("0.0.0.0", 8080), Streamer)
         server.serve_forever()
 
     if len(args.directories) == 0:
