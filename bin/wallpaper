@@ -191,7 +191,7 @@ class Streamer(BaseHTTPRequestHandler):
         cached_jpeg: Optional[bytes] = None
         cached_path: Optional[str] = None
 
-        def get_new_jpeg() -> Optional[bytes]:
+        def get_jpeg() -> bytes:
             nonlocal cached_jpeg, cached_path
             # SQLite objects cannot be shared in between threads, so create a
             # new one.
@@ -201,7 +201,7 @@ class Streamer(BaseHTTPRequestHandler):
             finally:
                 db.close()
             if path == cached_path and cached_jpeg is not None:
-                return None
+                return cached_jpeg
             else:
                 target_w = 1920
                 target_h = 1080
@@ -241,16 +241,14 @@ class Streamer(BaseHTTPRequestHandler):
 
         try:
             while True:
-                jpeg = get_new_jpeg()
-                if jpeg is not None:
-                    self.wfile.write(b"--frame\r\n")
-                    self.wfile.write(b"Content-Type: image/jpeg\r\n")
-                    self.wfile.write(f"Content-Length: {len(jpeg)}\r\n\r\n".encode())
-                    self.wfile.write(jpeg)
-                    self.wfile.write(b"\r\n")
-                    self.wfile.flush()
-                else:
-                    time.sleep(1)  # 1 FPS
+                jpeg = get_jpeg()
+                self.wfile.write(b"--frame\r\n")
+                self.wfile.write(b"Content-Type: image/jpeg\r\n")
+                self.wfile.write(f"Content-Length: {len(jpeg)}\r\n\r\n".encode())
+                self.wfile.write(jpeg)
+                self.wfile.write(b"\r\n")
+                self.wfile.flush()
+                time.sleep(1)  # 1 FPS
 
         except (BrokenPipeError, ConnectionResetError):
             pass
