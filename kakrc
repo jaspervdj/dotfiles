@@ -47,3 +47,6 @@ eval %sh{kak-lsp --kakoune -s $kak_session}
 # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 lsp-enable
 lsp-auto-hover-enable
+
+# F8 -> diagnostics
+map global normal <F8> ':lsp-diagnostics<ret>'

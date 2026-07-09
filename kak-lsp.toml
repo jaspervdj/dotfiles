@@ -21,3 +21,9 @@ filetypes = ["typescript"]
 roots = ["package.json", ".git"]
 command = "typescript-language-server"
 args = ["--stdio"]
+
+[language.scala]
+filetypes = ["scala"]
+roots = [".git"]
+command = "metals"
+args = []

@@ -16,8 +16,7 @@
 	path = .gitconfig-da
 [includeIf "hasconfig:remote.*.url:git@github.com:digital-asset/**"]
 	path = .gitconfig-da
-[includeIf "gitdir:~/DA/ghc/**"]
-    # older git so hasconfig doesn't work
+[includeIf "gitdir:~/DA/**"]
     path = .gitconfig-da
 [rerere]
 	enabled = true
