@@ -50,3 +50,8 @@ lsp-auto-hover-enable
 
 # F8 -> diagnostics
 map global normal <F8> ':lsp-diagnostics<ret>'
+
+# Colour tweaks
+set-face global MenuForeground white
+set-face global MenuBackground bright-blue
+set-face global Information white
