@@ -97,11 +97,11 @@ function watermark() {
         -pointsize 20                            \
         -font "$FONT"                            \
         -gravity NorthWest                       \
-        -draw "text 10,4 'JASPER VAN DER JEUGT'" \
+        -draw "text 10,7 'JASPER VAN DER JEUGT'" \
         -gravity North                           \
-        -draw "text 10,4 '$TITLE'"               \
+        -draw "text 10,7 '$TITLE'"               \
         -gravity NorthEast                       \
-        -draw "text 10,4 '$DATE'"                \
+        -draw "text 10,7 '$DATE'"                \
         -quality 98                              \
         "$INPUT_FILE"[0]                         \
         "$OUTPUT_FILE"
